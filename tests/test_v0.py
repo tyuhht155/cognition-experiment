@@ -15,26 +15,39 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from cognition.proposition import Proposition as P
-from cognition.knowledge_store import KnowledgeStore
-from cognition.operations import Context
-from cognition.verification import Verification, VALID, INVALID, UNKNOWN
+from cognition.belief import BeliefStore
 from cognition.evidence import (
-    Evidence, EvidenceEvaluator,
+    Evidence, EvidenceEvaluator, EvidenceLog,
     action_observe, action_count, action_compare,
     action_counterexample, action_prediction, action_logical_derive,
     register_prediction, process_predictions,
 )
+from cognition.cost import CostTracker
+from cognition.consensus import ConsensusAgreementModel
+from cognition.prediction import TemporalPredictionState
+from cognition.operations import OperationStore, Context
+from cognition.verification import Verifier, VALID, INVALID, UNKNOWN
+from cognition.trace import TraceRecorder
 from cognition.environment import World
 
 
 def _make_ctx(world_history=None):
-    store = KnowledgeStore()
-    trace = None
-    ctx = Context(store=store, trace=trace,
-                   constants=["ball", "box", "table", "wall"],
-                   step_budget=1000, verify_enabled=True,
-                   evaluate_enabled=False, meta_evaluate_enabled=False,
-                   goal=("verify", "test"))
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    ctx = Context(
+        belief_store=belief_store, evidence_log=evidence_log,
+        cost_tracker=cost_tracker, consensus=consensus,
+        prediction_state=prediction_state, op_store=op_store,
+        trace=trace,
+        constants=["ball", "box", "table", "wall"],
+        step_budget=1000, verify_enabled=True,
+        evaluate_enabled=False, meta_evaluate_enabled=False,
+        goal=("verify", "test"))
     ctx.world_history = world_history or []
     ctx.prediction_queue = {}
     return ctx
