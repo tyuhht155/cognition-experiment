@@ -148,6 +148,23 @@ def compute_metrics(label, store, trace, engine, world, evaluate, meta) -> dict:
     total_candidates = sum(1 for s in trace.steps if s.operation == "generate_candidates")
     evaluated_count = sum(1 for s in trace.steps if s.operation == "evaluate_rank")
 
+    # ---- 搜索空间统计（item 6）----
+    gen = engine.generated_candidates
+    evaled = engine.evaluated_candidates
+    passed = engine.passed_evaluation_gate
+    verified = engine.verified_candidates
+    vvalid = engine.valid_candidates
+    vinvalid = engine.invalid_candidates
+    eval_pass_rate = (passed / evaled) if evaled > 0 else 0.0
+    # verification_error_rate = invalid / verified（系统自身判定的 invalid 比例，非 ground-truth）
+    verif_error_rate = (vinvalid / verified) if verified > 0 else 0.0
+
+    # ---- 预算统计（item 9）----
+    budget_exhausted = engine.budget_exhausted
+    actual_steps = engine.actual_steps
+    useful_steps = engine.useful_steps
+    verified_steps = engine.verified_steps
+
     yield_rate = round(correct / engine.total_cost, 5) if engine.total_cost else 0.0
 
     return {
@@ -179,6 +196,20 @@ def compute_metrics(label, store, trace, engine, world, evaluate, meta) -> dict:
         "composite_ops_available": len(store.operations()),
         "composite_usage": dict(engine.composite_usage),
         "verifier_methods": stats["verifier_methods"],
+        # 搜索空间
+        "generated_candidates": gen,
+        "evaluated_candidates": evaled,
+        "passed_evaluation_gate": passed,
+        "verified_candidates": verified,
+        "valid_candidates": vvalid,
+        "invalid_candidates": vinvalid,
+        "evaluation_pass_rate": round(eval_pass_rate, 4),
+        "verification_error_rate": round(verif_error_rate, 4),
+        # 预算
+        "budget_exhausted": budget_exhausted,
+        "actual_steps": actual_steps,
+        "useful_steps": useful_steps,
+        "verified_steps": verified_steps,
         "_correct_rules": correct_rules,
         "_wrong_rules": wrong_rules,
     }
@@ -232,6 +263,10 @@ def run_multi_seed(seeds: List[int], out_dir: str = None) -> dict:
         "composite_saved_cost", "trace_steps", "total_candidates",
         "evaluated_count", "recursive_expansions", "stop_branches",
         "reuse_count", "yield_per_cost",
+        "generated_candidates", "evaluated_candidates", "passed_evaluation_gate",
+        "verified_candidates", "valid_candidates", "invalid_candidates",
+        "evaluation_pass_rate", "verification_error_rate",
+        "actual_steps", "useful_steps", "verified_steps",
     ]
     for label in ["A", "B", "C", "D"]:
         agg[label] = {}
@@ -259,30 +294,57 @@ def run_multi_seed(seeds: List[int], out_dir: str = None) -> dict:
 
 
 def print_comparison(results: List[dict]):
-    print("\n" + "=" * 88)
+    print("\n" + "=" * 92)
     print("四组对照实验结果 (A=生成 / B=+验证 / C=+评价 / D=+元评价)")
-    print("审计修复版：D 组无事后 oracle；ground_truth 仅外部统计")
-    print("=" * 88)
+    print("第二轮审计：D 无事后 oracle；feedback 精确归因；搜索空间+预算统计")
+    print("=" * 92)
     keys = ["knowledge_total", "valid", "invalid", "unknown", "evaluated",
             "valid_implications", "valid_correct", "valid_wrong", "error_rate",
             "correct_but_useless", "total_cost", "raw_compute_cost",
             "verification_cost", "reuse_cost", "cache_saved_cost",
             "recursive_expansions", "reuse_count", "yield_per_cost"]
-    header = f"{'指标':<22}" + "".join(f"{lab:>14}" for lab in ["A", "B", "C", "D"])
+    header = f"{'指标':<24}" + "".join(f"{lab:>16}" for lab in ["A", "B", "C", "D"])
     print(header)
-    print("-" * (22 + 14 * 4))
+    print("-" * (24 + 16 * 4))
     for k in keys:
-        row = f"{k:<22}"
+        row = f"{k:<24}"
         for r in results:
             v = r["metrics"].get(k, "")
-            row += f"{str(v):>14}"
+            row += f"{str(v):>16}"
         print(row)
-    print("=" * 88)
+    print("-" * (24 + 16 * 4))
+    print("--- 搜索空间统计 ---")
+    skeys = ["generated_candidates", "evaluated_candidates", "passed_evaluation_gate",
+             "verified_candidates", "valid_candidates", "invalid_candidates",
+             "evaluation_pass_rate", "verification_error_rate"]
+    for k in skeys:
+        row = f"{k:<24}"
+        for r in results:
+            v = r["metrics"].get(k, "")
+            row += f"{str(v):>16}"
+        print(row)
+    print("-" * (24 + 16 * 4))
+    print("--- 预算统计 ---")
+    bkeys = ["budget_exhausted", "actual_steps", "useful_steps", "verified_steps"]
+    for k in bkeys:
+        row = f"{k:<24}"
+        for r in results:
+            v = r["metrics"].get(k, "")
+            row += f"{str(v):>16}"
+        print(row)
+    print("=" * 92)
     for r in results:
         m = r["metrics"]
         print(f"\n[{r['label']}] 错误率: {m['error_rate']} (n={m['error_rate_n']}, "
               f"95%CI=[{m['error_rate_ci'][0]}, {m['error_rate_ci'][1]}])")
-    print("\n结论速读（审计后，数据驱动，不预设理论结论）：")
+        print(f"  搜索空间: gen={m['generated_candidates']} evaled={m['evaluated_candidates']} "
+              f"passed={m['passed_evaluation_gate']} verified={m['verified_candidates']} "
+              f"valid={m['valid_candidates']} invalid={m['invalid_candidates']}")
+        print(f"  eval_pass_rate={m['evaluation_pass_rate']} "
+              f"verification_error_rate={m['verification_error_rate']}")
+        print(f"  预算: exhausted={m['budget_exhausted']} "
+              f"actual={m['actual_steps']} useful={m['useful_steps']} verified={m['verified_steps']}")
+    print("\n结论速读（数据驱动，不预设理论结论）：")
     m = {r["label"]: r["metrics"] for r in results}
     print(f"  - A 无验证：{m['A']['knowledge_total']} 条全 unknown，无法判断对错。")
     print(f"  - B +验证：成本 {m['B']['total_cost']}，错误率 {m['B']['error_rate']} "
@@ -291,8 +353,9 @@ def print_comparison(results: List[dict]):
           f"(n={m['C']['error_rate_n']})。")
     print(f"  - D +元评价：成本 {m['D']['total_cost']}，错误率 {m['D']['error_rate']} "
           f"(n={m['D']['error_rate_n']})。")
-    print(f"  - cache_saved: A={m['A']['cache_saved_cost']} B={m['B']['cache_saved_cost']} "
-          f"C={m['C']['cache_saved_cost']} D={m['D']['cache_saved_cost']}")
+    print(f"  - eval_pass_rate: C={m['C']['evaluation_pass_rate']} D={m['D']['evaluation_pass_rate']}")
+    print(f"  - verification_error_rate: B={m['B']['verification_error_rate']} "
+          f"C={m['C']['verification_error_rate']} D={m['D']['verification_error_rate']}")
 
 
 if __name__ == "__main__":
