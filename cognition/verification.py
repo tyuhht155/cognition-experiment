@@ -41,12 +41,15 @@ UNKNOWN = "unknown"
 @dataclass
 class VerificationResult:
     method: str
-    result: str                # valid / invalid / unknown
+    result: str                # valid / invalid / unknown（decision，非真值）
     confidence: float
     evidence: str
     cost: float = 1.0
-    support: float = 0.0       # 聚合后的支持度
-    contradiction: float = 0.0  # 聚合后的矛盾度
+    support: float = 0.0       # 聚合后的证据支持度
+    contradiction: float = 0.0  # 聚合后的证据矛盾度
+    # ---- 逻辑推导溯源（仅 logical 方法）----
+    derived_from: Optional[List[str]] = None
+    derivation_operation: Optional[str] = None
 
     def to_dict(self) -> dict:
         return {
@@ -57,6 +60,8 @@ class VerificationResult:
             "cost": self.cost,
             "support": round(self.support, 4),
             "contradiction": round(self.contradiction, 4),
+            "derived_from": self.derived_from,
+            "derivation_operation": self.derivation_operation,
         }
 
 
@@ -104,6 +109,8 @@ class Verification:
                 cost=ev.cost,
                 support=ev.support,
                 contradiction=ev.contradiction,
+                derived_from=ev.derived_from,
+                derivation_operation=ev.derivation_operation,
             ))
 
         # 证据聚合
@@ -112,14 +119,19 @@ class Verification:
         # 总成本
         total_cost = sum(e.cost for e in evidences)
 
+        # 从最佳证据中提取推导溯源（仅 logical 方法有值）
+        best_ev = max(evidences, key=lambda e: max(e.support, e.contradiction))
+
         final = VerificationResult(
             method=agg["method"],
-            result=agg["status"],
+            result=agg["decision"],  # decision = accepted/rejected/undecided（先验阈值，非真值）
             confidence=agg["confidence"],
             evidence=agg["detail"],
             cost=total_cost,
-            support=agg["support"],
-            contradiction=agg["contradiction"],
+            support=agg["evidence_support"],
+            contradiction=agg["evidence_contradiction"],
+            derived_from=best_ev.derived_from,
+            derivation_operation=best_ev.derivation_operation,
         )
 
         return final, per_method_results

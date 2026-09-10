@@ -26,7 +26,12 @@ STATUS_UNKNOWN = "unknown"   # 未知
 
 @dataclass
 class Knowledge:
-    """一条知识记录。"""
+    """一条知识记录。
+
+    知识不是"第一次判断 valid 就永远 valid"，而是随计算不断更新。
+    因此保留 evidence_history / verification_history / last_update_step，
+    用于研究"知识如何随着计算而变化"。
+    """
     proposition: Proposition
     status: str = STATUS_UNKNOWN
     confidence: float = 0.0        # 置信度 [0,1]
@@ -42,6 +47,11 @@ class Knowledge:
     kind: str = "proposition"     # proposition / operation / verification_method / composite
     created_step: int = 0         # 创建时的全局步序号
     evaluated: bool = False       # 是否经过价值评价（与 usefulness is not None 一致）
+    # ---- 知识更新轨迹（核心：记录知识如何随计算变化）----
+    evidence_history: List[dict] = field(default_factory=list)  # 每次验证的证据快照
+    verification_history: List[dict] = field(default_factory=list)  # 每次验证的方法+结果
+    last_update_step: int = 0     # 最后一次更新的步序号
+    update_count: int = 0         # 被更新次数
 
     def priority(self) -> float:
         """调用优先级：置信度 × (价值+使用奖励)。低 usefulness 不删，只降低优先级。"""
@@ -82,7 +92,7 @@ class KnowledgeStore:
         return self._entries.get(prop)
 
     def upsert(self, k: Knowledge) -> None:
-        """新增或更新。低 usefulness 不删除。"""
+        """新增或更新。低 usefulness 不删除。保留证据历史和验证历史。"""
         k.created_step = self._step_counter if not k.created_step else k.created_step
         existing = self._entries.get(k.proposition)
         if existing:
@@ -93,7 +103,6 @@ class KnowledgeStore:
             if k.usefulness is not None:
                 existing.usefulness = k.usefulness
                 existing.evaluated = True
-            # 取较高的 usefulness（已评价的不被未评价覆盖）
             existing.usage_count += k.usage_count
             existing.success_count += k.success_count
             if k.verification_method:
@@ -102,7 +111,14 @@ class KnowledgeStore:
             existing.cost = max(existing.cost, k.cost)
             if not existing.source and k.source:
                 existing.source = k.source
+            # 合并历史：追加新证据和验证记录
+            existing.evidence_history.extend(k.evidence_history)
+            existing.verification_history.extend(k.verification_history)
+            existing.last_update_step = self._step_counter
+            existing.update_count += 1
         else:
+            k.last_update_step = self._step_counter
+            k.update_count = 1 if k.evidence_history or k.verification_history else 0
             self._entries[k.proposition] = k
 
     def all_entries(self) -> List[Knowledge]:

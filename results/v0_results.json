@@ -1,201 +1,719 @@
-[
-  {
-    "target": "(Open(box) → CanTake(ball))",
-    "final_status": "valid",
-    "final_confidence": 1.0,
-    "ground_truth_holds": true,
-    "ground_truth_support": 14,
-    "ground_truth_refute": 0,
-    "correct": true,
-    "n_steps": 7,
+{
+  "minimal_loop": {
+    "true_world": {
+      "target": "(A → B)",
+      "final_status": "valid",
+      "final_confidence": 1.0,
+      "ground_truth_holds": true,
+      "correct": true,
+      "n_steps": 10,
+      "records": [
+        {
+          "step": 1,
+          "action": "logical",
+          "evidence": {
+            "method": "logical",
+            "action_type": "derivation",
+            "support": 0.0,
+            "contradiction": 0.0,
+            "detail": "no logical derivation available",
+            "cost": 0.5,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.0,
+          "contradiction": 0.0,
+          "confidence": 0.0,
+          "status": "unknown",
+          "prediction_confirmed": 0,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 2,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 1/1",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 0.8,
+          "status": "valid",
+          "prediction_confirmed": 1,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 3,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 2/2",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 2,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 4,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 2/2",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 2,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 5,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 2/2",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 2,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 6,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 3/3",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 3,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 7,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 4/4",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 4,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 8,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 5/5",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 5,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 9,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 5/5",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 5,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 10,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 6/6",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 6,
+          "prediction_refuted": 0
+        }
+      ]
+    },
+    "false_world": {
+      "target": "(A → B)",
+      "final_status": "invalid",
+      "final_confidence": 0.95,
+      "ground_truth_holds": false,
+      "correct": true,
+      "n_steps": 10,
+      "records": [
+        {
+          "step": 1,
+          "action": "logical",
+          "evidence": {
+            "method": "logical",
+            "action_type": "derivation",
+            "support": 0.0,
+            "contradiction": 0.0,
+            "detail": "no logical derivation available",
+            "cost": 0.5,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.0,
+          "contradiction": 0.0,
+          "confidence": 0.0,
+          "status": "unknown",
+          "prediction_confirmed": 0,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 2,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 1/1",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 0.8,
+          "status": "valid",
+          "prediction_confirmed": 1,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 3,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 1/1",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 1,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 4,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 1/1",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 1,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 5,
+          "action": "compare",
+          "evidence": {
+            "method": "compare",
+            "action_type": "compare",
+            "support": 1.0,
+            "contradiction": 0.0,
+            "detail": "co-occurrence 2/2",
+            "cost": 1.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 1.0,
+          "contradiction": 0.0,
+          "confidence": 1.0,
+          "status": "valid",
+          "prediction_confirmed": 2,
+          "prediction_refuted": 0
+        },
+        {
+          "step": 6,
+          "action": "counterexample",
+          "evidence": {
+            "method": "counterexample",
+            "action_type": "counterexample",
+            "support": 0.0,
+            "contradiction": 0.95,
+            "detail": "co-occurrence counterexample at step 5",
+            "cost": 2.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.8485,
+          "contradiction": 0.147,
+          "confidence": 0.95,
+          "status": "invalid",
+          "prediction_confirmed": 2,
+          "prediction_refuted": 1
+        },
+        {
+          "step": 7,
+          "action": "counterexample",
+          "evidence": {
+            "method": "counterexample",
+            "action_type": "counterexample",
+            "support": 0.0,
+            "contradiction": 0.95,
+            "detail": "co-occurrence counterexample at step 5",
+            "cost": 2.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.7738,
+          "contradiction": 0.219,
+          "confidence": 0.95,
+          "status": "invalid",
+          "prediction_confirmed": 3,
+          "prediction_refuted": 1
+        },
+        {
+          "step": 8,
+          "action": "counterexample",
+          "evidence": {
+            "method": "counterexample",
+            "action_type": "counterexample",
+            "support": 0.0,
+            "contradiction": 0.95,
+            "detail": "co-occurrence counterexample at step 5",
+            "cost": 2.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.7255,
+          "contradiction": 0.2657,
+          "confidence": 0.95,
+          "status": "invalid",
+          "prediction_confirmed": 3,
+          "prediction_refuted": 1
+        },
+        {
+          "step": 9,
+          "action": "counterexample",
+          "evidence": {
+            "method": "counterexample",
+            "action_type": "counterexample",
+            "support": 0.0,
+            "contradiction": 0.95,
+            "detail": "co-occurrence counterexample at step 5",
+            "cost": 2.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.6767,
+          "contradiction": 0.3133,
+          "confidence": 0.95,
+          "status": "invalid",
+          "prediction_confirmed": 3,
+          "prediction_refuted": 2
+        },
+        {
+          "step": 10,
+          "action": "counterexample",
+          "evidence": {
+            "method": "counterexample",
+            "action_type": "counterexample",
+            "support": 0.0,
+            "contradiction": 0.95,
+            "detail": "co-occurrence counterexample at step 5",
+            "cost": 2.0,
+            "derived_from": null,
+            "derivation_operation": null
+          },
+          "support": 0.6406,
+          "contradiction": 0.3486,
+          "confidence": 0.95,
+          "status": "invalid",
+          "prediction_confirmed": 3,
+          "prediction_refuted": 2
+        }
+      ]
+    }
+  },
+  "accumulation": {
+    "1": {
+      "confidence": 0.0,
+      "status": "unknown",
+      "support": 0.0,
+      "contradiction": 0.0
+    },
+    "2": {
+      "confidence": 0.8,
+      "status": "valid",
+      "support": 1.0,
+      "contradiction": 0.0
+    },
+    "5": {
+      "confidence": 1.0,
+      "status": "valid",
+      "support": 1.0,
+      "contradiction": 0.0
+    },
+    "10": {
+      "confidence": 1.0,
+      "status": "valid",
+      "support": 1.0,
+      "contradiction": 0.0
+    },
+    "20": {
+      "confidence": 1.0,
+      "status": "valid",
+      "support": 1.0,
+      "contradiction": 0.0
+    }
+  },
+  "conflict": {
+    "before_conflict_confidence": 1.0,
+    "after_conflict_confidence": 0.95,
+    "confidence_dropped": true,
+    "before_status": "valid",
+    "after_status": "invalid",
+    "status_changed": true,
+    "final_status": "invalid",
     "records": [
       {
         "step": 1,
-        "action": "logical",
-        "evidence": {
-          "method": "logical",
-          "action_type": "derivation",
-          "support": 0.0,
-          "contradiction": 0.0,
-          "detail": "no logical derivation available",
-          "cost": 0.5
-        },
-        "support": 0.0,
-        "contradiction": 0.0,
         "confidence": 0.0,
         "status": "unknown",
-        "prediction_registered": false,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "support": 0.0,
+        "contradiction": 0.0
       },
       {
         "step": 2,
-        "action": "logical",
-        "evidence": {
-          "method": "logical",
-          "action_type": "derivation",
-          "support": 0.0,
-          "contradiction": 0.0,
-          "detail": "no logical derivation available",
-          "cost": 0.5
-        },
-        "support": 0.0,
-        "contradiction": 0.0,
-        "confidence": 0.0,
-        "status": "unknown",
-        "prediction_registered": false,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "confidence": 0.8,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
       },
       {
         "step": 3,
-        "action": "logical",
-        "evidence": {
-          "method": "logical",
-          "action_type": "derivation",
-          "support": 0.0,
-          "contradiction": 0.0,
-          "detail": "no logical derivation available",
-          "cost": 0.5
-        },
-        "support": 0.0,
-        "contradiction": 0.0,
-        "confidence": 0.0,
-        "status": "unknown",
-        "prediction_registered": false,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
       },
       {
         "step": 4,
-        "action": "logical",
-        "evidence": {
-          "method": "logical",
-          "action_type": "derivation",
-          "support": 0.0,
-          "contradiction": 0.0,
-          "detail": "no logical derivation available",
-          "cost": 0.5
-        },
-        "support": 0.0,
-        "contradiction": 0.0,
-        "confidence": 0.0,
-        "status": "unknown",
-        "prediction_registered": false,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
       },
       {
         "step": 5,
-        "action": "logical",
-        "evidence": {
-          "method": "logical",
-          "action_type": "derivation",
-          "support": 0.0,
-          "contradiction": 0.0,
-          "detail": "no logical derivation available",
-          "cost": 0.5
-        },
-        "support": 0.0,
-        "contradiction": 0.0,
-        "confidence": 0.0,
-        "status": "unknown",
-        "prediction_registered": false,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
       },
       {
         "step": 6,
-        "action": "compare",
-        "evidence": {
-          "method": "compare",
-          "action_type": "compare",
-          "support": 1.0,
-          "contradiction": 0.0,
-          "detail": "co-occurrence 1/1",
-          "cost": 1.0
-        },
-        "support": 1.0,
-        "contradiction": 0.0,
-        "confidence": 0.4,
+        "confidence": 1.0,
         "status": "valid",
-        "prediction_registered": true,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "support": 1.0,
+        "contradiction": 0.0
       },
       {
         "step": 7,
-        "action": "compare",
-        "evidence": {
-          "method": "compare",
-          "action_type": "compare",
-          "support": 1.0,
-          "contradiction": 0.0,
-          "detail": "co-occurrence 2/2",
-          "cost": 1.0
-        },
-        "support": 1.0,
-        "contradiction": 0.0,
         "confidence": 1.0,
         "status": "valid",
-        "prediction_registered": true,
-        "prediction_confirmed": 1,
-        "prediction_refuted": 0
+        "support": 1.0,
+        "contradiction": 0.0
+      },
+      {
+        "step": 8,
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
+      },
+      {
+        "step": 9,
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
+      },
+      {
+        "step": 10,
+        "confidence": 1.0,
+        "status": "valid",
+        "support": 1.0,
+        "contradiction": 0.0
+      },
+      {
+        "step": 11,
+        "confidence": 0.95,
+        "status": "invalid",
+        "support": 0.9388,
+        "contradiction": 0.0588
+      },
+      {
+        "step": 12,
+        "confidence": 0.95,
+        "status": "invalid",
+        "support": 0.8943,
+        "contradiction": 0.1015
       }
-    ],
-    "total_evidences": 3,
-    "label": "true_rule"
+    ]
   },
-  {
-    "target": "(Closed(box) → CanTake(ball))",
-    "final_status": "invalid",
-    "final_confidence": 0.98,
-    "ground_truth_holds": false,
-    "ground_truth_support": 0,
-    "ground_truth_refute": 7,
-    "correct": true,
-    "n_steps": 2,
-    "records": [
+  "prediction_temporal": {
+    "temporal_records": [
       {
         "step": 1,
-        "action": "compare",
-        "evidence": {
-          "method": "compare",
-          "action_type": "compare",
-          "support": 0.0,
-          "contradiction": 1.0,
-          "detail": "co-occurrence 0/1",
-          "cost": 1.0
-        },
-        "support": 0.0,
-        "contradiction": 0.975,
-        "confidence": 0.78,
-        "status": "invalid",
-        "prediction_registered": true,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 0
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
       },
       {
         "step": 2,
-        "action": "compare",
-        "evidence": {
-          "method": "compare",
-          "action_type": "compare",
-          "support": 0.0,
-          "contradiction": 1.0,
-          "detail": "co-occurrence 0/2",
-          "cost": 1.0
-        },
-        "support": 0.0,
-        "contradiction": 0.98,
-        "confidence": 0.98,
-        "status": "invalid",
-        "prediction_registered": true,
-        "prediction_confirmed": 0,
-        "prediction_refuted": 1
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 3,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 4,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 5,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 6,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 7,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 8,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 9,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 10,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 11,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 12,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 13,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 14,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 15,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 16,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 17,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 18,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 0
+      },
+      {
+        "step": 19,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
+      },
+      {
+        "step": 20,
+        "a_observed": true,
+        "predictions_confirmed_this_step": 1,
+        "predictions_refuted_this_step": 0,
+        "pending_before": 1
       }
     ],
-    "total_evidences": 5,
-    "label": "false_rule"
+    "total_confirmed": 12,
+    "total_refuted": 0,
+    "all_forward": true
+  },
+  "logical_derivation": {
+    "q_status": "valid",
+    "q_confidence": 0.38,
+    "logical_support": 0.95,
+    "derived_from": [
+      "P",
+      "(P → Q)"
+    ],
+    "derivation_operation": "modus_ponens",
+    "parents_correct": true,
+    "operation_correct": true
+  },
+  "checks": {
+    "最小闭环真命题判对": true,
+    "最小闭环假命题判对": true,
+    "证据累积 confidence 递增": true,
+    "证据冲突 confidence 下降": true,
+    "预测全部前向": true,
+    "逻辑推导 parents 正确": true,
+    "逻辑推导 operation 正确": true
   }
-]
+}

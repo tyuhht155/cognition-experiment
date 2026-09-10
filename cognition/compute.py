@@ -221,13 +221,33 @@ class ComputeEngine:
                     status = {VALID: STATUS_VALID, INVALID: STATUS_INVALID,
                               UNKNOWN: STATUS_UNKNOWN}[result.result]
                     use_score = ev.value_score if (ev is not None) else None
+                    # 逻辑推导溯源：如果验证方法是 logical 且有推导信息，
+                    # 用 derived_from 作为 parents，derivation_operation 作为 operation
+                    if result.method == "logical" and result.derived_from:
+                        parents = result.derived_from
+                        op = result.derivation_operation or "logical"
+                    else:
+                        parents = [obj.to_str()]
+                        op = c.op_name
                     k = Knowledge(
                         proposition=o_prime, status=status, confidence=result.confidence,
                         usefulness=use_score, source=compute_id,
-                        parent_objects=[obj.to_str()], operation=c.op_name,
+                        parent_objects=parents, operation=op,
                         verification_method=result.method, verification_result=result.result,
                         cost=result.cost + c.cost, kind="proposition",
-                        evaluated=(ev is not None))
+                        evaluated=(ev is not None),
+                        evidence_history=[{
+                            "method": result.method,
+                            "support": result.support,
+                            "contradiction": result.contradiction,
+                            "confidence": result.confidence,
+                            "detail": result.evidence,
+                        }],
+                        verification_history=[{
+                            "method": result.method,
+                            "result": result.result,
+                            "confidence": result.confidence,
+                        }])
                     self.store.upsert(k)
                     self.trace.record(
                         compute_id, depth, o_prime, "verify", o_prime,
