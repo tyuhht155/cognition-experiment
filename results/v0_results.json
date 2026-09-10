@@ -1,0 +1,201 @@
+[
+  {
+    "target": "(Open(box) → CanTake(ball))",
+    "final_status": "valid",
+    "final_confidence": 1.0,
+    "ground_truth_holds": true,
+    "ground_truth_support": 14,
+    "ground_truth_refute": 0,
+    "correct": true,
+    "n_steps": 7,
+    "records": [
+      {
+        "step": 1,
+        "action": "logical",
+        "evidence": {
+          "method": "logical",
+          "action_type": "derivation",
+          "support": 0.0,
+          "contradiction": 0.0,
+          "detail": "no logical derivation available",
+          "cost": 0.5
+        },
+        "support": 0.0,
+        "contradiction": 0.0,
+        "confidence": 0.0,
+        "status": "unknown",
+        "prediction_registered": false,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 2,
+        "action": "logical",
+        "evidence": {
+          "method": "logical",
+          "action_type": "derivation",
+          "support": 0.0,
+          "contradiction": 0.0,
+          "detail": "no logical derivation available",
+          "cost": 0.5
+        },
+        "support": 0.0,
+        "contradiction": 0.0,
+        "confidence": 0.0,
+        "status": "unknown",
+        "prediction_registered": false,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 3,
+        "action": "logical",
+        "evidence": {
+          "method": "logical",
+          "action_type": "derivation",
+          "support": 0.0,
+          "contradiction": 0.0,
+          "detail": "no logical derivation available",
+          "cost": 0.5
+        },
+        "support": 0.0,
+        "contradiction": 0.0,
+        "confidence": 0.0,
+        "status": "unknown",
+        "prediction_registered": false,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 4,
+        "action": "logical",
+        "evidence": {
+          "method": "logical",
+          "action_type": "derivation",
+          "support": 0.0,
+          "contradiction": 0.0,
+          "detail": "no logical derivation available",
+          "cost": 0.5
+        },
+        "support": 0.0,
+        "contradiction": 0.0,
+        "confidence": 0.0,
+        "status": "unknown",
+        "prediction_registered": false,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 5,
+        "action": "logical",
+        "evidence": {
+          "method": "logical",
+          "action_type": "derivation",
+          "support": 0.0,
+          "contradiction": 0.0,
+          "detail": "no logical derivation available",
+          "cost": 0.5
+        },
+        "support": 0.0,
+        "contradiction": 0.0,
+        "confidence": 0.0,
+        "status": "unknown",
+        "prediction_registered": false,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 6,
+        "action": "compare",
+        "evidence": {
+          "method": "compare",
+          "action_type": "compare",
+          "support": 1.0,
+          "contradiction": 0.0,
+          "detail": "co-occurrence 1/1",
+          "cost": 1.0
+        },
+        "support": 1.0,
+        "contradiction": 0.0,
+        "confidence": 0.4,
+        "status": "valid",
+        "prediction_registered": true,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 7,
+        "action": "compare",
+        "evidence": {
+          "method": "compare",
+          "action_type": "compare",
+          "support": 1.0,
+          "contradiction": 0.0,
+          "detail": "co-occurrence 2/2",
+          "cost": 1.0
+        },
+        "support": 1.0,
+        "contradiction": 0.0,
+        "confidence": 1.0,
+        "status": "valid",
+        "prediction_registered": true,
+        "prediction_confirmed": 1,
+        "prediction_refuted": 0
+      }
+    ],
+    "total_evidences": 3,
+    "label": "true_rule"
+  },
+  {
+    "target": "(Closed(box) → CanTake(ball))",
+    "final_status": "invalid",
+    "final_confidence": 0.98,
+    "ground_truth_holds": false,
+    "ground_truth_support": 0,
+    "ground_truth_refute": 7,
+    "correct": true,
+    "n_steps": 2,
+    "records": [
+      {
+        "step": 1,
+        "action": "compare",
+        "evidence": {
+          "method": "compare",
+          "action_type": "compare",
+          "support": 0.0,
+          "contradiction": 1.0,
+          "detail": "co-occurrence 0/1",
+          "cost": 1.0
+        },
+        "support": 0.0,
+        "contradiction": 0.975,
+        "confidence": 0.78,
+        "status": "invalid",
+        "prediction_registered": true,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 0
+      },
+      {
+        "step": 2,
+        "action": "compare",
+        "evidence": {
+          "method": "compare",
+          "action_type": "compare",
+          "support": 0.0,
+          "contradiction": 1.0,
+          "detail": "co-occurrence 0/2",
+          "cost": 1.0
+        },
+        "support": 0.0,
+        "contradiction": 0.98,
+        "confidence": 0.98,
+        "status": "invalid",
+        "prediction_registered": true,
+        "prediction_confirmed": 0,
+        "prediction_refuted": 1
+      }
+    ],
+    "total_evidences": 5,
+    "label": "false_rule"
+  }
+]

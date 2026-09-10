@@ -50,6 +50,12 @@ def run_compression():
     comp_main(out_dir=out)
 
 
+def run_v0():
+    from experiments.run_v0 import main as v0_main
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    v0_main(out_dir=out)
+
+
 if __name__ == "__main__":
     args = set(sys.argv[1:])
     if not args or "--tests" in args:
@@ -58,5 +64,7 @@ if __name__ == "__main__":
         run_abcd()
     if "--multiseed" in args:
         run_abcd_multiseed()
+    if "--v0" in args:
+        run_v0()
     if not args or "--compress" in args:
         run_compression()
