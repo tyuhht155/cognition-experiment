@@ -1,22 +1,17 @@
-"""统一的递归计算机制 recursive_compute。
+"""ComputeEngine：递归计算引擎（精简版）。
 
-理论第 4 条过程：
-  当前对象 O -> 识别/解析 -> 产生候选变换 -> 应用 -> O' -> 验证 ->
-  错误则停分支；成立则保存 -> 计算价值 -> 有价值则继续；当前无价值则保留但降优先级 -> 重复
+职责压缩为：
+  当前对象 → candidate generation → 对 candidate 进行 evaluation / verification / update → 递归
 
-第二轮审计修复：
-  - verifier reliability 明确标记为 consensus-based self-estimation，非 ground-truth。
-  - meta-evaluation 调度统一在 run_abcd.py，ComputeEngine 不触发。
-  - evaluation feedback 使用精确 attribution（recursive_compute 返回该子树产出的 valid 命题集合），
-    不再使用全局 store valid 数量变化。
-  - 搜索空间统计：generated/evaluated/passed_gate/verified/valid/invalid。
-  - 预算统计：budget_exhausted / actual_steps / useful_steps / verified_steps。
+ComputeEngine 不直接：
+  - 修改 verifier statistics（通过 ConsensusAgreementModel）
+  - 维护 Evidence history（通过 EvidenceLog）
+  - 修改 KnowledgeStore 内部字段（通过 BeliefStore.update_belief）
+  - 自己计算各种 cost（通过 CostTracker）
+  - 自己实现 prediction（通过 TemporalPredictionState）
+  - 自己实现 evidence aggregation（通过 Verifier.evaluator）
 
-A/B/C/D 实验组通过 ctx 的开关区分：
-  A: 只有生成（不验证）           verify_enabled=False, evaluate_enabled=False
-  B: 生成 + 验证                  verify_enabled=True,  evaluate_enabled=False
-  C: 生成 + 验证 + 价值评价       verify_enabled=True,  evaluate_enabled=True,  meta=False
-  D: 生成 + 验证 + 价值评价 + 验证方法评价  (meta=True)
+预算统一由 ctx.step_budget 控制，不再有重复的 budget 参数。
 """
 
 from __future__ import annotations
@@ -24,11 +19,16 @@ from __future__ import annotations
 from typing import Any, List, Optional, Set
 
 from .proposition import Proposition
-from .knowledge_store import KnowledgeStore, Knowledge, STATUS_VALID, STATUS_INVALID, STATUS_UNKNOWN
-from .operations import OperationRegistry, Context, Candidate
-from .verification import Verification, VerificationResult, VALID, INVALID, UNKNOWN
-from .evaluation import Evaluation
-from .trace import Trace
+from .belief import BeliefStore
+from .evidence import EvidenceLog
+from .cost import CostTracker
+from .consensus import ConsensusAgreementModel
+from .prediction import TemporalPredictionState
+from .operations import OperationStore, Context, Candidate
+from .verification import Verifier, VerificationResult, VALID, INVALID, UNKNOWN
+from .evaluation import ValueEvaluator
+from .trace import TraceRecorder
+from .models import STATUS_VALID, STATUS_INVALID, STATUS_UNKNOWN, Derivation
 
 
 MAX_DEPTH_DEFAULT = 3
@@ -36,36 +36,33 @@ MAX_CANDIDATES_PER_OBJECT = 6
 
 
 class ComputeEngine:
-    """承载一次实验配置的计算引擎。"""
+    """计算引擎：只负责编排，不直接管理内部状态。"""
 
     def __init__(self,
-                 store: KnowledgeStore,
-                 trace: Trace,
-                 registry: OperationRegistry,
-                 verification: Optional[Verification] = None,
-                 evaluation: Optional[Evaluation] = None,
+                 belief_store: BeliefStore,
+                 evidence_log: EvidenceLog,
+                 cost_tracker: CostTracker,
+                 consensus: ConsensusAgreementModel,
+                 prediction_state: TemporalPredictionState,
+                 op_store: OperationStore,
+                 trace: TraceRecorder,
+                 verifier: Optional[Verifier] = None,
+                 evaluator: Optional[ValueEvaluator] = None,
                  max_depth: int = MAX_DEPTH_DEFAULT,
                  max_candidates: int = MAX_CANDIDATES_PER_OBJECT):
-        self.store = store
+        self.belief_store = belief_store
+        self.evidence_log = evidence_log
+        self.cost_tracker = cost_tracker
+        self.consensus = consensus
+        self.prediction_state = prediction_state
+        self.op_store = op_store
         self.trace = trace
-        self.registry = registry
-        self.verification = verification or Verification()
-        self.evaluation = evaluation or Evaluation()
+        self.verifier = verifier or Verifier()
+        self.evaluator = evaluator or ValueEvaluator()
         self.max_depth = max_depth
         self.max_candidates = max_candidates
 
-        # ---- 成本拆分 ----
-        self.total_cost = 0.0
-        self.raw_compute_cost = 0.0
-        self.verification_cost = 0.0
-        self.reuse_cost = 0.0
-        self.cache_saved_cost = 0.0
-        self.composite_saved_cost = 0.0
-
-        # ---- 复合操作调用追踪 ----
-        self.composite_usage: dict = {}
-
-        # ---- 搜索空间统计（item 6）----
+        # 搜索空间统计
         self.generated_candidates = 0
         self.evaluated_candidates = 0
         self.passed_evaluation_gate = 0
@@ -73,71 +70,93 @@ class ComputeEngine:
         self.valid_candidates = 0
         self.invalid_candidates = 0
 
-        # ---- 预算统计（item 9）----
+        # 预算统计
         self.budget_exhausted = False
-        self.actual_steps = 0       # trace 中实际记录的步骤数
-        self.useful_steps = 0       # 产生新命题的步骤（应用变换）
-        self.verified_steps = 0     # 执行了验证的步骤
+        self.actual_steps = 0
+        self.useful_steps = 0
+        self.verified_steps = 0
+
+        # 兼容属性
+        self.store = belief_store
+        self.registry = op_store._registry
+        self.verification = self.verifier
+        self.evaluation = self.evaluator
+
+    @property
+    def total_cost(self) -> float:
+        return self.cost_tracker.total_cost
+
+    @property
+    def raw_compute_cost(self) -> float:
+        return self.cost_tracker.raw_compute_cost
+
+    @property
+    def verification_cost(self) -> float:
+        return self.cost_tracker.verification_cost
+
+    @property
+    def reuse_cost(self) -> float:
+        return self.cost_tracker.reuse_cost
+
+    @property
+    def cache_saved_cost(self) -> float:
+        return self.cost_tracker.cache_saved_cost
 
     def recursive_compute(self,
                           obj: Proposition,
                           goal: Any,
                           ctx: Context,
                           depth: int = 0,
-                          parent_step: Optional[str] = None,
-                          budget: Optional[int] = None) -> tuple:
+                          parent_step: Optional[str] = None) -> tuple:
         """返回 (compute_id, subtree_valid_props)。
-        subtree_valid_props 是本次调用（含子递归）中新验证为 valid 的命题集合，
-        用于精确的 evaluation feedback attribution（不使用全局 valid 计数）。
+
+        预算统一由 ctx.step_budget 控制，无重复 budget 参数。
         """
         if ctx.budget_exhausted():
             self.budget_exhausted = True
             return "", set()
         if depth > self.max_depth:
             return "", set()
-        if budget is not None and budget <= 0:
-            return "", set()
 
         compute_id = self.trace.new_compute_id()
         subtree_valid: Set[Proposition] = set()
 
-        # ---- 步骤1：识别/解析 ----
+        # ---- 步骤1：识别 ----
         self.trace.record(compute_id, depth, obj, "identify", obj,
                           parent_step=parent_step, cost=0.2,
                           decision="parse", meta={"kind": obj.kind})
-        self.raw_compute_cost += 0.2
+        self.cost_tracker.add("identify", 0.2, "identify")
         self.actual_steps += 1
 
         if ctx.budget_exhausted():
             self.budget_exhausted = True
             return compute_id, subtree_valid
 
-        # ---- 步骤2：产生候选变换 ----
-        candidates = self.registry.generate(obj, ctx, budget=self.max_candidates)
+        # ---- 步骤2：产生候选 ----
+        candidates = self.op_store.generate(obj, ctx, budget=self.max_candidates)
         self.trace.record(compute_id, depth, obj, "generate_candidates",
                           f"{len(candidates)} candidates",
                           parent_step=parent_step, cost=0.3,
                           decision="expand",
                           meta={"n": len(candidates),
                                 "ops": sorted({c.op_name for c in candidates})})
-        self.raw_compute_cost += 0.3
+        self.cost_tracker.add("generate", 0.3, "generate_candidates")
         self.actual_steps += 1
         self.generated_candidates += len(candidates)
-
         candidates = candidates[: self.max_candidates]
 
-        # C/D 组：评价 + 排序
+        # ---- 评价排序 ----
         if ctx.evaluate_enabled and not ctx.budget_exhausted():
             scored = []
             for c in candidates:
                 if ctx.budget_exhausted():
                     break
-                ev = self.evaluation.evaluate(c.new_object, goal, ctx)
+                ev = self.evaluator.evaluate(c.new_object, goal, ctx)
                 self.trace.record(compute_id, depth, c.new_object, "evaluate_rank",
                                   c.new_object, parent_step=parent_step,
                                   usefulness=ev.value_score, cost=0.2,
                                   decision="rank", meta=ev.to_dict())
-                self.raw_compute_cost += 0.2
+                self.cost_tracker.add("evaluate", 0.2, "evaluate_rank")
                 self.actual_steps += 1
                 self.evaluated_candidates += 1
                 scored.append((ev.value_score, c, ev))
@@ -151,22 +170,17 @@ class ComputeEngine:
                 self.budget_exhausted = True
                 break
             o_prime = c.new_object
-
             if o_prime == obj:
                 continue
 
-            # 复合操作标记
             is_composite = c.meta.get("op_kind") == "learned" or c.op_name.startswith("composite_")
-            if is_composite:
-                self.composite_usage[c.op_name] = self.composite_usage.get(c.op_name, 0) + 1
-                self.composite_saved_cost += 0.5
 
             # ---- 步骤3：应用变换 ----
             apply_step = self.trace.record(
                 compute_id, depth, obj, c.op_name, o_prime,
                 parent_step=parent_step, cost=c.cost,
                 meta={"op_kind": c.meta.get("op_kind"), "is_composite": is_composite})
-            self.raw_compute_cost += c.cost
+            self.cost_tracker.add("apply", c.cost, c.op_name)
             self.actual_steps += 1
             self.useful_steps += 1
 
@@ -179,86 +193,72 @@ class ComputeEngine:
                     usefulness=ev.value_score, cost=0.1,
                     decision="continue" if worth else "retain_low",
                     meta=ev.to_dict())
-                self.raw_compute_cost += 0.1
+                self.cost_tracker.add("gate", 0.1, "evaluate_gate")
                 self.actual_steps += 1
                 if worth:
                     self.passed_evaluation_gate += 1
                 if not worth:
-                    k_low = Knowledge(
-                        proposition=o_prime, status=STATUS_UNKNOWN, confidence=0.0,
-                        usefulness=ev.value_score, source=compute_id,
-                        parent_objects=[obj.to_str()], operation=c.op_name,
-                        cost=c.cost + 0.1, kind="proposition", evaluated=True)
-                    self.store.upsert(k_low)
+                    self.belief_store.update_belief(
+                        o_prime, STATUS_UNKNOWN, 0.0, evidence_count_delta=0)
                     continue
 
             # ---- 步骤5：验证 ----
             if ctx.verify_enabled:
-                existing = self.store.get(o_prime)
+                existing = self.belief_store.get(o_prime)
                 if existing and existing.status in (STATUS_VALID, STATUS_INVALID):
-                    existing.usage_count += 1
+                    existing.evidence_count += 1
                     saved = self._estimate_verification_cost(o_prime)
-                    self.cache_saved_cost += saved
-                    self.reuse_cost += 0.1
+                    self.cost_tracker.add_cache_saved(saved)
+                    self.cost_tracker.add("reuse", 0.1, "reuse_known")
                     self.trace.record(
                         compute_id, depth, o_prime, "reuse_known", o_prime,
                         parent_step=apply_step.step_id,
-                        verification=existing.verification_method,
-                        verification_result=existing.verification_result,
+                        verification=existing.derivation.operation if existing.derivation else "logical",
+                        verification_result=existing.status,
                         confidence=existing.confidence, cost=0.1,
                         decision="retain" if existing.status != STATUS_INVALID else "stop",
                         meta={"reused": True, "cache_saved": round(saved, 2)})
-                    self.total_cost += 0.1
                     self.actual_steps += 1
                     if existing.status == STATUS_INVALID:
                         continue
                     if existing.status == STATUS_VALID:
                         subtree_valid.add(o_prime)
                 else:
-                    result, all_results = self.verification.verify(o_prime, ctx)
-                    # consensus-based self-estimation（非 ground-truth reliability）
-                    self._record_consensus_verifier_use(all_results, ctx)
+                    result, all_results = self.verifier.verify(o_prime, ctx)
+                    self._record_consensus(all_results, ctx)
                     status = {VALID: STATUS_VALID, INVALID: STATUS_INVALID,
                               UNKNOWN: STATUS_UNKNOWN}[result.result]
-                    use_score = ev.value_score if (ev is not None) else None
-                    # 逻辑推导溯源：如果验证方法是 logical 且有推导信息，
-                    # 用 derived_from 作为 parents，derivation_operation 作为 operation
+
+                    # 证据记入 EvidenceLog（append-only）
+                    for r in all_results:
+                        from .evidence import Evidence
+                        self.evidence_log.append(Evidence(
+                            method=r.method, action_type=r.method,
+                            support=r.support, contradiction=r.contradiction,
+                            detail=r.evidence, cost=r.cost,
+                            derived_from=r.derived_from,
+                            derivation_operation=r.derivation_operation,
+                        ))
+
+                    derivation = None
                     if result.method == "logical" and result.derived_from:
-                        parents = result.derived_from
-                        op = result.derivation_operation or "logical"
-                    else:
-                        parents = [obj.to_str()]
-                        op = c.op_name
-                    k = Knowledge(
-                        proposition=o_prime, status=status, confidence=result.confidence,
-                        usefulness=use_score, source=compute_id,
-                        parent_objects=parents, operation=op,
-                        verification_method=result.method, verification_result=result.result,
-                        cost=result.cost + c.cost, kind="proposition",
-                        evaluated=(ev is not None),
-                        evidence_history=[{
-                            "method": result.method,
-                            "support": result.support,
-                            "contradiction": result.contradiction,
-                            "confidence": result.confidence,
-                            "detail": result.evidence,
-                        }],
-                        verification_history=[{
-                            "method": result.method,
-                            "result": result.result,
-                            "confidence": result.confidence,
-                        }])
-                    self.store.upsert(k)
+                        derivation = Derivation(
+                            operation=result.derivation_operation or "logical",
+                            parents=result.derived_from)
+
+                    self.belief_store.update_belief(
+                        o_prime, status, result.confidence,
+                        evidence_count_delta=len(all_results),
+                        derivation=derivation)
+
                     self.trace.record(
                         compute_id, depth, o_prime, "verify", o_prime,
                         parent_step=apply_step.step_id,
                         verification=result.method, verification_result=result.result,
                         confidence=result.confidence, cost=result.cost,
                         decision="retain" if status != STATUS_INVALID else "stop",
-                        meta={"all_methods": [r.to_dict() for r in all_results],
-                              "is_composite": is_composite})
-                    self.verification_cost += result.cost
-                    self.total_cost += result.cost + c.cost
+                        meta={"all_methods": [r.to_dict() for r in all_results]})
+                    self.cost_tracker.add("verify", result.cost, "verify")
                     self.actual_steps += 1
                     self.verified_steps += 1
                     self.verified_candidates += 1
@@ -269,30 +269,23 @@ class ComputeEngine:
                         self.invalid_candidates += 1
                         continue
             else:
-                # A 组：不验证
-                k = Knowledge(
-                    proposition=o_prime, status=STATUS_UNKNOWN, confidence=0.0,
-                    usefulness=None, source=compute_id,
-                    parent_objects=[obj.to_str()], operation=c.op_name,
-                    cost=c.cost, kind="proposition", evaluated=False)
-                self.store.upsert(k)
+                self.belief_store.update_belief(
+                    o_prime, STATUS_UNKNOWN, 0.0, evidence_count_delta=0)
                 self.trace.record(compute_id, depth, o_prime, "no_verify_save",
                                   o_prime, parent_step=apply_step.step_id,
                                   cost=0.0, decision="retain_unknown")
-                self.total_cost += c.cost
                 self.actual_steps += 1
 
-            # ---- 步骤7：递归展开（meta-evaluation 不在此触发，由 run_abcd.py 统一调度）----
+            # ---- 步骤7：递归 ----
             _, child_valid = self.recursive_compute(
                 o_prime, goal, ctx, depth + 1, parent_step=apply_step.step_id)
             subtree_valid.update(child_valid)
 
-            # ---- 步骤8：运行时评价反馈（精确 attribution）----
-            # 仅对当前 candidate 的子树产出的 valid 命题计数，不使用全局 valid 数量
+            # ---- 步骤8：评价反馈 ----
             if ctx.evaluate_enabled and ev is not None:
                 produced_valid = len(child_valid) > 0
                 actual = 1.0 if produced_valid else 0.0
-                self.evaluation.add_feedback(ctx, ev.method_tag, ev.value_score, actual)
+                self.evaluator.add_feedback(ctx, ev.method_tag, ev.value_score, actual)
 
         return compute_id, subtree_valid
 
@@ -303,18 +296,10 @@ class ComputeEngine:
             return 2.5
         return 1.0
 
-    def _record_consensus_verifier_use(self, results: List[VerificationResult], ctx: Context) -> None:
-        """consensus-based self-estimation：用多数派一致性作为验证方法成功的代理。
-
-        注意：这不是 ground-truth reliability。多数派本身可能错误。
-        此机制仅提供"方法间一致性"的自估计，不能证明系统学会了真正的验证可靠性。
-        """
+    def _record_consensus(self, results: List[VerificationResult], ctx: Context) -> None:
+        """记录验证方法间一致性（非真实可靠性）。"""
         if not results:
             return
-        votes = {VALID: 0, INVALID: 0, UNKNOWN: 0}
         for r in results:
-            votes[r.result] = votes.get(r.result, 0) + 1
-        majority = max(votes, key=votes.get)
-        for r in results:
-            success = (r.result == majority) and (r.result != UNKNOWN)
-            self.store.record_verification_outcome(r.method, success)
+            self.consensus.record_decision(r.method, r.method, r.result)
+        self.consensus.update_agreement()
