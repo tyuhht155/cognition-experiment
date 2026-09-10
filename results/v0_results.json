@@ -3,7 +3,7 @@
     "true_world": {
       "target": "(A → B)",
       "final_status": "valid",
-      "final_confidence": 1.0,
+      "final_confidence": 0.7078,
       "ground_truth_holds": true,
       "correct": true,
       "n_steps": 10,
@@ -43,9 +43,9 @@
           },
           "support": 1.0,
           "contradiction": 0.0,
-          "confidence": 0.8,
+          "confidence": 0.4,
           "status": "valid",
-          "prediction_confirmed": 1,
+          "prediction_confirmed": 0,
           "prediction_refuted": 0
         },
         {
@@ -65,7 +65,7 @@
           "contradiction": 0.0,
           "confidence": 1.0,
           "status": "valid",
-          "prediction_confirmed": 2,
+          "prediction_confirmed": 1,
           "prediction_refuted": 0
         },
         {
@@ -81,12 +81,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.9,
+          "contradiction": 0.1,
+          "confidence": 0.8,
           "status": "valid",
-          "prediction_confirmed": 2,
-          "prediction_refuted": 0
+          "prediction_confirmed": 1,
+          "prediction_refuted": 1
         },
         {
           "step": 5,
@@ -101,12 +101,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8571,
+          "contradiction": 0.1429,
+          "confidence": 0.7143,
           "status": "valid",
-          "prediction_confirmed": 2,
-          "prediction_refuted": 0
+          "prediction_confirmed": 1,
+          "prediction_refuted": 1
         },
         {
           "step": 6,
@@ -121,12 +121,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8333,
+          "contradiction": 0.1667,
+          "confidence": 0.6667,
           "status": "valid",
-          "prediction_confirmed": 3,
-          "prediction_refuted": 0
+          "prediction_confirmed": 1,
+          "prediction_refuted": 1
         },
         {
           "step": 7,
@@ -141,12 +141,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8333,
+          "contradiction": 0.1667,
+          "confidence": 0.6667,
           "status": "valid",
-          "prediction_confirmed": 4,
-          "prediction_refuted": 0
+          "prediction_confirmed": 2,
+          "prediction_refuted": 1
         },
         {
           "step": 8,
@@ -161,12 +161,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8397,
+          "contradiction": 0.1603,
+          "confidence": 0.6795,
           "status": "valid",
-          "prediction_confirmed": 5,
-          "prediction_refuted": 0
+          "prediction_confirmed": 3,
+          "prediction_refuted": 1
         },
         {
           "step": 9,
@@ -181,12 +181,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8478,
+          "contradiction": 0.1522,
+          "confidence": 0.6956,
           "status": "valid",
-          "prediction_confirmed": 5,
-          "prediction_refuted": 0
+          "prediction_confirmed": 4,
+          "prediction_refuted": 1
         },
         {
           "step": 10,
@@ -201,19 +201,19 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
-          "confidence": 1.0,
+          "support": 0.8539,
+          "contradiction": 0.1461,
+          "confidence": 0.7078,
           "status": "valid",
-          "prediction_confirmed": 6,
-          "prediction_refuted": 0
+          "prediction_confirmed": 4,
+          "prediction_refuted": 1
         }
       ]
     },
     "false_world": {
       "target": "(A → B)",
       "final_status": "invalid",
-      "final_confidence": 0.95,
+      "final_confidence": 1.0,
       "ground_truth_holds": false,
       "correct": true,
       "n_steps": 10,
@@ -253,9 +253,9 @@
           },
           "support": 1.0,
           "contradiction": 0.0,
-          "confidence": 0.8,
+          "confidence": 0.4,
           "status": "valid",
-          "prediction_confirmed": 1,
+          "prediction_confirmed": 0,
           "prediction_refuted": 0
         },
         {
@@ -271,12 +271,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
+          "support": 0.6667,
+          "contradiction": 0.3333,
           "confidence": 1.0,
-          "status": "valid",
-          "prediction_confirmed": 1,
-          "prediction_refuted": 0
+          "status": "invalid",
+          "prediction_confirmed": 0,
+          "prediction_refuted": 1
         },
         {
           "step": 4,
@@ -291,12 +291,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
+          "support": 0.6,
+          "contradiction": 0.4,
           "confidence": 1.0,
-          "status": "valid",
-          "prediction_confirmed": 1,
-          "prediction_refuted": 0
+          "status": "invalid",
+          "prediction_confirmed": 0,
+          "prediction_refuted": 1
         },
         {
           "step": 5,
@@ -311,32 +311,32 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 1.0,
-          "contradiction": 0.0,
+          "support": 0.5714,
+          "contradiction": 0.4286,
           "confidence": 1.0,
-          "status": "valid",
-          "prediction_confirmed": 2,
-          "prediction_refuted": 0
+          "status": "invalid",
+          "prediction_confirmed": 0,
+          "prediction_refuted": 1
         },
         {
           "step": 6,
-          "action": "counterexample",
+          "action": "prediction",
           "evidence": {
-            "method": "counterexample",
-            "action_type": "counterexample",
+            "method": "prediction",
+            "action_type": "prediction",
             "support": 0.0,
-            "contradiction": 0.95,
-            "detail": "co-occurrence counterexample at step 5",
-            "cost": 2.0,
+            "contradiction": 1.0,
+            "detail": "predictions: 0 confirmed, 2 refuted",
+            "cost": 1.0,
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 0.8485,
-          "contradiction": 0.147,
-          "confidence": 0.95,
+          "support": 0.4667,
+          "contradiction": 0.5283,
+          "confidence": 1.0,
           "status": "invalid",
-          "prediction_confirmed": 2,
-          "prediction_refuted": 1
+          "prediction_confirmed": 0,
+          "prediction_refuted": 2
         },
         {
           "step": 7,
@@ -351,12 +351,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 0.7738,
-          "contradiction": 0.219,
-          "confidence": 0.95,
+          "support": 0.4423,
+          "contradiction": 0.55,
+          "confidence": 1.0,
           "status": "invalid",
-          "prediction_confirmed": 3,
-          "prediction_refuted": 1
+          "prediction_confirmed": 1,
+          "prediction_refuted": 2
         },
         {
           "step": 8,
@@ -371,12 +371,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 0.7255,
-          "contradiction": 0.2657,
-          "confidence": 0.95,
+          "support": 0.4219,
+          "contradiction": 0.5687,
+          "confidence": 1.0,
           "status": "invalid",
-          "prediction_confirmed": 3,
-          "prediction_refuted": 1
+          "prediction_confirmed": 1,
+          "prediction_refuted": 3
         },
         {
           "step": 9,
@@ -391,12 +391,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 0.6767,
-          "contradiction": 0.3133,
-          "confidence": 0.95,
+          "support": 0.4,
+          "contradiction": 0.5895,
+          "confidence": 1.0,
           "status": "invalid",
-          "prediction_confirmed": 3,
-          "prediction_refuted": 2
+          "prediction_confirmed": 1,
+          "prediction_refuted": 3
         },
         {
           "step": 10,
@@ -411,12 +411,12 @@
             "derived_from": null,
             "derivation_operation": null
           },
-          "support": 0.6406,
-          "contradiction": 0.3486,
-          "confidence": 0.95,
+          "support": 0.3909,
+          "contradiction": 0.5977,
+          "confidence": 1.0,
           "status": "invalid",
-          "prediction_confirmed": 3,
-          "prediction_refuted": 2
+          "prediction_confirmed": 2,
+          "prediction_refuted": 3
         }
       ]
     }
@@ -429,7 +429,7 @@
       "contradiction": 0.0
     },
     "2": {
-      "confidence": 0.8,
+      "confidence": 0.4,
       "status": "valid",
       "support": 1.0,
       "contradiction": 0.0
@@ -454,8 +454,10 @@
     }
   },
   "conflict": {
-    "before_conflict_confidence": 1.0,
+    "before_conflict_confidence": 0.7078,
     "after_conflict_confidence": 0.95,
+    "before_valid_confidence": 0.7078,
+    "after_valid_confidence": 0.0,
     "confidence_dropped": true,
     "before_status": "valid",
     "after_status": "invalid",
@@ -471,7 +473,7 @@
       },
       {
         "step": 2,
-        "confidence": 0.8,
+        "confidence": 0.4,
         "status": "valid",
         "support": 1.0,
         "contradiction": 0.0
@@ -485,66 +487,66 @@
       },
       {
         "step": 4,
-        "confidence": 1.0,
+        "confidence": 0.8,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.9,
+        "contradiction": 0.1
       },
       {
         "step": 5,
-        "confidence": 1.0,
+        "confidence": 0.7143,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8571,
+        "contradiction": 0.1429
       },
       {
         "step": 6,
-        "confidence": 1.0,
+        "confidence": 0.6667,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8333,
+        "contradiction": 0.1667
       },
       {
         "step": 7,
-        "confidence": 1.0,
+        "confidence": 0.6667,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8333,
+        "contradiction": 0.1667
       },
       {
         "step": 8,
-        "confidence": 1.0,
+        "confidence": 0.6795,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8397,
+        "contradiction": 0.1603
       },
       {
         "step": 9,
-        "confidence": 1.0,
+        "confidence": 0.6956,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8478,
+        "contradiction": 0.1522
       },
       {
         "step": 10,
-        "confidence": 1.0,
+        "confidence": 0.7078,
         "status": "valid",
-        "support": 1.0,
-        "contradiction": 0.0
+        "support": 0.8539,
+        "contradiction": 0.1461
       },
       {
         "step": 11,
         "confidence": 0.95,
         "status": "invalid",
-        "support": 0.9388,
-        "contradiction": 0.0588
+        "support": 0.802,
+        "contradiction": 0.1955
       },
       {
         "step": 12,
         "confidence": 0.95,
         "status": "invalid",
-        "support": 0.8943,
-        "contradiction": 0.1015
+        "support": 0.7665,
+        "contradiction": 0.2291
       }
     ]
   },
@@ -560,9 +562,9 @@
       {
         "step": 2,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 3,
@@ -575,8 +577,8 @@
         "step": 4,
         "a_observed": false,
         "predictions_confirmed_this_step": 0,
-        "predictions_refuted_this_step": 0,
-        "pending_before": 0
+        "predictions_refuted_this_step": 1,
+        "pending_before": 1
       },
       {
         "step": 5,
@@ -588,9 +590,9 @@
       {
         "step": 6,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 7,
@@ -609,58 +611,58 @@
       {
         "step": 9,
         "a_observed": false,
-        "predictions_confirmed_this_step": 0,
+        "predictions_confirmed_this_step": 1,
         "predictions_refuted_this_step": 0,
-        "pending_before": 0
+        "pending_before": 1
       },
       {
         "step": 10,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 11,
         "a_observed": false,
         "predictions_confirmed_this_step": 0,
-        "predictions_refuted_this_step": 0,
-        "pending_before": 0
+        "predictions_refuted_this_step": 1,
+        "pending_before": 1
       },
       {
         "step": 12,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 13,
         "a_observed": false,
         "predictions_confirmed_this_step": 0,
-        "predictions_refuted_this_step": 0,
-        "pending_before": 0
+        "predictions_refuted_this_step": 1,
+        "pending_before": 1
       },
       {
         "step": 14,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
-        "predictions_refuted_this_step": 0,
-        "pending_before": 1
-      },
-      {
-        "step": 15,
-        "a_observed": false,
         "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
         "pending_before": 0
       },
       {
+        "step": 15,
+        "a_observed": false,
+        "predictions_confirmed_this_step": 0,
+        "predictions_refuted_this_step": 1,
+        "pending_before": 1
+      },
+      {
         "step": 16,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 17,
@@ -673,15 +675,15 @@
         "step": 18,
         "a_observed": false,
         "predictions_confirmed_this_step": 0,
-        "predictions_refuted_this_step": 0,
-        "pending_before": 0
+        "predictions_refuted_this_step": 1,
+        "pending_before": 1
       },
       {
         "step": 19,
         "a_observed": true,
-        "predictions_confirmed_this_step": 1,
+        "predictions_confirmed_this_step": 0,
         "predictions_refuted_this_step": 0,
-        "pending_before": 1
+        "pending_before": 0
       },
       {
         "step": 20,
@@ -691,8 +693,8 @@
         "pending_before": 1
       }
     ],
-    "total_confirmed": 12,
-    "total_refuted": 0,
+    "total_confirmed": 6,
+    "total_refuted": 5,
     "all_forward": true
   },
   "logical_derivation": {
