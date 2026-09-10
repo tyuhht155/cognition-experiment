@@ -27,21 +27,54 @@ class Candidate:
     meta: dict = field(default_factory=dict)
 
 
-@dataclass
 class Context:
-    """计算上下文：贯穿一次 recursive_compute 的共享状态。"""
-    store: Any = None            # KnowledgeStore
-    trace: Any = None            # Trace
-    world_history: List[Any] = field(default_factory=list)  # 历史观察（状态命题集合）
-    constants: List[Term] = field(default_factory=lambda: ["ball", "box", "table", "wall"])
-    step_budget: int = 4000      # trace 步数预算（所有组相同，体现公平比较）
-    # 各实验组的阶段开关
-    verify_enabled: bool = True
-    evaluate_enabled: bool = True
-    meta_evaluate_enabled: bool = True
-    goal: Any = None             # 当前目标 Proposition 或描述
-    # 历史价值反馈（用于 evaluate_evaluation 元评价）
-    eval_feedback: List[dict] = field(default_factory=list)
+    """计算上下文：贯穿一次 recursive_compute 的共享状态。
+
+    各组件职责明确：
+      - belief_store: 命题的当前信念状态
+      - evidence_log: append-only 证据历史
+      - cost_tracker: 统一成本追踪
+      - consensus: 验证方法间一致性统计（非真实可靠性）
+      - prediction_state: 严格前向的时间预测
+      - op_store: 操作注册表（与命题知识分离）
+    """
+
+    def __init__(self,
+                 belief_store=None,
+                 evidence_log=None,
+                 cost_tracker=None,
+                 consensus=None,
+                 prediction_state=None,
+                 op_store=None,
+                 trace=None,
+                 world_history=None,
+                 constants=None,
+                 step_budget=4000,
+                 verify_enabled=True,
+                 evaluate_enabled=True,
+                 meta_evaluate_enabled=True,
+                 goal=None,
+                 eval_feedback=None,
+                 store=None):  # 向后兼容：store 是 belief_store 的别名
+        self.belief_store = belief_store if belief_store is not None else store
+        self.evidence_log = evidence_log
+        self.cost_tracker = cost_tracker
+        self.consensus = consensus
+        self.prediction_state = prediction_state
+        self.op_store = op_store
+        self.trace = trace
+        self.world_history = world_history if world_history is not None else []
+        self.constants = constants if constants is not None else ["ball", "box", "table", "wall"]
+        self.step_budget = step_budget
+        self.verify_enabled = verify_enabled
+        self.evaluate_enabled = evaluate_enabled
+        self.meta_evaluate_enabled = meta_evaluate_enabled
+        self.goal = goal
+        self.eval_feedback = eval_feedback if eval_feedback is not None else []
+
+    @property
+    def store(self):
+        return self.belief_store
 
     def steps_used(self) -> int:
         return len(self.trace) if self.trace else 0
@@ -306,7 +339,6 @@ class OperationRegistry:
                 candidates.append(c)
             if len(candidates) > budget:
                 break
-        # 去重（按 new_object）
         seen = set()
         unique = []
         for c in candidates:
@@ -315,3 +347,41 @@ class OperationRegistry:
             seen.add(c.new_object)
             unique.append(c)
         return unique
+
+
+class OperationStore:
+    """操作注册表。只管理可调用 operation，不与命题知识混存。
+
+    压缩产生的新操作也会注册到这里。
+    """
+
+    def __init__(self):
+        self._registry = OperationRegistry()
+
+    def register(self, name: str, fn: Callable, is_prior: bool = False) -> None:
+        self._registry.register(name, fn, is_prior)
+
+    def names(self) -> List[str]:
+        return self._registry.names()
+
+    def priors(self) -> List[str]:
+        return self._registry.priors()
+
+    def learned(self) -> List[str]:
+        return self._registry.learned()
+
+    def generate(self, obj: Proposition, ctx: Context, budget: int = 50) -> List[Candidate]:
+        return self._registry.generate(obj, ctx, budget)
+
+
+class CandidateGenerator:
+    """候选生成器：object + context → Candidate[]。
+
+    只负责生成候选，不负责验证、不修改 BeliefStore。
+    """
+
+    def __init__(self, op_store: OperationStore):
+        self.op_store = op_store
+
+    def generate(self, obj: Proposition, ctx: Context, budget: int = 50) -> List[Candidate]:
+        return self.op_store.generate(obj, ctx, budget)
