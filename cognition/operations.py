@@ -143,19 +143,19 @@ def op_modus_ponens(obj: Proposition, ctx: Context) -> List[Candidate]:
     """若当前对象为 A，且知识库存在 A→B(valid)，生成 B。
     若当前对象为 A→B，且知识库存在 A(valid)，生成 B。"""
     out = []
-    store = ctx.store
-    if store is None:
+    kv = ctx.knowledge_view
+    if kv is None:
         return out
     # 情况1：当前 A，找 A→B
-    for k in store.valid_entries():
-        p = k.proposition
+    for b in kv.valid_beliefs():
+        p = b.proposition
         if p.kind == "implies" and p.parts[0] == obj:
             out.append(Candidate(p.parts[1], "modus_ponens", 1.5,
                                  {"major_premise": p.to_str()}))
     # 情况2：当前 A→B，找 A
     if obj.kind == "implies":
         antecedent = obj.parts[0]
-        if store.has(antecedent) and store.get(antecedent).status == "valid":
+        if kv.has(antecedent) and kv.get(antecedent).status == "valid":
             out.append(Candidate(obj.parts[1], "modus_ponens", 1.5,
                                  {"minor_premise": antecedent.to_str()}))
     return out
@@ -164,12 +164,12 @@ def op_modus_ponens(obj: Proposition, ctx: Context) -> List[Candidate]:
 def op_modus_tollens(obj: Proposition, ctx: Context) -> List[Candidate]:
     """当前为 ¬B 且库中存在 A→B -> ¬A"""
     out = []
-    store = ctx.store
-    if store is None or obj.kind != "not":
+    kv = ctx.knowledge_view
+    if kv is None or obj.kind != "not":
         return out
     neg_target = obj.parts[0]
-    for k in store.valid_entries():
-        p = k.proposition
+    for b in kv.valid_beliefs():
+        p = b.proposition
         if p.kind == "implies" and p.parts[1] == neg_target:
             out.append(Candidate(Proposition.neg(p.parts[0]), "modus_tollens", 2.0))
     return out

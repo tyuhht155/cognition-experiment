@@ -12,7 +12,7 @@
           "step": 1,
           "action": "logical",
           "evidence": {
-            "evidence_id": "8a82800da452",
+            "evidence_id": "bb318a179076",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -36,7 +36,7 @@
           "step": 2,
           "action": "compare",
           "evidence": {
-            "evidence_id": "d89c7fe28841",
+            "evidence_id": "707cc3089646",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -60,7 +60,7 @@
           "step": 3,
           "action": "compare",
           "evidence": {
-            "evidence_id": "915769df22d3",
+            "evidence_id": "bd505bfb548f",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -84,7 +84,7 @@
           "step": 4,
           "action": "compare",
           "evidence": {
-            "evidence_id": "1047d617309b",
+            "evidence_id": "551a6b1e107c",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -108,7 +108,7 @@
           "step": 5,
           "action": "compare",
           "evidence": {
-            "evidence_id": "993b409826c3",
+            "evidence_id": "f4650dfad0fd",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -132,7 +132,7 @@
           "step": 6,
           "action": "compare",
           "evidence": {
-            "evidence_id": "9a552082b25a",
+            "evidence_id": "484a326ca677",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -156,7 +156,7 @@
           "step": 7,
           "action": "compare",
           "evidence": {
-            "evidence_id": "183fc798020b",
+            "evidence_id": "da2639a61a69",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -180,7 +180,7 @@
           "step": 8,
           "action": "compare",
           "evidence": {
-            "evidence_id": "211e8c10b334",
+            "evidence_id": "b92fc9df0590",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -204,7 +204,7 @@
           "step": 9,
           "action": "compare",
           "evidence": {
-            "evidence_id": "2a9aafbb0cec",
+            "evidence_id": "c10d81996ef5",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -228,7 +228,7 @@
           "step": 10,
           "action": "compare",
           "evidence": {
-            "evidence_id": "392750351b8d",
+            "evidence_id": "1987a08fc3c1",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -262,7 +262,7 @@
           "step": 1,
           "action": "logical",
           "evidence": {
-            "evidence_id": "958455ceed44",
+            "evidence_id": "f2987cafeb3a",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -286,7 +286,7 @@
           "step": 2,
           "action": "compare",
           "evidence": {
-            "evidence_id": "8270239c31c3",
+            "evidence_id": "22324f5d6e62",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -310,7 +310,7 @@
           "step": 3,
           "action": "compare",
           "evidence": {
-            "evidence_id": "9c1f3046e4b6",
+            "evidence_id": "0b03a234a331",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -334,7 +334,7 @@
           "step": 4,
           "action": "compare",
           "evidence": {
-            "evidence_id": "89fc6cc1efe2",
+            "evidence_id": "81aeb2b32831",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -358,7 +358,7 @@
           "step": 5,
           "action": "compare",
           "evidence": {
-            "evidence_id": "19e75908d6c5",
+            "evidence_id": "5901008eb024",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -382,7 +382,7 @@
           "step": 6,
           "action": "prediction",
           "evidence": {
-            "evidence_id": "7ba7790fe961",
+            "evidence_id": "3166125bd6fa",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -406,7 +406,7 @@
           "step": 7,
           "action": "counterexample",
           "evidence": {
-            "evidence_id": "609558c89ea7",
+            "evidence_id": "a2f034e6c448",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -430,7 +430,7 @@
           "step": 8,
           "action": "counterexample",
           "evidence": {
-            "evidence_id": "d4a96b2a0ec3",
+            "evidence_id": "d1470ed98184",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -454,7 +454,7 @@
           "step": 9,
           "action": "counterexample",
           "evidence": {
-            "evidence_id": "844113d90419",
+            "evidence_id": "be7ed6d99405",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,
@@ -478,7 +478,7 @@
           "step": 10,
           "action": "counterexample",
           "evidence": {
-            "evidence_id": "525c014b7cad",
+            "evidence_id": "3b7f42cf4671",
             "proposition": null,
             "source_event_id": null,
             "observation_step": null,

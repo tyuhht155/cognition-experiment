@@ -169,18 +169,23 @@ class ComputeEngine:
                 # 被 stop（invalid）
                 continue
 
+            # candidate 自身的直接验证结果（process 返回非空 set 表示直接 valid）
+            candidate_direct_valid = valid is not None and len(valid) > 0
+
             subtree_valid.update(valid)
 
             # 递归
+            descendant_valid = False
             if obj != candidate.new_object:
                 _, child_valid = self.recursive_compute(
                     candidate.new_object, goal, ctx, depth + 1,
                     parent_step=self._last_step_id(ctx))
                 subtree_valid.update(child_valid)
+                descendant_valid = len(child_valid) > 0
 
-                # 评价反馈
-                if ctx.evaluate_enabled and ev is not None:
-                    self.processor.record_feedback(ev, len(child_valid) > 0)
+            # 评价反馈：绑定到 candidate 自身的直接结果，而非 descendant 结果
+            if ctx.evaluate_enabled and ev is not None:
+                self.processor.record_feedback(ev, candidate_direct_valid, descendant_valid)
 
         self._sync_stats(stats)
         return compute_id, subtree_valid

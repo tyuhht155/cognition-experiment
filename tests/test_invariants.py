@@ -387,6 +387,98 @@ def test_verifier_reuse_path_no_evidence_count_increment():
     print("test_verifier_reuse_path_no_evidence_count_increment OK")
 
 
+# 21. modus_ponens 通过 KnowledgeView 正常工作
+def test_modus_ponens_via_knowledge_view():
+    """op_modus_ponens 必须只通过 ctx.knowledge_view 访问知识，且能生成候选。"""
+    from cognition.operations import op_modus_ponens, Context
+    bs = BeliefStore()
+    # 知识库中存在 P→Q (valid)
+    pq = P.impl(P.atom("P"), P.atom("Q"))
+    bs.update_belief(pq, "valid", 0.9, evidence_count_delta=1)
+    ctx = Context(knowledge_view=bs, constants=["P", "Q"])
+    # 当前对象为 P
+    p = P.atom("P")
+    cands = op_modus_ponens(p, ctx)
+    assert len(cands) == 1
+    assert cands[0].new_object == P.atom("Q")
+    assert cands[0].op_name == "modus_ponens"
+    print("test_modus_ponens_via_knowledge_view OK")
+
+
+# 22. modus_tollens 通过 KnowledgeView 正常工作
+def test_modus_tollens_via_knowledge_view():
+    """op_modus_tollens 必须只通过 ctx.knowledge_view 访问知识，且能生成候选。"""
+    from cognition.operations import op_modus_tollens, Context
+    bs = BeliefStore()
+    # 知识库中存在 P→Q (valid)
+    pq = P.impl(P.atom("P"), P.atom("Q"))
+    bs.update_belief(pq, "valid", 0.9, evidence_count_delta=1)
+    ctx = Context(knowledge_view=bs, constants=["P", "Q"])
+    # 当前对象为 ¬Q
+    not_q = P.neg(P.atom("Q"))
+    cands = op_modus_tollens(not_q, ctx)
+    assert len(cands) == 1
+    assert cands[0].new_object == P.neg(P.atom("P"))
+    assert cands[0].op_name == "modus_tollens"
+    print("test_modus_tollens_via_knowledge_view OK")
+
+
+# 23. candidate 的 direct result 与 descendant result 分离
+def test_feedback_direct_vs_descendant_separated():
+    """CandidateProcessor.record_feedback 接受 direct_valid 和 descendant_valid 两个独立参数。"""
+    from cognition.candidate_processor import CandidateProcessor
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.trace import TraceRecorder
+    from cognition.evaluation import ValueEvaluator
+
+    bs = BeliefStore()
+    cp = CandidateProcessor(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        trace=TraceRecorder())
+    ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
+    # direct=True, descendant=False
+    cp.record_feedback(ev, candidate_direct_valid=True, descendant_valid=False)
+    fb = cp.eval_feedback[-1]
+    assert fb["actual"] == 1.0
+    assert fb["descendant_valid"] is False
+    # direct=False, descendant=True → actual 仍应为 0.0（不因为 descendant 成功而判成功）
+    cp.record_feedback(ev, candidate_direct_valid=False, descendant_valid=True)
+    fb2 = cp.eval_feedback[-1]
+    assert fb2["actual"] == 0.0
+    assert fb2["descendant_valid"] is True
+    print("test_feedback_direct_vs_descendant_separated OK")
+
+
+# 24. 父 candidate 不因为孙节点 valid 自动获得 direct success
+def test_parent_not_credited_for_descendant_valid():
+    """feedback attribution：父 candidate 自身 invalid 但 descendant valid 时，actual=0.0。"""
+    from cognition.candidate_processor import CandidateProcessor
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.trace import TraceRecorder
+    from cognition.evaluation import ValueEvaluator
+
+    bs = BeliefStore()
+    cp = CandidateProcessor(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        trace=TraceRecorder())
+    ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
+    # 模拟：父 candidate 自身未直接 valid（direct=False），但子树有 valid（descendant=True）
+    cp.record_feedback(ev, candidate_direct_valid=False, descendant_valid=True)
+    last = cp.eval_feedback[-1]
+    assert last["actual"] == 0.0, "父 candidate 不应因 descendant valid 获得 direct success"
+    print("test_parent_not_credited_for_descendant_valid OK")
+
+
 def run_all():
     tests = [
         test_prediction_resolved_after_created,
@@ -409,6 +501,10 @@ def run_all():
         test_compute_engine_no_internal_store_access,
         test_total_cost_equals_sum_of_cost_events,
         test_verifier_reuse_path_no_evidence_count_increment,
+        test_modus_ponens_via_knowledge_view,
+        test_modus_tollens_via_knowledge_view,
+        test_feedback_direct_vs_descendant_separated,
+        test_parent_not_credited_for_descendant_valid,
     ]
     passed = 0
     for t in tests:

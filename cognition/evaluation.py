@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, List
+from typing import Any, List, Optional
 
 from .proposition import Proposition
 from .belief import BeliefStore
@@ -175,9 +175,13 @@ class ValueEvaluator:
         return {"adjusted": True, "weights": dict(self.weights), "adjustments": adjustments}
 
     @staticmethod
-    def record_feedback(feedback_list: List[dict], tag: str, predicted: float, actual: float) -> None:
+    def record_feedback(feedback_list: List[dict], tag: str, predicted: float,
+                        actual: float, extra: Optional[dict] = None) -> None:
         """将反馈追加到编排层持有的 feedback 列表。ValueEvaluator 本身不持有 Context。"""
-        feedback_list.append({"tag": tag, "predicted": predicted, "actual": actual})
+        entry = {"tag": tag, "predicted": predicted, "actual": actual}
+        if extra:
+            entry.update(extra)
+        feedback_list.append(entry)
 
 
 # 兼容旧代码

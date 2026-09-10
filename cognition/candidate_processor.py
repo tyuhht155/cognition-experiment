@@ -198,10 +198,17 @@ class CandidateProcessor:
 
         return set()
 
-    def record_feedback(self, ev, produced_valid: bool) -> None:
-        """记录评价反馈（由编排层在递归后调用）。"""
-        actual = 1.0 if produced_valid else 0.0
-        ValueEvaluator.record_feedback(self._eval_feedback, ev.method_tag, ev.value_score, actual)
+    def record_feedback(self, ev, candidate_direct_valid: bool,
+                        descendant_valid: bool = False) -> None:
+        """记录评价反馈。
+
+        feedback 绑定到 candidate 自身的直接结果，而不是 descendant 的结果。
+        descendant_valid 仅记录用于诊断，不影响 actual 判定。
+        """
+        actual = 1.0 if candidate_direct_valid else 0.0
+        ValueEvaluator.record_feedback(
+            self._eval_feedback, ev.method_tag, ev.value_score, actual,
+            extra={"descendant_valid": descendant_valid})
 
     def meta_evaluate(self) -> dict:
         """根据累积反馈调整评价风格权重。"""
