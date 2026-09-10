@@ -12,8 +12,8 @@ __pycache__/
 venv/
 env/
 
-# 实验产物（运行后生成，保留目录结构但忽略大文件）
-results/*.json
+# 实验产物（保留，供其他 AI 复用知识与轨迹）
+# results/ 目录已纳入版本控制
 
 # IDE
 .vscode/

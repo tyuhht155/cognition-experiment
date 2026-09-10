@@ -1,0 +1,59 @@
+{
+  "episodes": [
+    {
+      "episode": 1,
+      "total_cost": 2518.4,
+      "verify_cost": 1194.0,
+      "reused_known": 309,
+      "knowledge_total": 499,
+      "valid_implications": 21,
+      "composite_ops": 0
+    },
+    {
+      "episode": 2,
+      "total_cost": 1985.3,
+      "verify_cost": 1012.0,
+      "reused_known": 622,
+      "knowledge_total": 530,
+      "valid_implications": 25,
+      "composite_ops": 3
+    },
+    {
+      "episode": 3,
+      "total_cost": 1881.3,
+      "verify_cost": 950.5,
+      "reused_known": 652,
+      "knowledge_total": 531,
+      "valid_implications": 25,
+      "composite_ops": 4
+    },
+    {
+      "episode": 4,
+      "total_cost": 1881.3,
+      "verify_cost": 950.5,
+      "reused_known": 652,
+      "knowledge_total": 531,
+      "valid_implications": 25,
+      "composite_ops": 4
+    }
+  ],
+  "cost_trend": [
+    2518.4,
+    1985.3,
+    1881.3,
+    1881.3
+  ],
+  "knowledge_trend": [
+    499,
+    530,
+    531,
+    531
+  ],
+  "reused_trend": [
+    309,
+    622,
+    652,
+    652
+  ],
+  "composite_ops_final": 4
+}
