@@ -184,6 +184,10 @@ class ValueEvaluator:
 Evaluation = ValueEvaluator
 
 
+# 兼容旧代码
+Evaluation = ValueEvaluator
+
+
 def _iter_terms(p: Proposition):
     for sub in p.sub_propositions():
         if sub.kind in ("relation", "predicate"):
