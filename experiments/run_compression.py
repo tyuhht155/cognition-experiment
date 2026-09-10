@@ -68,15 +68,22 @@ def main(out_dir: str = None):
         valid_impls = sum(1 for k in store.all_entries()
                           if k.status == "valid" and k.proposition.kind == "implies")
         reused = sum(1 for s in trace.steps if s.operation == "reuse_known")
+        # 复合操作实际调用次数
+        composite_calls = sum(engine.composite_usage.values())
         curve.append({
             "episode": ep,
             "total_cost": round(engine.total_cost, 2),
-            "verify_cost": round(sum(s.cost for s in trace.steps if s.operation == "verify"), 2),
+            "raw_compute_cost": round(engine.raw_compute_cost, 2),
+            "verification_cost": round(engine.verification_cost, 2),
+            "reuse_cost": round(engine.reuse_cost, 2),
+            "cache_saved_cost": round(engine.cache_saved_cost, 2),
             "reused_known": reused,
             "knowledge_total": store.size(),
             "valid_implications": valid_impls,
             "composite_ops": len([n for n in registry.names()
                                    if n not in OperationRegistry().names()]),
+            "composite_calls": composite_calls,
+            "composite_usage": dict(engine.composite_usage),
         })
         # 回合间：压缩本回合 trace -> 注册新复合操作（保留到下回合）
         ctx.world_history = [set(s) for s in world.history]
@@ -92,20 +99,26 @@ def main(out_dir: str = None):
 
     print("\n" + "=" * 78)
     print("实验二：知识压缩与学习曲线（多回合，知识跨回合累积）")
+    print("审计修复版：成本拆分，区分缓存收益与复合操作收益")
     print("=" * 78)
-    print(f"{'回合':>6}{'总成本':>12}{'验证成本':>12}{'复用已知':>10}{'知识总量':>10}{'valid规则':>12}{'复合操作':>10}")
+    print(f"{'回合':>4}{'总成本':>10}{'原始计算':>10}{'验证成本':>10}"
+          f"{'复用成本':>10}{'缓存节省':>10}{'复用次数':>8}{'知识量':>8}{'valid':>6}{'复合操作':>8}{'复合调用':>8}")
     for c in curve:
-        print(f"{c['episode']:>6}{c['total_cost']:>12}{c['verify_cost']:>12}"
-              f"{c['reused_known']:>10}{c['knowledge_total']:>10}"
-              f"{c['valid_implications']:>12}{c['composite_ops']:>10}")
+        print(f"{c['episode']:>4}{c['total_cost']:>10}{c['raw_compute_cost']:>10}"
+              f"{c['verification_cost']:>10}{c['reuse_cost']:>10}{c['cache_saved_cost']:>10}"
+              f"{c['reused_known']:>8}{c['knowledge_total']:>8}{c['valid_implications']:>6}"
+              f"{c['composite_ops']:>8}{c['composite_calls']:>8}")
     print("=" * 78)
     if len(curve) >= 2:
         d = curve[-1]["total_cost"] - curve[0]["total_cost"]
-        print(f"成本变化(末-首): {d:+.2f}  ；复用已知次数变化: "
-              f"{curve[0]['reused_known']} -> {curve[-1]['reused_known']}")
-        print("解读：随着回合推进，已成立知识被直接复用（reuse_known 增加），")
-        print("      验证成本下降，体现'知识增长后完成相同目标所需计算量下降'")
-        print("      （最终判断标准 #9）。压缩在回合间把频繁操作序列注册为新操作。")
+        d_cache = curve[-1]["cache_saved_cost"] - curve[0]["cache_saved_cost"]
+        print(f"成本变化(末-首): {d:+.2f}")
+        print(f"缓存节省变化: {curve[0]['cache_saved_cost']} -> {curve[-1]['cache_saved_cost']} ({d_cache:+.2f})")
+        print(f"复合操作调用: {curve[-1]['composite_calls']} 次")
+        print("解读：成本下降主要来自 cache_saved（复用已知命题跳过验证），")
+        print("      需观察 composite_calls 是否显著贡献降本。")
+        if curve[-1]["composite_calls"] == 0:
+            print("      ⚠ 复合操作注册了但未被调用——压缩未产生实际收益。")
 
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)

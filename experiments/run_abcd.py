@@ -1,9 +1,16 @@
-"""四组对照实验 A/B/C/D。
+"""四组对照实验 A/B/C/D（审计修复版）。
 
 A: 只有生成，不验证
 B: 生成 + 验证
 C: 生成 + 验证 + 价值评价
 D: 生成 + 验证 + 价值评价 + 验证方法评价（元评价 + 可靠性加权）
+
+审计修复：
+  - 移除 D 组事后 oracle：_feedback_verifier_reliability / _reverify_with_reliability 不再使用全历史真值。
+  - ground_truth_check 仅用于实验者外部统计错误率，绝不写回 KnowledgeStore。
+  - 成本拆分：raw_compute / verification / reuse / cache_saved。
+  - correct_but_useless 仅统计已评价(evaluated=True)的命题。
+  - 多 seed 报告 mean±std，错误率报告样本数与 95% 置信区间。
 
 比较指标（理论第 12 条）：
   知识增长速度、错误知识比例、正确但无用知识数量、达成目标所需计算量、
@@ -14,12 +21,12 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 import os
 from typing import Dict, List
 
 import sys
 
-# 让脚本可直接运行
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from cognition.proposition import Proposition
@@ -30,7 +37,6 @@ from cognition.evaluation import Evaluation
 from cognition.compute import ComputeEngine
 from cognition.trace import Trace
 from cognition.environment import World
-from cognition import compression
 
 
 # 实验组配置： (verify, evaluate, meta)
@@ -41,15 +47,14 @@ GROUPS = {
     "D": (True, True, True),
 }
 
-STEP_BUDGET = 6000      # 每组 trace 步数预算（所有组相同，公平比较）
-N_STEPS = 26            # 世界运行步数
-WARMUP = 3              # 预热步（构建历史）
-MAX_DEPTH = 1           # 限制递归深度，让预算覆盖整条轨迹（仍保留 0→1 递归结构）
+STEP_BUDGET = 6000
+N_STEPS = 26
+WARMUP = 3
+MAX_DEPTH = 1
 MAX_CANDIDATES = 8
 
 
 def build_trajectory(seed: int = 7, n_steps: int = N_STEPS) -> World:
-    """构建一个固定的世界轨迹（所有组使用同一轨迹，保证可比）。"""
     world = World(seed=seed)
     world.run(n_steps)
     return world
@@ -74,10 +79,8 @@ def run_group(label: str, world: World, verify: bool, evaluate: bool, meta: bool
         goal=World.predict_next_goal(),
     )
 
-    # 预热：先把前 WARMUP 步灌入历史
     ctx.world_history = [set(s) for s in world.history[:WARMUP]]
 
-    # 主循环：从第 WARMUP 步起，逐步把当前状态作为对象喂给 recursive_compute
     for t in range(WARMUP, len(world.history)):
         ctx.world_history = [set(s) for s in world.history[:t + 1]]
         current_state = world.history[t]
@@ -85,15 +88,12 @@ def run_group(label: str, world: World, verify: bool, evaluate: bool, meta: bool
             if ctx.budget_exhausted():
                 break
             engine.recursive_compute(obj, ctx.goal, ctx, depth=0)
-        # D 组周期性元评价
+        # D 组周期性元评价（运行时反馈驱动，非 oracle）
         if meta and evaluate and (t % 5 == 0):
             evaluation.evaluate_evaluation(ctx)
 
-    # ---- D 组：用全历史对 valid 规则做 ground-truth 反馈，更新验证方法可靠性 ----
-    if meta:
-        _feedback_verifier_reliability(store, world.history, verification, ctx)
-        # 用更新后的可靠性，对所有命题重新验证一次（更准）
-        _reverify_with_reliability(store, ctx, engine, verification)
+    # 注意：不再有事后 ground-truth 修正。
+    # ground_truth_check 仅用于外部统计（compute_metrics），不写回 store。
 
     metrics = compute_metrics(label, store, trace, engine, world, evaluate, meta)
     return {
@@ -105,40 +105,9 @@ def run_group(label: str, world: World, verify: bool, evaluate: bool, meta: bool
     }
 
 
-def _feedback_verifier_reliability(store, history, verification, ctx):
-    """对每条被标为 valid 的蕴含，用全历史 ground-truth 校验，
-    更新各验证方法的可靠性统计（元评价）。"""
-    for k in list(store.all_entries()):
-        if k.status != STATUS_VALID:
-            continue
-        holds, sup, ref = World.ground_truth_check(k.proposition, history)
-        # 该规则被哪些方法 endorse 过（记录在 trace 中）
-        endorsed_methods = set()
-        for s in ctx.trace.steps:
-            if s.object_out == k.proposition.to_str() and s.verification:
-                endorsed_methods.add(s.verification)
-        for m in endorsed_methods:
-            store.record_verification_outcome(m, bool(holds))
-
-
-def _reverify_with_reliability(store, ctx, engine, verification):
-    """用更新后的方法可靠性，重新验证所有 stored 命题并更新 status。"""
-    for k in list(store.all_entries()):
-        if k.kind != "proposition":
-            continue
-        result, all_results = verification.verify(k.proposition, ctx)
-        new_status = {STATUS_VALID: STATUS_VALID, STATUS_INVALID: STATUS_INVALID,
-                      STATUS_UNKNOWN: STATUS_UNKNOWN}.get(result.result, STATUS_UNKNOWN)
-        if new_status != k.status:
-            k.status = new_status
-            k.confidence = result.confidence
-            k.verification_method = result.method
-            k.verification_result = result.result
-
-
 def compute_metrics(label, store, trace, engine, world, evaluate, meta) -> dict:
     stats = store.stats()
-    # 对 valid 蕴含做 ground-truth 校验
+    # 对 valid 蕴含做 ground-truth 校验（仅外部统计，不写回 store）
     valid_impls = [k for k in store.all_entries()
                    if k.status == STATUS_VALID and k.proposition.kind == "implies"]
     correct = 0
@@ -153,51 +122,77 @@ def compute_metrics(label, store, trace, engine, world, evaluate, meta) -> dict:
         else:
             wrong += 1
             wrong_rules.append(k.proposition.to_str())
-    error_rate = (wrong / len(valid_impls)) if valid_impls else 0.0
+    n_valid = len(valid_impls)
+    error_rate = (wrong / n_valid) if n_valid else 0.0
+    # 95% Wilson 置信区间
+    err_ci_low, err_ci_high = wilson_ci(wrong, n_valid)
 
-    # 验证成本：trace 中 operation=="verify" 的 cost 之和
+    # 已评价的 valid 中，正确但无用
+    correct_but_useless = sum(
+        1 for k in store.all_entries()
+        if k.status == STATUS_VALID
+        and k.evaluated
+        and k.usefulness is not None
+        and k.usefulness < 0.05
+        and World.ground_truth_check(k.proposition, world.history)[0])
+
     verify_cost = sum(s.cost for s in trace.steps if s.operation == "verify")
-    # 递归展开数：depth>=1 的“应用变换”步骤（真正的搜索分支）
+    reuse_steps = sum(1 for s in trace.steps if s.operation == "reuse_known")
     expansions = sum(1 for s in trace.steps
                      if s.depth >= 1 and s.operation not in
                      ("identify", "generate_candidates", "verify",
                       "evaluate", "evaluate_rank", "evaluate_gate",
-                      "no_verify_save"))
+                      "no_verify_save", "reuse_known"))
     stops = sum(1 for s in trace.steps if s.decision == "stop")
-    retains_low = sum(1 for s in trace.steps if s.decision == "retain_low")
 
-    # 正确但无用：valid 且 ground-truth 成立 且 usefulness 很低（C/D 才有意义）
-    correct_low_use = sum(
-        1 for k in store.all_entries()
-        if k.status == STATUS_VALID
-        and World.ground_truth_check(k.proposition, world.history)[0]
-        and k.usefulness < 0.05)
+    total_candidates = sum(1 for s in trace.steps if s.operation == "generate_candidates")
+    evaluated_count = sum(1 for s in trace.steps if s.operation == "evaluate_rank")
 
-    total_cost = engine.total_cost
-    yield_rate = round(correct / total_cost, 5) if total_cost else 0.0
+    yield_rate = round(correct / engine.total_cost, 5) if engine.total_cost else 0.0
 
     return {
         "knowledge_total": stats["total"],
         "valid": stats["valid"],
         "invalid": stats["invalid"],
         "unknown": stats["unknown"],
-        "valid_implications": len(valid_impls),
+        "evaluated": stats["evaluated"],
+        "valid_implications": n_valid,
         "valid_correct": correct,
         "valid_wrong": wrong,
         "error_rate": round(error_rate, 4),
-        "correct_but_useless": correct_low_use,
-        "total_cost": round(total_cost, 2),
-        "verify_cost": round(verify_cost, 2),
+        "error_rate_ci": [round(err_ci_low, 4), round(err_ci_high, 4)],
+        "error_rate_n": n_valid,
+        "correct_but_useless": correct_but_useless,
+        "total_cost": round(engine.total_cost, 2),
+        "raw_compute_cost": round(engine.raw_compute_cost, 2),
+        "verification_cost": round(engine.verification_cost, 2),
+        "reuse_cost": round(engine.reuse_cost, 2),
+        "cache_saved_cost": round(engine.cache_saved_cost, 2),
+        "composite_saved_cost": round(engine.composite_saved_cost, 2),
         "trace_steps": len(trace),
+        "total_candidates": total_candidates,
+        "evaluated_count": evaluated_count,
         "recursive_expansions": expansions,
         "stop_branches": stops,
-        "retain_low_steps": retains_low,
+        "reuse_count": reuse_steps,
         "yield_per_cost": yield_rate,
-        "operations_available": len(store.operations()),
+        "composite_ops_available": len(store.operations()),
+        "composite_usage": dict(engine.composite_usage),
         "verifier_methods": stats["verifier_methods"],
         "_correct_rules": correct_rules,
         "_wrong_rules": wrong_rules,
     }
+
+
+def wilson_ci(k: int, n: int, z: float = 1.96) -> tuple:
+    """Wilson 得分置信区间。n=0 返回 (0,0)。"""
+    if n == 0:
+        return (0.0, 0.0)
+    p = k / n
+    denom = 1 + z * z / n
+    center = (p + z * z / (2 * n)) / denom
+    margin = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
+    return (max(0.0, center - margin), min(1.0, center + margin))
 
 
 def run_all(seed: int = 7, n_steps: int = N_STEPS, out_dir: str = None) -> List[dict]:
@@ -210,27 +205,69 @@ def run_all(seed: int = 7, n_steps: int = N_STEPS, out_dir: str = None) -> List[
 
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
-        # 摘要
         summary = [{"label": r["label"], "config": r["config"], "metrics": r["metrics"]}
                    for r in results]
-        with open(os.path.join(out_dir, "abcd_summary.json"), "w", encoding="utf-8") as f:
+        with open(os.path.join(out_dir, f"abcd_summary_seed{seed}.json"), "w", encoding="utf-8") as f:
             json.dump(summary, f, ensure_ascii=False, indent=2)
-        # 各组完整 trace / store
-        for r in results:
-            r["trace"].dump(os.path.join(out_dir, f"trace_{r['label']}.json"))
-            r["store"].dump(os.path.join(out_dir, f"store_{r['label']}.json"))
     return results
+
+
+def run_multi_seed(seeds: List[int], out_dir: str = None) -> dict:
+    """多 seed 运行，返回各组指标的 mean±std。"""
+    all_results = {label: [] for label in ["A", "B", "C", "D"]}
+    for seed in seeds:
+        world = build_trajectory(seed=seed, n_steps=N_STEPS)
+        for label in ["A", "B", "C", "D"]:
+            verify, evaluate, meta = GROUPS[label]
+            r = run_group(label, world, verify, evaluate, meta)
+            all_results[label].append(r["metrics"])
+
+    # 聚合
+    agg = {}
+    metric_keys = [
+        "knowledge_total", "valid", "invalid", "unknown", "evaluated",
+        "valid_implications", "valid_correct", "valid_wrong", "error_rate",
+        "correct_but_useless", "total_cost", "raw_compute_cost",
+        "verification_cost", "reuse_cost", "cache_saved_cost",
+        "composite_saved_cost", "trace_steps", "total_candidates",
+        "evaluated_count", "recursive_expansions", "stop_branches",
+        "reuse_count", "yield_per_cost",
+    ]
+    for label in ["A", "B", "C", "D"]:
+        agg[label] = {}
+        runs = all_results[label]
+        for key in metric_keys:
+            vals = [r[key] for r in runs]
+            mean = sum(vals) / len(vals)
+            std = math.sqrt(sum((v - mean) ** 2 for v in vals) / len(vals))
+            agg[label][key] = {"mean": round(mean, 4), "std": round(std, 4),
+                               "values": vals}
+        # 错误率置信区间：合并所有 seed 的样本
+        total_wrong = sum(r["valid_wrong"] for r in runs)
+        total_valid = sum(r["valid_implications"] for r in runs)
+        ci_low, ci_high = wilson_ci(total_wrong, total_valid)
+        agg[label]["error_rate_pooled"] = {
+            "wrong": total_wrong, "n": total_valid,
+            "ci_95": [round(ci_low, 4), round(ci_high, 4)]
+        }
+
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, "abcd_multiseed.json"), "w", encoding="utf-8") as f:
+            json.dump({"seeds": seeds, "aggregated": agg}, f, ensure_ascii=False, indent=2)
+    return agg
 
 
 def print_comparison(results: List[dict]):
     print("\n" + "=" * 88)
     print("四组对照实验结果 (A=生成 / B=+验证 / C=+评价 / D=+元评价)")
-    print("步数预算相同 (公平比较)；目标=预测下一状态")
+    print("审计修复版：D 组无事后 oracle；ground_truth 仅外部统计")
     print("=" * 88)
-    keys = ["knowledge_total", "valid", "invalid", "unknown", "valid_implications",
-            "valid_correct", "valid_wrong", "error_rate", "correct_but_useless",
-            "total_cost", "verify_cost", "recursive_expansions",
-            "yield_per_cost", "operations_available"]
+    keys = ["knowledge_total", "valid", "invalid", "unknown", "evaluated",
+            "valid_implications", "valid_correct", "valid_wrong", "error_rate",
+            "correct_but_useless", "total_cost", "raw_compute_cost",
+            "verification_cost", "reuse_cost", "cache_saved_cost",
+            "recursive_expansions", "reuse_count", "yield_per_cost"]
     header = f"{'指标':<22}" + "".join(f"{lab:>14}" for lab in ["A", "B", "C", "D"])
     print(header)
     print("-" * (22 + 14 * 4))
@@ -241,28 +278,21 @@ def print_comparison(results: List[dict]):
             row += f"{str(v):>14}"
         print(row)
     print("=" * 88)
-    # 打印 D 组学到的正确/错误规则样本
     for r in results:
         m = r["metrics"]
-        if m.get("_correct_rules") or m.get("_wrong_rules"):
-            print(f"\n[{r['label']}] 学到的 valid 蕴含规则样本：")
-            for rule in m["_correct_rules"]:
-                print(f"    ✓ {rule}")
-            for rule in m["_wrong_rules"]:
-                print(f"    ✗ {rule}  (实际不成立)")
-    print("\n结论速读（数据驱动）：")
+        print(f"\n[{r['label']}] 错误率: {m['error_rate']} (n={m['error_rate_n']}, "
+              f"95%CI=[{m['error_rate_ci'][0]}, {m['error_rate_ci'][1]}])")
+    print("\n结论速读（审计后，数据驱动，不预设理论结论）：")
     m = {r["label"]: r["metrics"] for r in results}
-    print(f"  - A 无验证：知识最多({m['A']['knowledge_total']})但全为 unknown，0 条 valid，无法判断对错。")
-    print(f"  - B +验证：成本最高({m['B']['total_cost']})，错误率 {m['B']['error_rate']}，"
-          f"正确规则 {m['B']['valid_correct']} 条。")
-    print(f"  - C +价值评价：成本降至 {m['C']['total_cost']}（≈B 的 {m['C']['total_cost']/m['B']['total_cost']:.0%}），"
-          f"但错误率 {m['C']['error_rate']}（评价按价值而非正确性筛选，不能单独降错）。")
-    print(f"  - D +验证方法评价(元评价)：成本同 C({m['D']['total_cost']})，"
-          f"错误率最低 {m['D']['error_rate']}，正确规则最多 {m['D']['valid_correct']} 条，"
-          f"产出率 {m['D']['yield_per_cost']} 最高。")
-    print("  => 价值评价主要降成本；元评价(对验证方法的评价)才降错误率并恢复召回。")
-    print("     这正符合理论：'正确'与'有价值'是两件事，需分别由验证与评价承担，")
-    print("     而对验证方法本身的评价使系统在知识增长下越来越可靠。")
+    print(f"  - A 无验证：{m['A']['knowledge_total']} 条全 unknown，无法判断对错。")
+    print(f"  - B +验证：成本 {m['B']['total_cost']}，错误率 {m['B']['error_rate']} "
+          f"(n={m['B']['error_rate_n']})。")
+    print(f"  - C +评价：成本 {m['C']['total_cost']}，错误率 {m['C']['error_rate']} "
+          f"(n={m['C']['error_rate_n']})。")
+    print(f"  - D +元评价：成本 {m['D']['total_cost']}，错误率 {m['D']['error_rate']} "
+          f"(n={m['D']['error_rate_n']})。")
+    print(f"  - cache_saved: A={m['A']['cache_saved_cost']} B={m['B']['cache_saved_cost']} "
+          f"C={m['C']['cache_saved_cost']} D={m['D']['cache_saved_cost']}")
 
 
 if __name__ == "__main__":

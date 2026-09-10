@@ -30,7 +30,7 @@ class Knowledge:
     proposition: Proposition
     status: str = STATUS_UNKNOWN
     confidence: float = 0.0        # 置信度 [0,1]
-    usefulness: float = 0.0        # 历史价值（不删，只调优先级）
+    usefulness: Optional[float] = None  # None=从未价值评价；数值=已评价
     usage_count: int = 0
     success_count: int = 0
     source: str = ""              # 由哪次计算产生（compute_id）
@@ -41,10 +41,12 @@ class Knowledge:
     cost: float = 0.0
     kind: str = "proposition"     # proposition / operation / verification_method / composite
     created_step: int = 0         # 创建时的全局步序号
+    evaluated: bool = False       # 是否经过价值评价（与 usefulness is not None 一致）
 
     def priority(self) -> float:
         """调用优先级：置信度 × (价值+使用奖励)。低 usefulness 不删，只降低优先级。"""
-        value = self.usefulness + 0.1 * self.success_count - 0.05 * (self.usage_count - self.success_count)
+        use = self.usefulness if self.usefulness is not None else 0.0
+        value = use + 0.1 * self.success_count - 0.05 * (self.usage_count - self.success_count)
         return max(0.0, self.confidence * max(0.0, value))
 
     def to_dict(self) -> dict:
@@ -87,7 +89,11 @@ class KnowledgeStore:
             # 合并：保留历史计数，更新状态字段
             existing.status = k.status
             existing.confidence = k.confidence
-            existing.usefulness = max(existing.usefulness, k.usefulness)
+            # usefulness：如果新的是已评价，覆盖；否则保留旧的
+            if k.usefulness is not None:
+                existing.usefulness = k.usefulness
+                existing.evaluated = True
+            # 取较高的 usefulness（已评价的不被未评价覆盖）
             existing.usage_count += k.usage_count
             existing.success_count += k.success_count
             if k.verification_method:
@@ -151,14 +157,18 @@ class KnowledgeStore:
         valid = sum(1 for k in self._entries.values() if k.status == STATUS_VALID)
         invalid = sum(1 for k in self._entries.values() if k.status == STATUS_INVALID)
         unknown = sum(1 for k in self._entries.values() if k.status == STATUS_UNKNOWN)
-        # 正确但无用（usefulness 很低）
+        # 已评价的数量
+        evaluated = sum(1 for k in self._entries.values() if k.evaluated)
+        # 正确但无用：valid 且已评价 且 usefulness 很低
         valid_low_use = sum(1 for k in self._entries.values()
-                            if k.status == STATUS_VALID and k.usefulness < 0.05)
+                            if k.status == STATUS_VALID and k.evaluated
+                            and k.usefulness is not None and k.usefulness < 0.05)
         return {
             "total": len(self._entries),
             "valid": valid,
             "invalid": invalid,
             "unknown": unknown,
+            "evaluated": evaluated,
             "valid_low_usefulness": valid_low_use,
             "operations": len(self._ops),
             "verifier_methods": len(self._verifier_stats),
