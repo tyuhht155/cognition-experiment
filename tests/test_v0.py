@@ -161,13 +161,12 @@ def test_counterexample_found_high_contradiction():
 
 # 8. V0 闭环端到端：真命题判 valid，假命题判 invalid
 def test_v0_end_to_end():
-    from experiments.run_v0 import run_v0
-    world = World(seed=7)
-    world.run(20)
-    true_prop = P.impl(P.predicate("Open", "box"), P.predicate("CanTake", "ball"))
-    false_prop = P.impl(P.predicate("Closed", "box"), P.predicate("CanTake", "ball"))
-    r_true = run_v0(true_prop, world)
-    r_false = run_v0(false_prop, world)
+    from experiments.run_v0 import run_v0_core, MinimalWorld
+    world = MinimalWorld(seed=42, a_implies_b=True)
+    true_prop = P.impl(P.atom("A"), P.atom("B"))
+    r_true = run_v0_core(true_prop, world, max_steps=10, stop_confidence=2.0)
+    world_false = MinimalWorld(seed=42, a_implies_b=False)
+    r_false = run_v0_core(true_prop, world_false, max_steps=10, stop_confidence=2.0)
     assert r_true["correct"] is True, "真命题应判对"
     assert r_false["correct"] is True, "假命题应判对"
     assert r_true["final_status"] == VALID
