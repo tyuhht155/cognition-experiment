@@ -5,9 +5,7 @@
   - created_at < resolved_at 必然成立。
   - confirmation 只能来自 created_at 之后的 observation。
 
-流程：
-  t:   观察 A → 注册 prediction(A→B, trigger=A, expected=B)
-  t+1: 环境产生新状态 → 检查 B → 更新 prediction feedback
+内部核心对象使用 Proposition；字符串只用于 JSON/log/display。
 """
 
 from __future__ import annotations
@@ -15,13 +13,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
+from .proposition import Proposition
+
 
 @dataclass
 class TemporalPrediction:
     prediction_id: int
-    proposition: str           # 命题字符串（如 "A → B"）
-    trigger_observation: str   # 触发观察（前件 A）
-    expected_next_observation: str  # 预期下一观察（后件 B）
+    proposition: Proposition   # 内部使用 Proposition 对象
+    trigger_observation: Proposition   # 触发观察（前件 A）
+    expected_next_observation: Proposition  # 预期下一观察（后件 B）
     created_at: int            # 创建时间步
     resolved_at: Optional[int] = None  # 解决时间步（必须 > created_at）
     pending: bool = True
@@ -29,15 +29,16 @@ class TemporalPrediction:
     refuted: int = 0
     resolution_history: List[dict] = field(default_factory=list)
 
-    def resolve(self, step: int, observed: bool) -> None:
+    def resolve(self, step: int, observed: bool) -> bool:
         """在 step 时刻根据观察结果解决此预测。
 
         约束：step 必须 > created_at（不能在创建当步验证）。
+        返回 True 表示成功解决，False 表示被拒绝（step <= created_at）。
         """
         if step <= self.created_at:
-            return  # 拒绝在创建当步验证
+            return False
         if not self.pending:
-            return
+            return False
         self.resolved_at = step
         self.pending = False
         if observed:
@@ -50,13 +51,14 @@ class TemporalPrediction:
             "confirmed": self.confirmed,
             "refuted": self.refuted,
         })
+        return True
 
     def to_dict(self) -> dict:
         return {
             "prediction_id": self.prediction_id,
-            "proposition": self.proposition,
-            "trigger": self.trigger_observation,
-            "expected": self.expected_next_observation,
+            "proposition": self.proposition.to_str(),
+            "trigger": self.trigger_observation.to_str(),
+            "expected": self.expected_next_observation.to_str(),
             "created_at": self.created_at,
             "resolved_at": self.resolved_at,
             "pending": self.pending,
@@ -77,10 +79,10 @@ class TemporalPredictionState:
     def __init__(self):
         self._predictions: Dict[int, TemporalPrediction] = {}
         self._next_id: int = 0
-        self._pending_queue: List[int] = []  # 待解决的 prediction_id
+        self._pending_queue: List[int] = []
 
-    def register(self, proposition: str, trigger: str, expected: str,
-                 current_step: int) -> TemporalPrediction:
+    def register(self, proposition: Proposition, trigger: Proposition,
+                 expected: Proposition, current_step: int) -> TemporalPrediction:
         """在 current_step 注册一个预测。"""
         pid = self._next_id
         self._next_id += 1
@@ -106,7 +108,7 @@ class TemporalPredictionState:
         for pid in self._pending_queue:
             pred = self._predictions[pid]
             if current_step <= pred.created_at:
-                still_pending.append(pid)  # 还不能解决
+                still_pending.append(pid)
                 continue
             observed = pred.expected_next_observation in current_observation
             pred.resolve(current_step, observed)
@@ -134,4 +136,7 @@ class TemporalPredictionState:
         for p in self._predictions.values():
             if p.resolved_at is not None and p.resolved_at <= p.created_at:
                 return False
+            for rh in p.resolution_history:
+                if rh["step"] <= p.created_at:
+                    return False
         return True

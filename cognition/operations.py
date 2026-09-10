@@ -28,59 +28,72 @@ class Candidate:
 
 
 class Context:
-    """计算上下文：贯穿一次 recursive_compute 的共享状态。
+    """单次计算上下文：只持有计算所需的只读信息。
 
-    各组件职责明确：
-      - belief_store: 命题的当前信念状态
-      - evidence_log: append-only 证据历史
-      - cost_tracker: 统一成本追踪
-      - consensus: 验证方法间一致性统计（非真实可靠性）
-      - prediction_state: 严格前向的时间预测
-      - op_store: 操作注册表（与命题知识分离）
+    严格不持有任何可写 Store：
+      - 不持有 BeliefStore（只持有只读 KnowledgeView）
+      - 不持有 EvidenceLog
+      - 不持有 CostTracker
+      - 不持有 ConsensusAgreementModel
+      - 不持有 TemporalPredictionState
+      - 不持有 OperationStore
+      - 不持有 TraceRecorder
+
+    只保留：
+      world_history: 环境观察历史（只读）
+      goal: 当前目标
+      current_step: 当前步
+      step_budget: 预算
+      constants: 只读常量配置
+      knowledge_view: 知识的只读视图（用于逻辑推导）
     """
 
     def __init__(self,
+                 world_history=None,
+                 goal=None,
+                 current_step: int = 0,
+                 step_budget: int = 4000,
+                 constants=None,
+                 knowledge_view=None,
+                 verify_enabled: bool = True,
+                 evaluate_enabled: bool = True,
+                 meta_evaluate_enabled: bool = True,
+                 # 向后兼容参数（接受但不持有为 Store）
                  belief_store=None,
+                 store=None,
                  evidence_log=None,
                  cost_tracker=None,
                  consensus=None,
                  prediction_state=None,
                  op_store=None,
                  trace=None,
-                 world_history=None,
-                 constants=None,
-                 step_budget=4000,
-                 verify_enabled=True,
-                 evaluate_enabled=True,
-                 meta_evaluate_enabled=True,
-                 goal=None,
-                 eval_feedback=None,
-                 store=None):  # 向后兼容：store 是 belief_store 的别名
-        self.belief_store = belief_store if belief_store is not None else store
-        self.evidence_log = evidence_log
-        self.cost_tracker = cost_tracker
-        self.consensus = consensus
-        self.prediction_state = prediction_state
-        self.op_store = op_store
-        self.trace = trace
+                 eval_feedback=None):
         self.world_history = world_history if world_history is not None else []
-        self.constants = constants if constants is not None else ["ball", "box", "table", "wall"]
+        self.goal = goal
+        self._step = current_step
         self.step_budget = step_budget
+        self.constants = constants if constants is not None else ["ball", "box", "table", "wall"]
+        # knowledge_view 是只读接口；如果传入 belief_store/store，将其作为只读视图使用
+        self.knowledge_view = knowledge_view or belief_store or store
         self.verify_enabled = verify_enabled
         self.evaluate_enabled = evaluate_enabled
         self.meta_evaluate_enabled = meta_evaluate_enabled
-        self.goal = goal
-        self.eval_feedback = eval_feedback if eval_feedback is not None else []
+        # 旧参数被显式忽略：Context 不持有可写 Store
+        _ = (evidence_log, cost_tracker, consensus, prediction_state, op_store, trace, eval_feedback)
 
     @property
-    def store(self):
-        return self.belief_store
+    def current_step(self) -> int:
+        return self._step
+
+    def increment_step(self, n: int = 1) -> int:
+        self._step += n
+        return self._step
 
     def steps_used(self) -> int:
-        return len(self.trace) if self.trace else 0
+        return self._step
 
     def budget_exhausted(self) -> bool:
-        return self.steps_used() >= self.step_budget
+        return self._step >= self.step_budget
 
 
 # ---------------- 先验变换集合 ----------------

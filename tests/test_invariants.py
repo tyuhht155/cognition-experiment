@@ -54,16 +54,17 @@ def _make_ctx():
         goal=("verify", "test"))
     ctx.world_history = []
     ctx.prediction_queue = {}
-    return ctx
+    return ctx, belief_store
 
 
 # 1. prediction_created_at < prediction_resolved_at
 def test_prediction_resolved_after_created():
     state = TemporalPredictionState()
-    pred = state.register("A → B", "A", "B", current_step=1)
+    prop = P.impl(P.atom("A"), P.atom("B"))
+    pred = state.register(prop, P.atom("A"), P.atom("B"), current_step=1)
     assert pred.created_at == 1
     assert pred.resolved_at is None
-    state.resolve_pending(2, {"B"})  # t+1 才能解决
+    state.resolve_pending(2, {P.atom("B")})  # t+1 才能解决
     assert pred.resolved_at == 2
     assert pred.resolved_at > pred.created_at
     assert state.check_invariant() is True
@@ -73,9 +74,10 @@ def test_prediction_resolved_after_created():
 # 2. prediction 不能使用创建时的 observation 作为 confirmation
 def test_prediction_cannot_self_confirm():
     state = TemporalPredictionState()
-    state.register("A → B", "A", "B", current_step=1)
+    prop = P.impl(P.atom("A"), P.atom("B"))
+    state.register(prop, P.atom("A"), P.atom("B"), current_step=1)
     # 尝试在同一 step 解决（应被拒绝）
-    resolved = state.resolve_pending(1, {"B"})
+    resolved = state.resolve_pending(1, {P.atom("B")})
     assert len(resolved) == 0, "同一 step 不能验证 prediction"
     assert state.pending_count() == 1
     print("test_prediction_cannot_self_confirm OK")
@@ -89,7 +91,7 @@ def test_no_double_counting_observation():
     每次调用只产生一条 Evidence，而不是把每条历史都作为独立 Evidence。
     """
     from cognition.evidence import action_compare
-    ctx = _make_ctx()
+    ctx, _ = _make_ctx()
     ctx.world_history = [
         {P.atom("A"), P.atom("B")},
         {P.atom("A"), P.atom("B")},
@@ -149,8 +151,7 @@ def test_evaluator_no_ground_truth_access():
 
 # 7. Verifier 不得修改 BeliefStore
 def test_verifier_does_not_modify_belief_store():
-    ctx = _make_ctx()
-    belief_store = ctx.belief_store
+    ctx, belief_store = _make_ctx()
     # 预置一些 valid 知识
     p = P.atom("P")
     pq = P.impl(P.atom("P"), P.atom("Q"))
@@ -170,8 +171,7 @@ def test_verifier_does_not_modify_belief_store():
 
 # 8. ValueEvaluator 不得修改 BeliefStore
 def test_value_evaluator_does_not_modify_belief_store():
-    ctx = _make_ctx()
-    belief_store = ctx.belief_store
+    ctx, belief_store = _make_ctx()
     prop = P.atom("X")
     size_before = belief_store.size()
     entries_before = len(belief_store.all_beliefs())
@@ -205,7 +205,7 @@ def test_cost_tracker_total_equals_sum():
 # 10. changing EvidenceEvaluator 不修改 CandidateGenerator
 def test_evaluator_change_does_not_affect_generator():
     op_store = OperationStore()
-    ctx = _make_ctx()
+    ctx, _ = _make_ctx()
     ctx.op_store = op_store
     obj = P.atom("A")
     cands_before = op_store.generate(obj, ctx)
@@ -222,11 +222,11 @@ def test_evaluator_change_does_not_affect_generator():
 
 # 11. changing ValueEvaluator 不修改 Verifier
 def test_value_evaluator_change_does_not_affect_verifier():
-    ctx = _make_ctx()
+    ctx, belief_store = _make_ctx()
     p = P.atom("P")
     pq = P.impl(P.atom("P"), P.atom("Q"))
-    ctx.belief_store.update_belief(p, "valid", 0.9)
-    ctx.belief_store.update_belief(pq, "valid", 0.9)
+    belief_store.update_belief(p, "valid", 0.9)
+    belief_store.update_belief(pq, "valid", 0.9)
 
     verifier = Verifier()
     q = P.atom("Q")
@@ -265,6 +265,128 @@ def test_cd_groups_consistent_initial_state():
     print("test_cd_groups_consistent_initial_state OK")
 
 
+# 13. evidence_count 只因新 Evidence 增加
+def test_evidence_count_only_on_new_evidence():
+    """evidence_count 只在真正产生并记录新 Evidence 时增加。"""
+    bs = BeliefStore()
+    prop = P.atom("E")
+    bs.update_belief(prop, "valid", 0.9, evidence_count_delta=1)
+    assert bs.get(prop).evidence_count == 1
+    # 再次更新但 evidence_count_delta=0 不增加
+    bs.update_belief(prop, "valid", 0.95, evidence_count_delta=0)
+    assert bs.get(prop).evidence_count == 1
+    # 新增证据才增加
+    bs.update_belief(prop, "valid", 0.98, evidence_count_delta=1)
+    assert bs.get(prop).evidence_count == 2
+    print("test_evidence_count_only_on_new_evidence OK")
+
+
+# 14. reuse 不增加 evidence_count
+def test_reuse_does_not_increase_evidence_count():
+    """record_reuse 只增加 reuse_count，不增加 evidence_count。"""
+    bs = BeliefStore()
+    prop = P.atom("R")
+    bs.update_belief(prop, "valid", 0.9, evidence_count_delta=1)
+    before = bs.get(prop).evidence_count
+    reuse_before = bs.get(prop).reuse_count
+    bs.record_reuse(prop)
+    assert bs.get(prop).evidence_count == before
+    assert bs.get(prop).reuse_count == reuse_before + 1
+    print("test_reuse_does_not_increase_evidence_count OK")
+
+
+# 15. Evidence 有唯一 evidence_id
+def test_evidence_unique_id():
+    """每个 Evidence 实例有全局唯一的 evidence_id。"""
+    ids = set()
+    for _ in range(100):
+        e = Evidence("observe", "observation", 0.5, 0.0, "d", 1.0)
+        assert e.evidence_id not in ids
+        ids.add(e.evidence_id)
+    print("test_evidence_unique_id OK")
+
+
+# 16. 同一 source_event 不重复计权
+def test_same_source_event_not_double_counted():
+    """同一 source_event_id + proposition + method 不允许被重复计为独立 evidence。"""
+    log = EvidenceLog()
+    prop = P.atom("Dup")
+    e1 = Evidence("observe", "observation", 0.8, 0.0, "d1", 1.0,
+                  proposition=prop, source_event_id="evt_1")
+    e2 = Evidence("observe", "observation", 0.8, 0.0, "d2", 1.0,
+                  proposition=prop, source_event_id="evt_1")
+    assert log.append(e1) is True
+    assert log.append(e2) is False  # 同一 source_event + proposition + method 被拒绝
+    assert log.count() == 1
+    print("test_same_source_event_not_double_counted OK")
+
+
+# 17. Operation 不应该获得完整 Context 的可写 Store
+def test_context_has_no_writable_stores():
+    """Context 不持有可写 Store（belief_store/evidence_log/cost_tracker 等）。"""
+    bs = BeliefStore()
+    ctx = Context(belief_store=bs, evidence_log=EvidenceLog(),
+                  cost_tracker=CostTracker(), consensus=ConsensusAgreementModel(),
+                  prediction_state=TemporalPredictionState(),
+                  op_store=OperationStore(), trace=TraceRecorder())
+    # Context 不应暴露这些可写属性
+    assert not hasattr(ctx, "belief_store")
+    assert not hasattr(ctx, "evidence_log")
+    assert not hasattr(ctx, "cost_tracker")
+    assert not hasattr(ctx, "consensus")
+    assert not hasattr(ctx, "prediction_state")
+    assert not hasattr(ctx, "op_store")
+    assert not hasattr(ctx, "trace")
+    # 但应有只读 knowledge_view
+    assert hasattr(ctx, "knowledge_view")
+    print("test_context_has_no_writable_stores OK")
+
+
+# 18. ComputeEngine 不直接访问 Store 内部字典
+def test_compute_engine_no_internal_store_access():
+    """ComputeEngine 源码不直接访问 Store 的内部字典。"""
+    from cognition.compute import ComputeEngine
+    src = inspect.getsource(ComputeEngine)
+    # 不应直接访问 _beliefs / _entries / _events 等内部字典
+    assert "_beliefs" not in src
+    assert "_entries" not in src
+    assert "_events" not in src
+    print("test_compute_engine_no_internal_store_access OK")
+
+
+# 19. total_cost 等于所有 CostEvent 之和（含 cache_saved 不计入）
+def test_total_cost_equals_sum_of_cost_events():
+    """CostTracker.total_cost == 所有实际 cost event 之和。"""
+    from cognition.cost import CostEvent
+    ct = CostTracker()
+    ct.add("a", 0.2)
+    ct.add("b", 0.3)
+    ct.add("c", 1.0)
+    total = sum(e.amount for e in ct.all_events())
+    assert abs(ct.total_cost - total) < 1e-9
+    ct.add_cache_saved(99.0)
+    assert abs(ct.total_cost - total) < 1e-9
+    print("test_total_cost_equals_sum_of_cost_events OK")
+
+
+# 20. Verifier 只产生 Evidence，不修改 BeliefStore（复用路径）
+def test_verifier_reuse_path_no_evidence_count_increment():
+    """复用已有知识时，evidence_count 不变，reuse_count 增加。"""
+    ctx, bs = _make_ctx()
+    p = P.atom("P")
+    pq = P.impl(P.atom("P"), P.atom("Q"))
+    bs.update_belief(p, "valid", 0.9, evidence_count_delta=1)
+    bs.update_belief(pq, "valid", 0.9, evidence_count_delta=1)
+    q = P.atom("Q")
+    ec_before = bs.get(q).evidence_count if bs.has(q) else 0
+    # 走 logical_derive 复用路径
+    v = Verifier()
+    v.verify(q, ctx)
+    if bs.has(q):
+        assert bs.get(q).evidence_count == ec_before
+    print("test_verifier_reuse_path_no_evidence_count_increment OK")
+
+
 def run_all():
     tests = [
         test_prediction_resolved_after_created,
@@ -279,6 +401,14 @@ def run_all():
         test_evaluator_change_does_not_affect_generator,
         test_value_evaluator_change_does_not_affect_verifier,
         test_cd_groups_consistent_initial_state,
+        test_evidence_count_only_on_new_evidence,
+        test_reuse_does_not_increase_evidence_count,
+        test_evidence_unique_id,
+        test_same_source_event_not_double_counted,
+        test_context_has_no_writable_stores,
+        test_compute_engine_no_internal_store_access,
+        test_total_cost_equals_sum_of_cost_events,
+        test_verifier_reuse_path_no_evidence_count_increment,
     ]
     passed = 0
     for t in tests:

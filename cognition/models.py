@@ -35,19 +35,24 @@ class Derivation:
 class BeliefState:
     """对一个命题的当前信念状态。
 
-    信念可随新证据更新，但 evidence_count 单调递增（不删除历史证据）。
+    四种计数严格分离：
+      evidence_count:     真正产生并记录新 Evidence 的次数（单调递增）
+      reuse_count:        复用已有知识的次数（不增加 evidence_count）
+      verification_count: 执行验证动作的次数（不增加 evidence_count）
+      update_count:       信念状态被更新的次数
     status 的含义：accepted_under_current_evidence_policy ≠ objectively true。
     """
     proposition: Proposition
     status: str = STATUS_UNKNOWN
     confidence: float = 0.0
-    evidence_count: int = 0          # 累积证据条数（单调递增）
+    evidence_count: int = 0
+    reuse_count: int = 0
+    verification_count: int = 0
     last_update_step: int = 0
-    update_count: int = 0            # 被更新次数
-    derivation: Optional[Derivation] = None  # 若通过逻辑推导获得
+    update_count: int = 0
+    derivation: Optional[Derivation] = None
 
     def update(self, status: str, confidence: float, step: int) -> None:
-        """更新信念状态。evidence_count 由 BeliefStore 在追加证据时维护。"""
         self.status = status
         self.confidence = confidence
         self.last_update_step = step
@@ -59,6 +64,8 @@ class BeliefState:
             "status": self.status,
             "confidence": round(self.confidence, 4),
             "evidence_count": self.evidence_count,
+            "reuse_count": self.reuse_count,
+            "verification_count": self.verification_count,
             "last_update_step": self.last_update_step,
             "update_count": self.update_count,
             "derivation": self.derivation.to_dict() if self.derivation else None,

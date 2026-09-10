@@ -27,6 +27,7 @@ STATUS_VALID 的准确含义是：
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass, field
 from typing import List, Optional
 
@@ -41,20 +42,35 @@ UNKNOWN = "unknown"
 
 @dataclass
 class Evidence:
-    """一条验证证据。不直接判定命题是否成立，只提供支持/矛盾程度。"""
+    """一条验证证据。不直接判定命题是否成立，只提供支持/矛盾程度。
+
+    事件溯源字段：
+      evidence_id: 全局唯一 ID
+      proposition: 证据针对的命题
+      source_event_id: 产生此证据的源事件 ID（用于去重）
+      observation_step: 产生此证据的观察步
+    """
     method: str              # 验证动作名
     action_type: str         # observe / count / compare / counterexample / prediction / derivation
     support: float           # [0,1] 对命题的支持程度
     contradiction: float     # [0,1] 对命题的矛盾程度
     detail: str              # 人类可读的证据描述
     cost: float = 1.0
-    prediction_id: Optional[str] = None  # 预测类证据的追踪 ID
-    # ---- 逻辑推导溯源（仅 derivation 类型使用）----
-    derived_from: Optional[List[str]] = None  # 推导来源命题的 str 表示
-    derivation_operation: Optional[str] = None  # modus_ponens / modus_tollens / direct / negation
+    prediction_id: Optional[str] = None
+    derived_from: Optional[List[str]] = None
+    derivation_operation: Optional[str] = None
+    # ---- 事件溯源字段 ----
+    evidence_id: str = field(default_factory=lambda: uuid.uuid4().hex[:12])
+    proposition: Optional[Proposition] = None
+    source_event_id: Optional[str] = None
+    observation_step: Optional[int] = None
 
     def to_dict(self) -> dict:
         return {
+            "evidence_id": self.evidence_id,
+            "proposition": self.proposition.to_str() if self.proposition else None,
+            "source_event_id": self.source_event_id,
+            "observation_step": self.observation_step,
             "method": self.method,
             "action_type": self.action_type,
             "support": round(self.support, 4),
@@ -229,7 +245,7 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
 
     注意："历史中观察到 P" 不属于逻辑推导，属于 observation。
     """
-    store = ctx.belief_store
+    store = ctx.knowledge_view
     # 直接命中
     k = store.get(obj)
     if k and k.status == STATUS_VALID:
@@ -426,20 +442,39 @@ def process_predictions(ctx) -> None:
 class EvidenceLog:
     """追加保存所有历史 Evidence。
 
-    关键约束：append-only。
-    信念更新不能删除或修改已记录的 Evidence。
-    同一个 ObservationEvent 不能被重复计权（由调用方保证，EvidenceLog 只追加）。
+    关键约束：
+      1. append-only：信念更新不能删除或修改已记录的 Evidence。
+      2. 去重：同一个 source_event_id + proposition + method 不允许被重复计为独立 evidence。
     """
 
     def __init__(self):
         self._entries: List[Evidence] = []
+        self._seen_keys: set = set()  # (source_event_id, proposition_str, method)
 
-    def append(self, evidence: Evidence) -> None:
-        """追加一条证据。不可删除。"""
+    @staticmethod
+    def _key(ev: Evidence) -> tuple:
+        prop_str = ev.proposition.to_str() if ev.proposition else str(id(ev))
+        return (ev.source_event_id, prop_str, ev.method)
+
+    def append(self, evidence: Evidence) -> bool:
+        """追加一条证据。不可删除。
+
+        返回 True 表示成功追加；False 表示因重复被拒绝（同一 source_event_id+proposition+method）。
+        """
+        key = self._key(evidence)
+        if key[0] is not None and key in self._seen_keys:
+            return False
         self._entries.append(evidence)
+        if key[0] is not None:
+            self._seen_keys.add(key)
+        return True
 
-    def append_many(self, evidences: List[Evidence]) -> None:
-        self._entries.extend(evidences)
+    def append_many(self, evidences: List[Evidence]) -> int:
+        added = 0
+        for ev in evidences:
+            if self.append(ev):
+                added += 1
+        return added
 
     def all(self) -> List[Evidence]:
         return list(self._entries)
@@ -448,9 +483,4 @@ class EvidenceLog:
         return len(self._entries)
 
     def for_proposition(self, prop: Proposition) -> List[Evidence]:
-        """返回与给定命题相关的所有证据（按 method 关联）。
-
-        注意：Evidence 本身不直接关联 proposition（证据是方法产生的），
-        这里返回全部历史，由 EvidenceEvaluator 决定如何使用。
-        """
         return list(self._entries)

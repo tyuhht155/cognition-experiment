@@ -59,7 +59,7 @@ class ValueEvaluator:
         self._perf: dict = {k: [0.0, 0.0] for k in self.weights}
 
     def evaluate(self, prop: Proposition, goal: Any, ctx) -> EvaluationResult:
-        store: BeliefStore = ctx.belief_store
+        store = ctx.knowledge_view
 
         relevance = self._goal_relevance(prop, goal, ctx)
         generality = self._generality(prop, ctx)
@@ -149,12 +149,12 @@ class ValueEvaluator:
             return 0.8
         return 0.2
 
-    def evaluate_evaluation(self, ctx) -> dict:
-        fb: List[dict] = ctx.eval_feedback
-        if not fb:
+    def evaluate_evaluation(self, feedback: List[dict]) -> dict:
+        """根据历史反馈调整评价风格权重。feedback 由编排层（CandidateProcessor）持有。"""
+        if not feedback:
             return {"adjusted": False, "weights": dict(self.weights)}
         per_tag = {k: [0.0, 0.0, 0] for k in self.weights}
-        for e in fb:
+        for e in feedback:
             tag = e.get("tag")
             if tag not in per_tag:
                 continue
@@ -174,8 +174,10 @@ class ValueEvaluator:
             self.weights[tag] = round(self.weights[tag] / s, 4)
         return {"adjusted": True, "weights": dict(self.weights), "adjustments": adjustments}
 
-    def add_feedback(self, ctx, tag: str, predicted: float, actual: float) -> None:
-        ctx.eval_feedback.append({"tag": tag, "predicted": predicted, "actual": actual})
+    @staticmethod
+    def record_feedback(feedback_list: List[dict], tag: str, predicted: float, actual: float) -> None:
+        """将反馈追加到编排层持有的 feedback 列表。ValueEvaluator 本身不持有 Context。"""
+        feedback_list.append({"tag": tag, "predicted": predicted, "actual": actual})
 
 
 # 兼容旧代码
