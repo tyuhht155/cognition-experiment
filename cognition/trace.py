@@ -42,8 +42,11 @@ class Step:
         return asdict(self)
 
 
-class Trace:
-    """一次实验的完整轨迹集合。"""
+class TraceRecorder:
+    """一次实验的完整轨迹集合。
+
+    ComputeEngine 只调用 record(...)，不理解内部数据结构。
+    """
 
     def __init__(self):
         self.steps: List[Step] = []
@@ -102,3 +105,7 @@ class Trace:
             if s.decision:
                 decisions[s.decision] = decisions.get(s.decision, 0) + 1
         return {"steps": len(self.steps), "operations": ops, "decisions": decisions}
+
+
+# 兼容旧代码
+Trace = TraceRecorder
