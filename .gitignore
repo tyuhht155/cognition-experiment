@@ -1,0 +1,22 @@
+# 敏感文件（含 API key 的文本，绝不提交）
+新建文本文档.txt
+*.env
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# 实验产物（运行后生成，保留目录结构但忽略大文件）
+results/*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
