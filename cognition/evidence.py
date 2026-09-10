@@ -1,15 +1,28 @@
-"""证据层：Verification Action → Evidence。
+"""证据层：Verification Action → Evidence → EvidenceEvaluator。
 
-第二轮审计后的核心重构：
-  验证动作只负责"收集证据"，不直接判定 valid/invalid。
-  证据由 EvidenceEvaluator 聚合成 support/contradiction/confidence/status。
+核心分层（必须严格区分三个步骤）：
+  1. Evidence generation：验证动作收集证据（观察到了什么）
+  2. Evidence interpretation：EvidenceEvaluator 把证据转为 support/contradiction/confidence
+  3. Decision：根据 confidence + 先验阈值决定 status（accepted/rejected/undecided）
 
-  关键分离：
+重要声明：
+  EvidenceEvaluator 是【初始证据评价先验】（initial evidence evaluation prior），
+  不是系统自主学习得到的评价算法。它的阈值和聚合公式是人为指定的。
+  当前实验测试的是"加入这个先验后验证闭环是否成立"，
+  不测试"系统是否学会了证据评价"。
+
+STATUS_VALID 的准确含义是：
+  accepted_under_current_evidence_policy
+  （在当前证据策略下达到接受阈值）
+  ≠ objectively true
+  客观真值只能由外部 evaluator 判断。
+
+关键分离：
   - observe/count/compare/counterexample/prediction：访问环境观察（world_history）
   - logical_derive：只访问已验证的知识（store.valid_entries），不访问 world_history
 
-  "world_history 中有没有 P" ≠ "P = valid"。
-  它只是一条 observation evidence，由 evaluator 决定支持度。
+"world_history 中有没有 P" ≠ "P = valid"。
+它只是一条 observation evidence，由 evaluator 决定支持度。
 """
 
 from __future__ import annotations
@@ -36,6 +49,9 @@ class Evidence:
     detail: str              # 人类可读的证据描述
     cost: float = 1.0
     prediction_id: Optional[str] = None  # 预测类证据的追踪 ID
+    # ---- 逻辑推导溯源（仅 derivation 类型使用）----
+    derived_from: Optional[List[str]] = None  # 推导来源命题的 str 表示
+    derivation_operation: Optional[str] = None  # modus_ponens / modus_tollens / direct / negation
 
     def to_dict(self) -> dict:
         return {
@@ -45,6 +61,8 @@ class Evidence:
             "contradiction": round(self.contradiction, 4),
             "detail": self.detail,
             "cost": self.cost,
+            "derived_from": self.derived_from,
+            "derivation_operation": self.derivation_operation,
         }
 
 
@@ -119,19 +137,12 @@ def action_counterexample(obj: Proposition, ctx) -> Evidence:
     hist = ctx.world_history
     if obj.kind == "implies":
         a, b = obj.parts
-        # 共现反例
+        # 共现反例：A 出现时 B 不出现
         for t, s in enumerate(hist):
             if a in s and b not in s:
                 return Evidence("counterexample", "counterexample",
                                 support=0.0, contradiction=0.95,
                                 detail=f"co-occurrence counterexample at step {t}",
-                                cost=2.0)
-        # 过渡反例：A@t 但 B 不在 t+1
-        for t in range(len(hist) - 1):
-            if a in hist[t] and b not in hist[t + 1]:
-                return Evidence("counterexample", "counterexample",
-                                support=0.0, contradiction=0.9,
-                                detail=f"transition counterexample at step {t}",
                                 cost=2.0)
         # 没找到反例 → 不判 valid，只提供微弱支持（没有矛盾）
         return Evidence("counterexample", "counterexample",
@@ -213,6 +224,9 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
     - P→Q valid 且 P valid → Q 支持（modus ponens）
     - P→Q valid 且 ¬Q valid → ¬P 支持（modus tollens）
 
+    每条推导记录 derived_from（来源命题）和 derivation_operation（推导规则），
+    以便知识更新时记录 parents 和 operation。
+
     注意："历史中观察到 P" 不属于逻辑推导，属于 observation。
     """
     store: KnowledgeStore = ctx.store
@@ -222,7 +236,9 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
         return Evidence("logical", "derivation",
                         support=1.0, contradiction=0.0,
                         detail="directly known valid",
-                        cost=0.5)
+                        cost=0.5,
+                        derived_from=[obj.to_str()],
+                        derivation_operation="direct")
     # 矛盾：obj 是 ¬P 而 P valid
     if obj.kind == "not":
         target = obj.parts[0]
@@ -231,7 +247,9 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
             return Evidence("logical", "derivation",
                             support=0.0, contradiction=1.0,
                             detail=f"{target.to_str()} known valid",
-                            cost=0.5)
+                            cost=0.5,
+                            derived_from=[target.to_str()],
+                            derivation_operation="negation")
     # P 而 ¬P valid
     neg = Proposition.neg(obj)
     kn = store.get(neg)
@@ -239,29 +257,33 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
         return Evidence("logical", "derivation",
                         support=0.0, contradiction=1.0,
                         detail="negation known valid",
-                        cost=0.5)
-    # Modus ponens: 寻找 valid 的 (obj → X) 和 valid 的 obj，推导 X
-    # 或者寻找 valid 的 (X → obj) 和 valid 的 X，推导 obj
+                        cost=0.5,
+                        derived_from=[neg.to_str()],
+                        derivation_operation="negation")
+    # Modus ponens: X→obj valid 且 X valid → obj 支持
     for k in store.valid_entries():
         p = k.proposition
         if p.kind == "implies":
             premise, conclusion = p.parts
-            # X → obj，且 X valid → obj 支持
             if conclusion == obj:
                 kp = store.get(premise)
                 if kp and kp.status == STATUS_VALID:
                     return Evidence("logical", "derivation",
                                     support=0.95, contradiction=0.0,
                                     detail=f"modus ponens from {premise.to_str()} → {obj.to_str()}",
-                                    cost=1.0)
-            # obj → X，且 ¬X valid → ¬obj 支持（obj 矛盾）
+                                    cost=1.0,
+                                    derived_from=[premise.to_str(), p.to_str()],
+                                    derivation_operation="modus_ponens")
+            # obj→X valid 且 ¬X valid → obj 矛盾（modus tollens）
             if premise == obj:
                 kx = store.get(Proposition.neg(conclusion))
                 if kx and kx.status == STATUS_VALID:
                     return Evidence("logical", "derivation",
                                     support=0.0, contradiction=0.9,
                                     detail=f"modus tollens: {obj.to_str()}→{conclusion.to_str()}, ¬{conclusion.to_str()} valid",
-                                    cost=1.0)
+                                    cost=1.0,
+                                    derived_from=[p.to_str(), Proposition.neg(conclusion).to_str()],
+                                    derivation_operation="modus_tollens")
     # 无逻辑证据
     return Evidence("logical", "derivation",
                     support=0.0, contradiction=0.0,
@@ -274,9 +296,21 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
 # ============================================================
 
 class EvidenceEvaluator:
-    """根据多条 Evidence 计算命题的最终支持度、矛盾度、置信度和状态。
+    """【初始证据评价先验】(initial evidence evaluation prior)。
 
-    不访问 ground truth。只基于证据本身聚合。
+    这是人为指定的先验机制，不是系统学习得到的。
+    职责：把多条 Evidence 聚合为 support/contradiction（证据解释），
+    再计算 confidence，最后根据阈值做 decision。
+
+    三层严格分离：
+      evidence_support / evidence_contradiction  ← 证据本身
+      confidence                                ← 证据强度 × 明确度
+      decision (status)                         ← 先验阈值下的接受/拒绝/待定
+
+    STATUS_VALID = accepted_under_current_evidence_policy（达到接受阈值）
+                   ≠ objectively true（客观真值由外部 evaluator 判断）
+
+    不访问 ground truth。
     """
 
     # 判定阈值（先验参数，非学习所得）
@@ -285,49 +319,62 @@ class EvidenceEvaluator:
     MIN_EVIDENCE_FOR_CONFIDENCE = 0.3
 
     def evaluate(self, evidences: List[Evidence]) -> dict:
-        """聚合证据。
-        返回: {support, contradiction, confidence, status, method, detail}
+        """聚合证据，返回分层结果。
 
-        只聚合提供了实际证据的方法（support>0 或 contradiction>0），
-        避免"无证据"的方法稀释信号。
+        返回字段说明：
+          evidence_support:      证据平均支持度（证据解释层）
+          evidence_contradiction: 证据平均矛盾度（证据解释层）
+          confidence:             置信度（证据强度×明确度）
+          decision:               status（先验阈值下的决策，非真值）
         """
         if not evidences:
-            return {"support": 0.0, "contradiction": 0.0, "confidence": 0.0,
-                    "status": UNKNOWN, "method": "none", "detail": "no evidence"}
+            return {"evidence_support": 0.0, "evidence_contradiction": 0.0,
+                    "confidence": 0.0, "decision": UNKNOWN, "status": UNKNOWN,
+                    "method": "none", "detail": "no evidence"}
 
         # 只保留有实际证据的方法
         meaningful = [e for e in evidences if e.support > 0 or e.contradiction > 0]
         if not meaningful:
-            return {"support": 0.0, "contradiction": 0.0, "confidence": 0.0,
-                    "status": UNKNOWN, "method": "none",
-                    "detail": "no meaningful evidence"}
+            return {"evidence_support": 0.0, "evidence_contradiction": 0.0,
+                    "confidence": 0.0, "decision": UNKNOWN, "status": UNKNOWN,
+                    "method": "none", "detail": "no meaningful evidence"}
 
         total_support = sum(e.support for e in meaningful)
         total_contradiction = sum(e.contradiction for e in meaningful)
         n = len(meaningful)
 
-        avg_support = total_support / n
-        avg_contradiction = total_contradiction / n
+        # ---- 证据解释层 ----
+        evidence_support = total_support / n
+        evidence_contradiction = total_contradiction / n
 
-        # 置信度 = 证据量 × 明确度
+        # ---- 置信度 ----
         evidence_strength = min(1.0, n * 0.4)
-        clarity = abs(avg_support - avg_contradiction)
+        clarity = abs(evidence_support - evidence_contradiction)
         confidence = evidence_strength * clarity
 
-        # 状态判定
-        if avg_support >= self.VALID_SUPPORT_THRESHOLD and avg_support > avg_contradiction:
-            status = VALID
-        elif avg_contradiction >= self.INVALID_CONTRADICTION_THRESHOLD and avg_contradiction > avg_support:
-            status = INVALID
+        # ---- 决策层（先验阈值）----
+        # 强反例优先：任何一条证据的 contradiction >= 0.9 即视为决定性反驳
+        # （一个反例足以反驳全称命题 A→B）
+        max_contradiction = max(e.contradiction for e in meaningful)
+        if max_contradiction >= 0.9:
+            decision = INVALID
+            confidence = max_contradiction
+        elif (evidence_support >= self.VALID_SUPPORT_THRESHOLD
+              and evidence_support > evidence_contradiction):
+            decision = VALID
+        elif (evidence_contradiction >= self.INVALID_CONTRADICTION_THRESHOLD
+              and evidence_contradiction > evidence_support):
+            decision = INVALID
         else:
-            status = UNKNOWN
+            decision = UNKNOWN
 
         best = max(meaningful, key=lambda e: max(e.support, e.contradiction))
         return {
-            "support": round(avg_support, 4),
-            "contradiction": round(avg_contradiction, 4),
+            "evidence_support": round(evidence_support, 4),
+            "evidence_contradiction": round(evidence_contradiction, 4),
             "confidence": round(confidence, 4),
-            "status": status,
+            "decision": decision,
+            "status": decision,  # 兼容旧字段
             "method": best.method,
             "detail": best.detail,
         }
