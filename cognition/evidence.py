@@ -31,7 +31,7 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 
 from .proposition import Proposition
-from .knowledge_store import KnowledgeStore, STATUS_VALID
+from .models import STATUS_VALID
 
 
 VALID = "valid"
@@ -229,7 +229,7 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
 
     注意："历史中观察到 P" 不属于逻辑推导，属于 observation。
     """
-    store: KnowledgeStore = ctx.store
+    store = ctx.belief_store
     # 直接命中
     k = store.get(obj)
     if k and k.status == STATUS_VALID:
@@ -261,8 +261,8 @@ def action_logical_derive(obj: Proposition, ctx) -> Evidence:
                         derived_from=[neg.to_str()],
                         derivation_operation="negation")
     # Modus ponens: X→obj valid 且 X valid → obj 支持
-    for k in store.valid_entries():
-        p = k.proposition
+    for b in store.valid_beliefs():
+        p = b.proposition
         if p.kind == "implies":
             premise, conclusion = p.parts
             if conclusion == obj:
@@ -417,3 +417,40 @@ def process_predictions(ctx) -> None:
             else:
                 record["refuted"] += 1
         record["pending"] = still_pending
+
+
+# ============================================================
+# EvidenceLog —— append-only 历史证据记录
+# ============================================================
+
+class EvidenceLog:
+    """追加保存所有历史 Evidence。
+
+    关键约束：append-only。
+    信念更新不能删除或修改已记录的 Evidence。
+    同一个 ObservationEvent 不能被重复计权（由调用方保证，EvidenceLog 只追加）。
+    """
+
+    def __init__(self):
+        self._entries: List[Evidence] = []
+
+    def append(self, evidence: Evidence) -> None:
+        """追加一条证据。不可删除。"""
+        self._entries.append(evidence)
+
+    def append_many(self, evidences: List[Evidence]) -> None:
+        self._entries.extend(evidences)
+
+    def all(self) -> List[Evidence]:
+        return list(self._entries)
+
+    def count(self) -> int:
+        return len(self._entries)
+
+    def for_proposition(self, prop: Proposition) -> List[Evidence]:
+        """返回与给定命题相关的所有证据（按 method 关联）。
+
+        注意：Evidence 本身不直接关联 proposition（证据是方法产生的），
+        这里返回全部历史，由 EvidenceEvaluator 决定如何使用。
+        """
+        return list(self._entries)

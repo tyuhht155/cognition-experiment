@@ -26,17 +26,20 @@ from typing import List, Optional, Set
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from cognition.proposition import Proposition as P
-from cognition.knowledge_store import (KnowledgeStore, Knowledge,
-                                       STATUS_VALID, STATUS_INVALID, STATUS_UNKNOWN)
-from cognition.operations import OperationRegistry, Context
-from cognition.verification import Verification, VALID, INVALID, UNKNOWN
+from cognition.belief import BeliefStore
 from cognition.evidence import (
-    Evidence, EvidenceEvaluator,
+    Evidence, EvidenceEvaluator, EvidenceLog,
     action_observe, action_count, action_compare,
     action_counterexample, action_prediction, action_logical_derive,
     register_prediction, process_predictions,
 )
-from cognition.trace import Trace
+from cognition.cost import CostTracker
+from cognition.consensus import ConsensusAgreementModel
+from cognition.prediction import TemporalPredictionState
+from cognition.operations import OperationStore, Context
+from cognition.verification import Verifier, VALID, INVALID, UNKNOWN
+from cognition.models import STATUS_VALID, STATUS_INVALID
+from cognition.trace import TraceRecorder
 
 
 # ============================================================
@@ -111,14 +114,30 @@ class V0Record:
 
 def run_v0_core(target_prop: P, world, max_steps: int = 20,
                 stop_confidence: float = 0.8) -> dict:
-    """核心验证闭环：逐步观察 → 收集证据 → 聚合 → 更新置信度。"""
-    store = KnowledgeStore()
-    trace = Trace()
-    verification = Verification()
+    """核心验证闭环：逐步观察 → 收集证据 → 聚合 → 更新置信度。
+
+    prediction 严格前向：
+      t: 观察状态 → 注册预测（A→B）
+      t+1: 新状态到达 → 检查 B → 更新 prediction feedback
+    """
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    verifier = Verifier()
     evaluator = EvidenceEvaluator()
 
     ctx = Context(
-        store=store, trace=trace,
+        belief_store=belief_store,
+        evidence_log=evidence_log,
+        cost_tracker=cost_tracker,
+        consensus=consensus,
+        prediction_state=prediction_state,
+        op_store=op_store,
+        trace=trace,
         constants=["A", "B"],
         step_budget=10000,
         verify_enabled=True, evaluate_enabled=False, meta_evaluate_enabled=False,
@@ -134,13 +153,15 @@ def run_v0_core(target_prop: P, world, max_steps: int = 20,
     for t in range(1, min(max_steps, len(world.history)) + 1):
         ctx.world_history = [set(s) for s in world.history[:t]]
 
-        # t 时刻：先注册预测（如果 A 在当前状态），然后立即用当前状态验证
-        register_prediction(ctx, target_prop)
+        # t 时刻：先处理上一步注册的预测（用当前新状态验证）
         process_predictions(ctx)
+
+        # t 时刻：注册新预测（A 在当前状态），但不在本步验证
+        register_prediction(ctx, target_prop)
 
         # 执行所有验证动作
         step_evidences = []
-        for name, action_fn in verification.actions:
+        for name, action_fn in verifier.actions:
             try:
                 ev = action_fn(target_prop, ctx)
             except Exception as e:
@@ -150,6 +171,7 @@ def run_v0_core(target_prop: P, world, max_steps: int = 20,
         for ev in step_evidences:
             if ev.support > 0 or ev.contradiction > 0:
                 all_evidences.append(ev)
+                evidence_log.append(ev)
 
         agg = evaluator.evaluate(all_evidences)
         final_status = agg["status"]
@@ -238,15 +260,23 @@ def experiment_conflict() -> dict:
     r = run_v0_core(prop, world, max_steps=12, stop_confidence=2.0)
 
     # 找到关键转折点
-    before_conflict = r["records"][9]["confidence"] if len(r["records"]) > 9 else 0
-    after_conflict = r["records"][10]["confidence"] if len(r["records"]) > 10 else 0
-    before_status = r["records"][9]["status"] if len(r["records"]) > 9 else UNKNOWN
-    after_status = r["records"][10]["status"] if len(r["records"]) > 10 else UNKNOWN
+    # "confidence in validity" = confidence if status==valid else 0.0
+    # 反例出现后，对 valid 的信心应下降（即使方向无关的 confidence 可能因强矛盾而上升）
+    before_rec = r["records"][9] if len(r["records"]) > 9 else {"confidence": 0, "status": UNKNOWN}
+    after_rec = r["records"][10] if len(r["records"]) > 10 else {"confidence": 0, "status": UNKNOWN}
+    before_valid_conf = before_rec["confidence"] if before_rec["status"] == VALID else 0.0
+    after_valid_conf = after_rec["confidence"] if after_rec["status"] == VALID else 0.0
+    before_conflict = before_rec["confidence"]
+    after_conflict = after_rec["confidence"]
+    before_status = before_rec["status"]
+    after_status = after_rec["status"]
 
     return {
         "before_conflict_confidence": before_conflict,
         "after_conflict_confidence": after_conflict,
-        "confidence_dropped": after_conflict < before_conflict,
+        "before_valid_confidence": before_valid_conf,
+        "after_valid_confidence": after_valid_conf,
+        "confidence_dropped": after_valid_conf < before_valid_conf,
         "before_status": before_status,
         "after_status": after_status,
         "status_changed": before_status != after_status,
@@ -271,11 +301,18 @@ def experiment_prediction_temporal() -> dict:
     world = MinimalWorld(seed=42, a_implies_b=True)
     prop = P.impl(P.atom("A"), P.atom("B"))
 
-    store = KnowledgeStore()
-    trace = Trace()
-    verification = Verification()
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
     ctx = Context(
-        store=store, trace=trace, constants=["A", "B"],
+        belief_store=belief_store, evidence_log=evidence_log,
+        cost_tracker=cost_tracker, consensus=consensus,
+        prediction_state=prediction_state, op_store=op_store,
+        trace=trace, constants=["A", "B"],
         step_budget=10000, verify_enabled=True,
         evaluate_enabled=False, meta_evaluate_enabled=False,
         goal=("verify", prop.to_str()),
@@ -285,13 +322,13 @@ def experiment_prediction_temporal() -> dict:
     temporal_records = []
     for t in range(1, len(world.history) + 1):
         ctx.world_history = [set(s) for s in world.history[:t]]
-        # t 时刻：注册预测（A 在当前状态），然后立即用当前状态验证
         a_observed = P.atom("A") in ctx.world_history[-1]
-        register_prediction(ctx, prop)
-        # 复制一份 before 状态（否则 process 会原地修改同一个 dict）
+        # t 时刻：先处理上一步注册的预测（用当前新状态）
         before_process = dict(ctx.prediction_queue.get(prop.to_str(),
                                                         {"confirmed": 0, "refuted": 0, "pending": []}))
         process_predictions(ctx)
+        # t 时刻：注册新预测（不在本步验证）
+        register_prediction(ctx, prop)
         after_process = ctx.prediction_queue.get(prop.to_str(),
                                                   {"confirmed": 0, "refuted": 0, "pending": []})
         confirmed_delta = after_process["confirmed"] - before_process["confirmed"]
@@ -325,11 +362,19 @@ def experiment_prediction_temporal() -> dict:
 
 def experiment_logical_derivation() -> dict:
     """P valid, P→Q valid → Q，记录 parents=[P, P→Q], operation=modus_ponens。"""
-    store = KnowledgeStore()
-    trace = Trace()
-    verification = Verification()
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    verifier = Verifier()
     ctx = Context(
-        store=store, trace=trace, constants=["P", "Q"],
+        belief_store=belief_store, evidence_log=evidence_log,
+        cost_tracker=cost_tracker, consensus=consensus,
+        prediction_state=prediction_state, op_store=op_store,
+        trace=trace, constants=["P", "Q"],
         step_budget=10000, verify_enabled=True,
         evaluate_enabled=False, meta_evaluate_enabled=False,
         goal=("verify", "Q"),
@@ -340,12 +385,12 @@ def experiment_logical_derivation() -> dict:
     # 预先把 P 和 P→Q 设为 valid（模拟已验证知识）
     p = P.atom("P")
     p_implies_q = P.impl(P.atom("P"), P.atom("Q"))
-    store.upsert(Knowledge(proposition=p, status=STATUS_VALID, confidence=0.9))
-    store.upsert(Knowledge(proposition=p_implies_q, status=STATUS_VALID, confidence=0.9))
+    belief_store.update_belief(p, STATUS_VALID, 0.9)
+    belief_store.update_belief(p_implies_q, STATUS_VALID, 0.9)
 
     # 验证 Q
     q = P.atom("Q")
-    result, all_results = verification.verify(q, ctx)
+    result, all_results = verifier.verify(q, ctx)
 
     # 找到 logical 方法的结果
     logical_result = None

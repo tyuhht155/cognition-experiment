@@ -9,31 +9,42 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from cognition.proposition import Proposition as P
-from cognition.knowledge_store import (KnowledgeStore, Knowledge,
-                                       STATUS_VALID, STATUS_INVALID, STATUS_UNKNOWN)
-from cognition.operations import OperationRegistry, Context
-from cognition.verification import Verification
-from cognition.evaluation import Evaluation
+from cognition.belief import BeliefStore
+from cognition.evidence import EvidenceLog
+from cognition.cost import CostTracker
+from cognition.consensus import ConsensusAgreementModel
+from cognition.prediction import TemporalPredictionState
+from cognition.operations import OperationStore, Context
+from cognition.verification import Verifier
+from cognition.evaluation import ValueEvaluator
 from cognition.compute import ComputeEngine
-from cognition.trace import Trace
+from cognition.trace import TraceRecorder
 from cognition.environment import World
 
 
 def _make_engine():
-    store = KnowledgeStore()
-    trace = Trace()
-    registry = OperationRegistry()
-    verification = Verification()
-    evaluation = Evaluation()
-    engine = ComputeEngine(store, trace, registry, verification, evaluation,
-                            max_depth=1, max_candidates=8)
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    verifier = Verifier()
+    evaluator = ValueEvaluator()
+    engine = ComputeEngine(belief_store, evidence_log, cost_tracker, consensus,
+                           prediction_state, op_store, trace, verifier, evaluator,
+                           max_depth=1, max_candidates=8)
     ctx = Context(
-        store=store, trace=trace,
+        belief_store=belief_store, evidence_log=evidence_log,
+        cost_tracker=cost_tracker, consensus=consensus,
+        prediction_state=prediction_state, op_store=op_store,
+        trace=trace,
         constants=["ball", "box", "table", "wall"],
         step_budget=1000,
         verify_enabled=True, evaluate_enabled=True, meta_evaluate_enabled=False,
         goal=World.predict_next_goal())
-    return engine, store, trace, registry, verification, evaluation, ctx
+    return engine, belief_store, trace, op_store, verifier, evaluator, ctx
 
 
 # 1. D 不读取 future world state
@@ -57,6 +68,7 @@ def test_d_no_future_state_access():
 
 # 2. ground_truth_check 不改变 KnowledgeStore
 def test_ground_truth_does_not_mutate_store():
+    from cognition.knowledge_store import KnowledgeStore, Knowledge, STATUS_UNKNOWN
     store = KnowledgeStore()
     p = P.atom("A")
     store.upsert(Knowledge(proposition=p, status=STATUS_UNKNOWN, confidence=0.0))
@@ -74,34 +86,27 @@ def test_ground_truth_does_not_mutate_store():
 
 # 3. C 和 D 初始状态完全一致
 def test_c_d_initial_state_identical():
+    from cognition.knowledge_store import KnowledgeStore
     def make(meta):
         store = KnowledgeStore()
-        trace = Trace()
-        registry = OperationRegistry()
-        verification = Verification()
-        evaluation = Evaluation()
+        trace = TraceRecorder()
+        op_store = OperationStore()
+        verifier = Verifier()
+        evaluator = ValueEvaluator()
         ctx = Context(store=store, trace=trace,
                        constants=["ball", "box", "table", "wall"],
                        step_budget=1000, verify_enabled=True,
                        evaluate_enabled=True, meta_evaluate_enabled=meta,
                        goal=World.predict_next_goal())
-        return store, registry, verification, evaluation, ctx
-
-    world = World(seed=7)
-    world.run(5)
+        return store, op_store, verifier, evaluator, ctx
 
     c_store, c_reg, c_ver, c_eval, c_ctx = make(False)
     d_store, d_reg, d_ver, d_eval, d_ctx = make(True)
 
-    # 初始 store 都为空
     assert c_store.size() == d_store.size() == 0
-    # 初始操作集相同
     assert sorted(c_reg.names()) == sorted(d_reg.names())
-    # 初始验证方法可靠性相同（均来自空 store，默认 0.5）
     assert c_store.verifier_reliability("logical") == d_store.verifier_reliability("logical")
-    # 初始评价权重相同
     assert c_eval.weights == d_eval.weights
-    # 唯一差异：meta_evaluate_enabled
     assert c_ctx.meta_evaluate_enabled != d_ctx.meta_evaluate_enabled
     print("test_c_d_initial_state_identical OK")
 
@@ -139,16 +144,15 @@ def test_meta_evaluation_single_entry():
 
 # 6. usefulness=None 表示未评价
 def test_usefulness_none_means_unevaluated():
+    from cognition.knowledge_store import KnowledgeStore, Knowledge, STATUS_UNKNOWN, STATUS_VALID
     store = KnowledgeStore()
     p = P.atom("A")
-    # 未评价
     k = Knowledge(proposition=p, status=STATUS_UNKNOWN, confidence=0.0,
                   usefulness=None, evaluated=False)
     store.upsert(k)
     entry = store.get(p)
     assert entry.usefulness is None
     assert entry.evaluated is False
-    # 已评价
     k2 = Knowledge(proposition=p, status=STATUS_VALID, confidence=0.9,
                    usefulness=0.5, evaluated=True)
     store.upsert(k2)
@@ -161,34 +165,45 @@ def test_usefulness_none_means_unevaluated():
 # 7. correct_but_useless 只统计 evaluated=True
 def test_correct_but_useless_only_evaluated():
     from experiments.run_abcd import compute_metrics
+    from cognition.knowledge_store import KnowledgeStore, Knowledge, STATUS_VALID
+
     store = KnowledgeStore()
-    trace = Trace()
-    registry = OperationRegistry()
-    verification = Verification()
-    evaluation = Evaluation()
-    engine = ComputeEngine(store, trace, registry, verification, evaluation)
+    trace = TraceRecorder()
     world = World(seed=7)
     world.run(5)
+
+    # 用一个简单的 mock engine 提供搜索空间统计
+    class MockEngine:
+        generated_candidates = 0
+        evaluated_candidates = 0
+        passed_evaluation_gate = 0
+        verified_candidates = 0
+        valid_candidates = 0
+        invalid_candidates = 0
+        budget_exhausted = False
+        actual_steps = 0
+        useful_steps = 0
+        verified_steps = 0
+        total_cost = 0
+        raw_compute_cost = 0
+        verification_cost = 0
+        reuse_cost = 0
+        cache_saved_cost = 0
+        composite_saved_cost = 0
+        composite_usage = {}
 
     p_valid_evaluated = P.impl(P.atom("Open_box"), P.atom("CanTake_ball"))
     p_valid_unevaluated = P.impl(P.atom("A"), P.atom("B"))
 
-    # valid + 已评价 + usefulness 低
     store.upsert(Knowledge(proposition=p_valid_evaluated, status=STATUS_VALID,
                            confidence=0.9, usefulness=0.01, evaluated=True))
-    # valid + 未评价（usefulness=None）—— 不应计入
     store.upsert(Knowledge(proposition=p_valid_unevaluated, status=STATUS_VALID,
                            confidence=0.9, usefulness=None, evaluated=False))
 
-    m = compute_metrics("test", store, trace, engine, world, evaluate=True, meta=False)
-    # correct_but_useless 只统计 evaluated=True 的
-    # p_valid_evaluated 是 implies，用 ground_truth 检查可能正确也可能错误
-    # 但关键是 p_valid_unevaluated 绝不能被计入
-    # 我们检查：未评价的 valid 命题不会出现在 correct_but_useless 中
-    # 通过 stats 间接验证
+    m = compute_metrics("test", store, trace, MockEngine(), world, evaluate=True, meta=False)
     stats = store.stats()
-    assert stats["evaluated"] == 1  # 只有 1 个被评价
-    assert stats["valid_low_usefulness"] == 1  # 只有 1 个低价值（已评价的那个）
+    assert stats["evaluated"] == 1
+    assert stats["valid_low_usefulness"] == 1
     print("test_correct_but_useless_only_evaluated OK")
 
 
@@ -200,38 +215,40 @@ def test_composite_not_faked_when_unregistered():
     ctx.world_history = [set(s) for s in world.history[:5]]
 
     prior_ops = set(registry.names())
-    # 运行计算
     obj = P.atom("Did_open_box")
     engine.recursive_compute(obj, ctx.goal, ctx, depth=0)
 
-    # composite_usage 中不应包含未注册的操作名
-    for op_name in engine.composite_usage:
-        assert op_name in registry.names(), f"复合操作 {op_name} 未注册却被调用"
-    # 没有 composite_ 开头的操作被调用（因为没注册）
-    assert not any(k.startswith("composite_") for k in engine.composite_usage)
+    # 检查 trace 中没有 composite_ 开头的操作（因为没注册）
+    trace_ops = {s.operation for s in trace.steps}
+    assert not any(op.startswith("composite_") for op in trace_ops), \
+        "未注册的 composite 操作不应被调用"
     print("test_composite_not_faked_when_unregistered OK")
 
 
 # 9. budget 达到后系统停止
 def test_budget_exhaustion_stops_compute():
-    store = KnowledgeStore()
-    trace = Trace()
-    registry = OperationRegistry()
-    verification = Verification()
-    evaluation = Evaluation()
-    # 极小预算
-    ctx = Context(store=store, trace=trace,
-                   constants=["ball", "box", "table", "wall"],
-                   step_budget=10, verify_enabled=True,
-                   evaluate_enabled=True, meta_evaluate_enabled=False,
-                   goal=World.predict_next_goal())
-    engine = ComputeEngine(store, trace, registry, verification, evaluation,
-                            max_depth=1, max_candidates=8)
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    ctx = Context(belief_store=belief_store, evidence_log=evidence_log,
+                  cost_tracker=cost_tracker, consensus=consensus,
+                  prediction_state=prediction_state, op_store=op_store,
+                  trace=trace,
+                  constants=["ball", "box", "table", "wall"],
+                  step_budget=10, verify_enabled=True,
+                  evaluate_enabled=True, meta_evaluate_enabled=False,
+                  goal=World.predict_next_goal())
+    engine = ComputeEngine(belief_store, evidence_log, cost_tracker, consensus,
+                           prediction_state, op_store, trace,
+                           max_depth=1, max_candidates=8)
     world = World(seed=7)
     world.run(5)
     ctx.world_history = [set(s) for s in world.history[:5]]
 
-    # 多次调用直到预算耗尽
     for i in range(20):
         if ctx.budget_exhausted():
             break
@@ -239,7 +256,6 @@ def test_budget_exhaustion_stops_compute():
         engine.recursive_compute(obj, ctx.goal, ctx, depth=0)
 
     assert engine.budget_exhausted is True
-    # 预算耗尽后调用应立即返回空
     cid, _ = engine.recursive_compute(P.atom("X"), ctx.goal, ctx, depth=0)
     assert cid == ""
     print("test_budget_exhaustion_stops_compute OK")

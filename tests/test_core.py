@@ -157,14 +157,30 @@ def test_verification_invalid_rule():
 # ---------------- Compute ----------------
 
 def test_compute_records_trace():
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
     world = World(seed=7)
     world.run(8)
-    store = KnowledgeStore()
-    trace = Trace()
-    reg = OperationRegistry()
-    engine = ComputeEngine(store, trace, reg, Verification(), Evaluation(),
-                            max_depth=1, max_candidates=5)
-    ctx = Context(store=store, trace=trace,
+    belief_store = BeliefStore()
+    evidence_log = EvidenceLog()
+    cost_tracker = CostTracker()
+    consensus = ConsensusAgreementModel()
+    prediction_state = TemporalPredictionState()
+    op_store = OperationStore()
+    trace = TraceRecorder()
+    engine = ComputeEngine(belief_store, evidence_log, cost_tracker, consensus,
+                           prediction_state, op_store, trace,
+                           max_depth=1, max_candidates=5)
+    ctx = Context(belief_store=belief_store, evidence_log=evidence_log,
+                  cost_tracker=cost_tracker, consensus=consensus,
+                  prediction_state=prediction_state, op_store=op_store,
+                  trace=trace,
                   constants=["ball", "box", "table", "wall"],
                   step_budget=500, verify_enabled=True, evaluate_enabled=True,
                   meta_evaluate_enabled=True, goal=World.predict_next_goal())
@@ -172,7 +188,6 @@ def test_compute_records_trace():
     obj = P.predicate("CanTake", "ball")
     engine.recursive_compute(obj, ctx.goal, ctx)
     assert len(trace) > 0
-    # 应包含 identify / generate_candidates / 应用变换 / verify 等步骤
     ops = {s.operation for s in trace.steps}
     assert "identify" in ops
     assert "generate_candidates" in ops
