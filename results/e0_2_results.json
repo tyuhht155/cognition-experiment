@@ -1,0 +1,341 @@
+{
+  "experiment": "E0-2",
+  "description": "时间展开穷举构造 + 验证闭环（无候选生成策略）",
+  "n_steps": 12,
+  "step_records": [
+    {
+      "step": 0,
+      "new_objects": [
+        "P(a)",
+        "Q(a)",
+        "R(a,b)"
+      ],
+      "new_object_count": 3,
+      "known_object_count": 3,
+      "candidates_generated": 27,
+      "by_constructor": {
+        "neg": 3,
+        "conj": 6,
+        "disj": 6,
+        "impl": 6,
+        "iff": 6
+      },
+      "valid": 6,
+      "invalid": 0,
+      "unknown": 21,
+      "new_beliefs": 27,
+      "verification_cost": 117.0,
+      "cumulative_cost": 122.4,
+      "duplicates_skipped": 0
+    },
+    {
+      "step": 1,
+      "new_objects": [
+        "P(b)",
+        "Q(b)",
+        "R(b,a)"
+      ],
+      "new_object_count": 3,
+      "known_object_count": 12,
+      "candidates_generated": 540,
+      "by_constructor": {
+        "neg": 12,
+        "conj": 132,
+        "disj": 132,
+        "impl": 132,
+        "iff": 132
+      },
+      "valid": 6,
+      "invalid": 60,
+      "unknown": 468,
+      "new_beliefs": 534,
+      "verification_cost": 2325.0,
+      "cumulative_cost": 2554.2,
+      "duplicates_skipped": 6
+    },
+    {
+      "step": 2,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 18,
+      "candidates_generated": 1242,
+      "by_constructor": {
+        "neg": 18,
+        "conj": 306,
+        "disj": 306,
+        "impl": 306,
+        "iff": 306
+      },
+      "valid": 0,
+      "invalid": 42,
+      "unknown": 1128,
+      "new_beliefs": 1170,
+      "verification_cost": 5040.0,
+      "cumulative_cost": 7828.2,
+      "duplicates_skipped": 72
+    },
+    {
+      "step": 3,
+      "new_objects": [
+        "S(a)"
+      ],
+      "new_object_count": 1,
+      "known_object_count": 19,
+      "candidates_generated": 1387,
+      "by_constructor": {
+        "neg": 19,
+        "conj": 342,
+        "disj": 342,
+        "impl": 342,
+        "iff": 342
+      },
+      "valid": 1,
+      "invalid": 23,
+      "unknown": 1249,
+      "new_beliefs": 1273,
+      "verification_cost": 5452.0,
+      "cumulative_cost": 13534.8,
+      "duplicates_skipped": 114
+    },
+    {
+      "step": 4,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 20,
+      "candidates_generated": 1540,
+      "by_constructor": {
+        "neg": 20,
+        "conj": 380,
+        "disj": 380,
+        "impl": 380,
+        "iff": 380
+      },
+      "valid": 0,
+      "invalid": 8,
+      "unknown": 1394,
+      "new_beliefs": 1402,
+      "verification_cost": 5989.0,
+      "cumulative_cost": 19804.2,
+      "duplicates_skipped": 138
+    },
+    {
+      "step": 5,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 20,
+      "candidates_generated": 1540,
+      "by_constructor": {
+        "neg": 20,
+        "conj": 380,
+        "disj": 380,
+        "impl": 380,
+        "iff": 380
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 1394,
+      "new_beliefs": 1394,
+      "verification_cost": 5946.5,
+      "cumulative_cost": 26029.5,
+      "duplicates_skipped": 146
+    },
+    {
+      "step": 6,
+      "new_objects": [
+        "P(c)"
+      ],
+      "new_object_count": 1,
+      "known_object_count": 21,
+      "candidates_generated": 1701,
+      "by_constructor": {
+        "neg": 21,
+        "conj": 420,
+        "disj": 420,
+        "impl": 420,
+        "iff": 420
+      },
+      "valid": 2,
+      "invalid": 25,
+      "unknown": 1528,
+      "new_beliefs": 1555,
+      "verification_cost": 6650.5,
+      "cumulative_cost": 32991.0,
+      "duplicates_skipped": 146
+    },
+    {
+      "step": 7,
+      "new_objects": [
+        "Q(c)"
+      ],
+      "new_object_count": 1,
+      "known_object_count": 24,
+      "candidates_generated": 2232,
+      "by_constructor": {
+        "neg": 24,
+        "conj": 552,
+        "disj": 552,
+        "impl": 552,
+        "iff": 552
+      },
+      "valid": 1,
+      "invalid": 48,
+      "unknown": 2010,
+      "new_beliefs": 2059,
+      "verification_cost": 8824.0,
+      "cumulative_cost": 42226.8,
+      "duplicates_skipped": 173
+    },
+    {
+      "step": 8,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 25,
+      "candidates_generated": 2425,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 10,
+      "unknown": 2193,
+      "new_beliefs": 2203,
+      "verification_cost": 9401.5,
+      "cumulative_cost": 52068.9,
+      "duplicates_skipped": 222
+    },
+    {
+      "step": 9,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 25,
+      "candidates_generated": 2425,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "new_beliefs": 2193,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 61855.5,
+      "duplicates_skipped": 232
+    },
+    {
+      "step": 10,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 25,
+      "candidates_generated": 2425,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "new_beliefs": 2193,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 71642.1,
+      "duplicates_skipped": 232
+    },
+    {
+      "step": 11,
+      "new_objects": [],
+      "new_object_count": 0,
+      "known_object_count": 25,
+      "candidates_generated": 2425,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "new_beliefs": 2193,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 81428.7,
+      "duplicates_skipped": 232
+    }
+  ],
+  "key_propositions_timeline": {
+    "P(a)→Q(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": 0,
+      "first_refuted_step": null,
+      "final_status": "valid",
+      "final_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 6"
+    },
+    "Q(a)→P(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": 0,
+      "first_refuted_step": null,
+      "final_status": "valid",
+      "final_confidence": 0.4,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples"
+    },
+    "P(c)→Q(c)": {
+      "first_constructed_step": 7,
+      "first_supported_step": null,
+      "first_refuted_step": 7,
+      "final_status": "invalid",
+      "final_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples"
+    },
+    "¬P(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": null,
+      "first_refuted_step": null,
+      "final_status": "unknown",
+      "final_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 6 times"
+    },
+    "P(a)∧Q(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": null,
+      "first_refuted_step": null,
+      "final_status": "unknown",
+      "final_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 6 times"
+    }
+  },
+  "timing_checks": {
+    "P(a)→Q(a) 不能在 P(a) 和 Q(a) 都出现之前构造": true,
+    "P(c)→Q(c) 不能在 P(c) 和 Q(c) 都出现之前构造": true,
+    "P(c)→Q(c) 在反例到来后被 re-evaluate": true
+  },
+  "pa_first_seen": 0,
+  "qa_first_seen": 0,
+  "total_candidates": 19909,
+  "total_valid": 16,
+  "total_invalid": 216,
+  "total_unknown": 17964,
+  "total_new_beliefs": 18196,
+  "total_cost": 81428.7,
+  "belief_store_stats": {
+    "total": 2425,
+    "valid": 16,
+    "invalid": 216,
+    "unknown": 2193
+  },
+  "trace_steps": 36392,
+  "evidence_count": 109176
+}

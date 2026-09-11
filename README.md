@@ -63,8 +63,9 @@ ComputeEngine (编排)
 | test_core | 15 | 基础功能 |
 | test_audit | 10 | 审计修复 |
 | test_invariants | 41 | 架构不变量（feedback 语义 / 统计累计 / gated_out 不递归 / 知识边界等） |
+| test_e0_2 | 7 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **74** | **全部通过** |
+| **合计** | **81** | **全部通过** |
 
 ---
 
@@ -180,7 +181,93 @@ E0-1 只验证了"构造能力 + 验证 = 可以形成知识"，不验证"搜索
 
 ---
 
-## 五、历史反哺的四种方式
+## 五、E0-2 实验：时间展开穷举构造 + 验证闭环
+
+### 核心变化（与 E0-1 的区别）
+
+- 不再把完整 world_history 一次性提供给系统
+- 逐时刻展开：每个时刻 t 只提供 `history[:t+1]` 作为 `ctx.world_history`
+- 验证时不能偷看未来 observation
+- 验证结果写入 BeliefStore 后，新的 valid 命题加入下一时刻的可计算对象空间
+
+### 实验设计
+
+```
+for t in world_history:
+  1. 只向系统提供当前时刻 t 的 observation
+  2. 把 observation 中的新对象加入当前 knowledge/object space
+  3. 把之前构造的 valid 命题也加入可计算对象空间
+  4. 从"截至当前已知对象"进行单层穷举构造
+  5. 对候选进行验证（Verifier 只能看到 history[:t+1]）
+  6. 将验证结果写入 BeliefStore
+  7. 下一时刻继续
+```
+
+### 实验结果
+
+| 指标 | 值 |
+|------|-----|
+| 时间步数 | 12 |
+| 总候选数 | 19909 |
+| 新增 belief 数 | 18196 |
+| valid | 16 |
+| invalid | 216 |
+| unknown | 17964 |
+| 总成本 | 81428.7 |
+| Trace 步骤数 | 36392 |
+| 证据数 | 109176 |
+
+### 关键命题时间线
+
+| 命题 | 首次构造 | 首次支持 | 首次反例 | 最终状态 | Ground-truth |
+|------|---------|---------|---------|---------|-------------|
+| P(a)→Q(a) | step 0 | step 0 | — | valid (0.4) | True |
+| Q(a)→P(a) | step 0 | step 0 | — | valid (0.4) | False (refuted: 2) |
+| P(c)→Q(c) | step 7 | — | step 7 | invalid (0.95) | False (refuted: 1) |
+| ¬P(a) | step 0 | — | — | unknown (0.0) | False |
+| P(a)∧Q(a) | step 0 | — | — | unknown (0.0) | True |
+
+### 时序检查
+
+| 检查项 | 结果 |
+|--------|------|
+| P(a)→Q(a) 不能在 P(a) 和 Q(a) 都出现之前构造 | PASS |
+| P(c)→Q(c) 不能在 P(c) 和 Q(c) 都出现之前构造 | PASS |
+| P(c)→Q(c) 在反例到来后被 re-evaluate | PASS |
+| P(a)→Q(a) 最终被验证为 valid | PASS |
+| P(c)→Q(c) 最终被验证为 invalid | PASS |
+| 验证结果进入 BeliefStore | PASS |
+| Trace 完整记录 | PASS |
+
+### E0-2 结论
+
+1. **核心闭环验证**：新观察进入知识空间 → 改变下一轮可计算对象 → 构造新对象 → 验证 → 新知识再次进入知识空间——这一闭环在时间展开下成立
+2. **时序正确性**：候选不能提前出现（P(a)→Q(a) 在 P(a) 和 Q(a) 都可见后才能构造）；验证不偷看未来
+3. **反例响应**：P(c)→Q(c) 在反例出现的同一步被验证为 invalid
+4. **知识空间增长**：从 step 0 的 3 个对象增长到 step 11 的 25 个对象（含 valid 构造命题）
+5. **组合爆炸加剧**：时间展开导致每步重新穷举，总候选 19909（vs E0-1 的 297），因为每步都重新枚举所有已知对象
+
+### E0-2 专用测试（7 项）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_future_observation_not_visible | future observation 不可见 |
+| 2 | test_current_observation_enters_object_space | 当前 observation 才能进入 object space |
+| 3 | test_new_objects_affect_next_step_candidates | 新对象影响下一时间步候选空间 |
+| 4 | test_candidate_cannot_appear_early | 候选不能提前出现 |
+| 5 | test_status_changes_after_counterexample | 反例到来后状态可以改变 |
+| 6 | test_belief_store_not_polluted_by_future | BeliefStore 历史没有被未来信息污染 |
+| 7 | test_trace_preserves_temporal_order | Trace 能还原时间顺序 |
+
+### 重要区分
+
+- **"系统在当前构造空间中生成了候选，并根据截至当前时刻的观察证据进行了评价"** — E0-2 验证了这一点
+- **"系统发现了规律"** — E0-2 **没有**验证这一点；system valid 不等于 ground truth
+- **Q(a)→P(a) 被 system 判为 valid 但 ground truth 为 False** — 这说明 Verifier 的 `action_compare` 方法只看共现率，不能区分方向性；这不是系统"发现了规律"，而是验证器的局限
+
+---
+
+## 六、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -252,14 +339,18 @@ E0-1 只验证了"构造能力 + 验证 = 可以形成知识"，不验证"搜索
 ## 九、运行方式
 
 ```bash
-# 运行测试（74 个）
+# 运行测试（81 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
+python tests/test_e0_2.py
 python tests/test_v0.py
 
 # 运行 E0-1 实验
 python experiments/run_e0.py
+
+# 运行 E0-2 实验（时间展开）
+python experiments/run_e0_2.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py
