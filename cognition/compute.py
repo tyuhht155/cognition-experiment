@@ -72,19 +72,21 @@ class ComputeEngine:
         self._cost_tracker = cost_tracker
         self._prediction_state = prediction_state
 
-        # 搜索空间统计
-        self.generated_candidates = 0
-        self.evaluated_candidates = 0
-        self.passed_evaluation_gate = 0
-        self.verified_candidates = 0
-        self.valid_candidates = 0
-        self.invalid_candidates = 0
+        # 搜索空间统计（单一共享 dict，所有递归层引用同一对象）
+        self._stats = {
+            "generated_candidates": 0,
+            "evaluated_candidates": 0,
+            "passed_evaluation_gate": 0,
+            "verified_candidates": 0,
+            "valid_candidates": 0,
+            "invalid_candidates": 0,
+            "actual_steps": 0,
+            "useful_steps": 0,
+            "verified_steps": 0,
+        }
 
         # 预算统计
         self.budget_exhausted = False
-        self.actual_steps = 0
-        self.useful_steps = 0
-        self.verified_steps = 0
 
     @property
     def total_cost(self) -> float:
@@ -174,9 +176,9 @@ class ComputeEngine:
             subtree_valid.update(valid)
 
             # 递归：parent_step 绑定到本 candidate 的 apply_step_id
-            # invalid candidate 不递归（已 stop）
+            # invalid / gated_out 不递归（已 stop / 被 gate 拒绝）
             descendant_valid = False
-            if status != "invalid" and obj != candidate.new_object and apply_step_id is not None:
+            if status not in ("invalid", "gated_out") and obj != candidate.new_object and apply_step_id is not None:
                 _, child_valid = self.recursive_compute(
                     candidate.new_object, goal, ctx, depth + 1,
                     parent_step=apply_step_id)
@@ -212,19 +214,13 @@ class ComputeEngine:
         return [(c, None) for c in candidates]
 
     def _stats_dict(self) -> dict:
-        return {
-            "generated_candidates": self.generated_candidates,
-            "evaluated_candidates": self.evaluated_candidates,
-            "passed_evaluation_gate": self.passed_evaluation_gate,
-            "verified_candidates": self.verified_candidates,
-            "valid_candidates": self.valid_candidates,
-            "invalid_candidates": self.invalid_candidates,
-            "actual_steps": self.actual_steps,
-            "useful_steps": self.useful_steps,
-            "verified_steps": self.verified_steps,
-        }
+        """返回共享统计 dict 的引用（不是副本）。
+        所有递归层修改同一个 dict，避免父层快照覆盖子层统计。
+        """
+        return self._stats
 
     def _sync_stats(self, stats: dict) -> None:
+        """从共享 dict 同步到实例属性（向后兼容外部读取）。"""
         self.generated_candidates = stats["generated_candidates"]
         self.evaluated_candidates = stats["evaluated_candidates"]
         self.passed_evaluation_gate = stats["passed_evaluation_gate"]

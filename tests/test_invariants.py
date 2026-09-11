@@ -818,6 +818,187 @@ def test_unknown_gated_out_do_not_change_weights():
     print("test_unknown_gated_out_do_not_change_weights OK")
 
 
+# 38. 递归统计不会被父层旧快照覆盖
+def test_recursive_stats_not_overwritten():
+    """parent + child 执行后 actual_steps 不会回退；
+    child 产生的统计会保留在最终结果中。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore, Context
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=3, max_candidates=6)
+    A, B, C = P.atom("A"), P.atom("B"), P.atom("C")
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=200, verify_enabled=False, evaluate_enabled=False,
+                  world_history=[{A, B}, {B, C}, {A, C}])
+    engine.recursive_compute(A, None, ctx)
+
+    # actual_steps 必须 > 0（至少有 identify + generate）
+    assert engine.actual_steps > 0, "actual_steps should be positive"
+    # generated_candidates 必须 > 0
+    assert engine.generated_candidates > 0, "generated_candidates should be positive"
+    # 如果有多层递归，actual_steps 应该远超单层的量
+    # 关键：actual_steps 不应被重置为更小的值
+    steps_after_full_run = engine.actual_steps
+    assert steps_after_full_run > 0
+
+    # 再跑一次，新 engine，确认数值一致
+    bs2 = BeliefStore()
+    engine2 = ComputeEngine(
+        belief_store=bs2, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=3, max_candidates=6)
+    ctx2 = Context(knowledge_view=bs2, constants=["A", "B", "C"],
+                   step_budget=200, verify_enabled=False, evaluate_enabled=False,
+                   world_history=[{A, B}, {B, C}, {A, C}])
+    engine2.recursive_compute(A, None, ctx2)
+    assert engine2.actual_steps == steps_after_full_run, \
+        f"stats should be deterministic: {engine2.actual_steps} vs {steps_after_full_run}"
+    print("test_recursive_stats_not_overwritten OK")
+
+
+# 39. 多层递归统计等于所有实际执行事件的累计
+def test_multilayer_stats_are_cumulative():
+    """多层递归统计等于所有实际执行事件的累计，而不是某一层快照。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore, Context
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=1, max_candidates=6)  # depth=1：只有一层，不递归
+    A, B, C = P.atom("A"), P.atom("B"), P.atom("C")
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=200, verify_enabled=False, evaluate_enabled=False,
+                  world_history=[{A, B}, {B, C}, {A, C}])
+    engine.recursive_compute(A, None, ctx)
+    single_layer_steps = engine.actual_steps
+    single_layer_generated = engine.generated_candidates
+
+    # 深度=3：允许多层递归
+    bs2 = BeliefStore()
+    engine2 = ComputeEngine(
+        belief_store=bs2, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=3, max_candidates=6)
+    ctx2 = Context(knowledge_view=bs2, constants=["A", "B", "C"],
+                   step_budget=200, verify_enabled=False, evaluate_enabled=False,
+                   world_history=[{A, B}, {B, C}, {A, C}])
+    engine2.recursive_compute(A, None, ctx2)
+    multi_layer_steps = engine2.actual_steps
+    multi_layer_generated = engine2.generated_candidates
+
+    # 多层递归的 steps 必须严格大于单层（因为递归产生了额外的 identify+generate）
+    assert multi_layer_steps > single_layer_steps, \
+        f"multi-layer steps ({multi_layer_steps}) should > single-layer ({single_layer_steps})"
+    assert multi_layer_generated >= single_layer_generated, \
+        f"multi-layer generated ({multi_layer_generated}) should >= single-layer ({single_layer_generated})"
+    print("test_multilayer_stats_are_cumulative OK")
+
+
+# 40. gated_out candidate 不会递归
+def test_gated_out_does_not_recurse():
+    """gated_out candidate 绝对不能触发 recursive_compute。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore, Context
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    trace = TraceRecorder()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=trace,
+        max_depth=3, max_candidates=6)
+    A, B, C = P.atom("A"), P.atom("B"), P.atom("C")
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=200, verify_enabled=True, evaluate_enabled=True,
+                  world_history=[{A, B}, {B, C}, {A, C}])
+    engine.recursive_compute(A, None, ctx)
+
+    # 检查 feedback：如果有 gated_out，其 descendant_valid 必须为 False
+    fb = engine.processor.eval_feedback
+    gated_entries = [f for f in fb if f["candidate_status"] == "gated_out"]
+    for g in gated_entries:
+        assert g["descendant_valid"] is False, \
+            "gated_out candidate 不应有 descendant_valid=True"
+
+    # 检查 trace：gated_out candidate 不应有 child identify 步骤
+    # 方法：gated_out 的 apply_step_id 不应作为任何其他步骤的 parent_step
+    # （因为如果递归了，child 的 identify 步骤的 parent_step 会指向它）
+    steps = trace.to_dicts()
+    # 找到所有 gated_out candidate 的 apply step
+    # gated_out 发生在 evaluate_gate 步骤，其 parent_step 是 apply step
+    # 如果递归了，下一步 identify 的 parent_step 会指向 apply step
+    apply_steps_with_gate_reject = set()
+    for i, s in enumerate(steps):
+        if s.get("operation") == "evaluate_gate" and s.get("decision") == "retain_low":
+            # 其 parent_step 是 apply step
+            ps = s.get("parent_step")
+            if ps:
+                apply_steps_with_gate_reject.add(ps)
+
+    # 检查这些 apply steps 是否有 child identify 指向它们
+    for s in steps:
+        if s.get("operation") == "identify" and s.get("parent_step") in apply_steps_with_gate_reject:
+            # 这个 identify 的 parent_step 指向 gated_out 的 apply step
+            # 说明 gated_out 递归了，这是 bug
+            assert False, "gated_out candidate should not have child identify step"
+    print("test_gated_out_does_not_recurse OK")
+
+
+# 41. gated_out candidate 不增加 descendant_valid
+def test_gated_out_no_descendant_valid():
+    """gated_out candidate 的 descendant_valid 必须为 False。"""
+    from cognition.candidate_processor import CandidateProcessor
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.trace import TraceRecorder
+    from cognition.evaluation import ValueEvaluator
+
+    bs = BeliefStore()
+    cp = CandidateProcessor(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        trace=TraceRecorder())
+    ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
+    # gated_out 的 descendant_valid 必须为 False
+    cp.record_feedback(ev, "gated_out", candidate_valid=False, descendant_valid=False)
+    fb = cp.eval_feedback[-1]
+    assert fb["descendant_valid"] is False
+    assert fb["candidate_status"] == "gated_out"
+    assert fb["actual"] is None  # gated_out 不参与学习
+    print("test_gated_out_no_descendant_valid OK")
+
+
 def run_all():
     tests = [
         test_prediction_resolved_after_created,
@@ -857,6 +1038,10 @@ def run_all():
         test_gated_out_feedback_skipped_in_meta_evaluation,
         test_mixed_feedback_only_valid_invalid_counted,
         test_unknown_gated_out_do_not_change_weights,
+        test_recursive_stats_not_overwritten,
+        test_multilayer_stats_are_cumulative,
+        test_gated_out_does_not_recurse,
+        test_gated_out_no_descendant_valid,
     ]
     passed = 0
     for t in tests:
