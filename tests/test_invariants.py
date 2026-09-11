@@ -618,10 +618,10 @@ def test_gated_out_candidate_produces_feedback():
     # 只要有 feedback，每个 entry 的 status 必须是合法值
     for f in fb:
         assert f["candidate_status"] in ("valid", "invalid", "unknown", "gated_out")
-    # gated_out 的 actual 必须为 0.0
+    # gated_out 没有实际验证结果，actual 必须为 None（不参与学习）
     gated = [f for f in fb if f["candidate_status"] == "gated_out"]
     if gated:
-        assert all(f["actual"] == 0.0 for f in gated)
+        assert all(f["actual"] is None for f in gated)
     print("test_gated_out_candidate_produces_feedback OK")
 
 
@@ -719,6 +719,105 @@ def test_candidate_valid_and_goal_improvement_independent():
     print("test_candidate_valid_and_goal_improvement_independent OK")
 
 
+# 32. valid feedback 会进入 meta evaluation
+def test_valid_feedback_enters_meta_evaluation():
+    """candidate_status=valid 的 feedback 必须被 evaluate_evaluation 计入学习样本。"""
+    from cognition.evaluation import ValueEvaluator
+    ve = ValueEvaluator()
+    before = dict(ve.weights)
+    feedback = [{"tag": "relevance", "predicted": 0.6, "actual": 1.0,
+                 "candidate_status": "valid"}]
+    res = ve.evaluate_evaluation(feedback)
+    # valid feedback 被计入 n：adjustments 中应包含该 tag（error 可能为 0）
+    assert "relevance" in res["adjustments"], "valid feedback 必须被计入学习样本"
+    print("test_valid_feedback_enters_meta_evaluation OK")
+
+
+# 33. invalid feedback 会进入 meta evaluation，并产生负反馈
+def test_invalid_feedback_enters_meta_evaluation():
+    """candidate_status=invalid 的 feedback 必须被计入，且 actual=0.0 作为负反馈。"""
+    from cognition.evaluation import ValueEvaluator
+    ve = ValueEvaluator()
+    before = dict(ve.weights)
+    # predicted 高但 actual=0.0（invalid），应有较大 error，权重被调低
+    feedback = [{"tag": "novelty", "predicted": 0.9, "actual": 0.0,
+                 "candidate_status": "invalid"}]
+    res = ve.evaluate_evaluation(feedback)
+    assert res["adjusted"] is True
+    assert ve.weights["novelty"] < before["novelty"]
+    print("test_invalid_feedback_enters_meta_evaluation OK")
+
+
+# 34. unknown feedback 不进入 meta evaluation
+def test_unknown_feedback_skipped_in_meta_evaluation():
+    """candidate_status=unknown 的 feedback（actual=None）不能影响权重。"""
+    from cognition.evaluation import ValueEvaluator
+    ve = ValueEvaluator()
+    before = dict(ve.weights)
+    feedback = [{"tag": "generality", "predicted": 0.8, "actual": None,
+                 "candidate_status": "unknown"}]
+    res = ve.evaluate_evaluation(feedback)
+    # 没有可学习样本，不应调整
+    assert res["adjusted"] is False
+    assert ve.weights == before
+    print("test_unknown_feedback_skipped_in_meta_evaluation OK")
+
+
+# 35. gated_out feedback 不进入 meta evaluation
+def test_gated_out_feedback_skipped_in_meta_evaluation():
+    """candidate_status=gated_out 的 feedback（actual=None）不能影响权重。"""
+    from cognition.evaluation import ValueEvaluator
+    ve = ValueEvaluator()
+    before = dict(ve.weights)
+    feedback = [{"tag": "relevance", "predicted": 0.7, "actual": None,
+                 "candidate_status": "gated_out"}]
+    res = ve.evaluate_evaluation(feedback)
+    assert res["adjusted"] is False
+    assert ve.weights == before
+    print("test_gated_out_feedback_skipped_in_meta_evaluation OK")
+
+
+# 36. mixed feedback 中只有 valid/invalid 被计入 n
+def test_mixed_feedback_only_valid_invalid_counted():
+    """混合 feedback 中，只有 actual 不为 None 的条目被计入学习样本 n。"""
+    from cognition.evaluation import ValueEvaluator
+    ve = ValueEvaluator()
+    # 2 条可学习（1 valid, 1 invalid）+ 2 条不可学习（unknown, gated_out）
+    feedback = [
+        {"tag": "relevance", "predicted": 0.5, "actual": 1.0, "candidate_status": "valid"},
+        {"tag": "relevance", "predicted": 0.5, "actual": 0.0, "candidate_status": "invalid"},
+        {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "unknown"},
+        {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "gated_out"},
+    ]
+    res = ve.evaluate_evaluation(feedback)
+    # n 应为 2（只有 valid+invalid），不是 4
+    # adjustments 中应包含 relevance（被计入），且 n 只来自 valid+invalid
+    assert "relevance" in res["adjustments"], "valid/invalid 必须被计入 n"
+    print("test_mixed_feedback_only_valid_invalid_counted OK")
+
+
+# 37. unknown/gated_out 增多不改变 evaluation weights
+def test_unknown_gated_out_do_not_change_weights():
+    """增加 unknown/gated_out feedback 不应改变权重（与纯 valid/invalid 结果一致）。"""
+    from cognition.evaluation import ValueEvaluator
+    # 组 A：只有 1 条 valid
+    ve_a = ValueEvaluator()
+    ve_a.evaluate_evaluation([{"tag": "relevance", "predicted": 0.4, "actual": 1.0,
+                               "candidate_status": "valid"}])
+    # 组 B：1 条 valid + 多条 unknown/gated_out
+    ve_b = ValueEvaluator()
+    ve_b.evaluate_evaluation([
+        {"tag": "relevance", "predicted": 0.4, "actual": 1.0, "candidate_status": "valid"},
+        {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "unknown"},
+        {"tag": "relevance", "predicted": 0.8, "actual": None, "candidate_status": "gated_out"},
+        {"tag": "generality", "predicted": 0.7, "actual": None, "candidate_status": "unknown"},
+    ])
+    # 两组权重应完全一致（unknown/gated_out 不影响）
+    assert ve_a.weights == ve_b.weights, \
+        "unknown/gated_out 增多不应改变 evaluation weights"
+    print("test_unknown_gated_out_do_not_change_weights OK")
+
+
 def run_all():
     tests = [
         test_prediction_resolved_after_created,
@@ -752,6 +851,12 @@ def run_all():
         test_budget_exhausted_no_fake_feedback,
         test_goal_improvement_not_faked_by_goal_relevance,
         test_candidate_valid_and_goal_improvement_independent,
+        test_valid_feedback_enters_meta_evaluation,
+        test_invalid_feedback_enters_meta_evaluation,
+        test_unknown_feedback_skipped_in_meta_evaluation,
+        test_gated_out_feedback_skipped_in_meta_evaluation,
+        test_mixed_feedback_only_valid_invalid_counted,
+        test_unknown_gated_out_do_not_change_weights,
     ]
     passed = 0
     for t in tests:

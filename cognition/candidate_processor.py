@@ -216,7 +216,13 @@ class CandidateProcessor:
         goal_improvement:   goal 是否得到改善；当前无可靠 goal-state transition 定义，
                             默认 None（unknown），禁止用 goal_relevance 冒充。
         """
-        actual = 1.0 if candidate_valid else 0.0
+        # actual 只对有实际验证结果的状态有值；unknown/gated_out 无可学习结果
+        if candidate_status == "valid":
+            actual = 1.0
+        elif candidate_status == "invalid":
+            actual = 0.0
+        else:  # unknown / gated_out：只记录历史，不参与学习
+            actual = None
         ValueEvaluator.record_feedback(
             self._eval_feedback, ev.method_tag, ev.value_score, actual,
             extra={"candidate_status": candidate_status,

@@ -150,11 +150,18 @@ class ValueEvaluator:
         return 0.2
 
     def evaluate_evaluation(self, feedback: List[dict]) -> dict:
-        """根据历史反馈调整评价风格权重。feedback 由编排层（CandidateProcessor）持有。"""
+        """根据历史反馈调整评价风格权重。feedback 由编排层（CandidateProcessor）持有。
+
+        只有 actual 不为 None 的条目（candidate_status 为 valid/invalid）才参与学习。
+        unknown / gated_out 的 actual 为 None，只记录历史，不影响权重。
+        """
         if not feedback:
             return {"adjusted": False, "weights": dict(self.weights)}
         per_tag = {k: [0.0, 0.0, 0] for k in self.weights}
         for e in feedback:
+            # 跳过无实际结果的反馈（unknown / gated_out / budget_exhausted）
+            if e.get("actual") is None:
+                continue
             tag = e.get("tag")
             if tag not in per_tag:
                 continue
@@ -167,17 +174,26 @@ class ValueEvaluator:
                 continue
             error = max(0.0, ps / n - asu / n)
             adjustments[tag] = round(error, 3)
+        changed = False
         for tag, err in adjustments.items():
-            self.weights[tag] *= max(0.5, 1.0 - err)
-        s = sum(self.weights.values()) or 1.0
-        for tag in self.weights:
-            self.weights[tag] = round(self.weights[tag] / s, 4)
-        return {"adjusted": True, "weights": dict(self.weights), "adjustments": adjustments}
+            new_w = self.weights[tag] * max(0.5, 1.0 - err)
+            if new_w != self.weights[tag]:
+                changed = True
+            self.weights[tag] = new_w
+        if changed:
+            s = sum(self.weights.values()) or 1.0
+            for tag in self.weights:
+                self.weights[tag] = round(self.weights[tag] / s, 4)
+        return {"adjusted": changed, "weights": dict(self.weights),
+                "adjustments": adjustments}
 
     @staticmethod
     def record_feedback(feedback_list: List[dict], tag: str, predicted: float,
-                        actual: float, extra: Optional[dict] = None) -> None:
-        """将反馈追加到编排层持有的 feedback 列表。ValueEvaluator 本身不持有 Context。"""
+                        actual: Optional[float], extra: Optional[dict] = None) -> None:
+        """将反馈追加到编排层持有的 feedback 列表。ValueEvaluator 本身不持有 Context。
+
+        actual: 1.0(valid) / 0.0(invalid) / None(unknown/gated_out，不参与学习)
+        """
         entry = {"tag": tag, "predicted": predicted, "actual": actual}
         if extra:
             entry.update(extra)
