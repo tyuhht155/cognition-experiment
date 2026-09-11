@@ -1,0 +1,2512 @@
+{
+  "experiment": "E0-1",
+  "description": "穷举构造 + 验证闭环（无候选生成策略）",
+  "initial_objects": [
+    "P(a)",
+    "P(b)",
+    "P(c)",
+    "Q(a)",
+    "Q(b)",
+    "Q(c)",
+    "R(a,b)",
+    "R(b,a)",
+    "S(a)"
+  ],
+  "initial_object_count": 9,
+  "total_candidates": 297,
+  "by_constructor": {
+    "neg": 9,
+    "conj": 72,
+    "disj": 72,
+    "impl": 72,
+    "iff": 72
+  },
+  "valid_count": 5,
+  "invalid_count": 67,
+  "unknown_count": 225,
+  "duplicates_skipped": 0,
+  "verification_cost": 1296.0,
+  "belief_store_stats": {
+    "total": 297,
+    "valid": 5,
+    "invalid": 67,
+    "unknown": 225
+  },
+  "constructor_summary": {
+    "conj": {
+      "total": 72,
+      "valid": 0,
+      "valid_rate": 0.0
+    },
+    "disj": {
+      "total": 72,
+      "valid": 0,
+      "valid_rate": 0.0
+    },
+    "iff": {
+      "total": 72,
+      "valid": 0,
+      "valid_rate": 0.0
+    },
+    "impl": {
+      "total": 72,
+      "valid": 5,
+      "valid_rate": 0.0694
+    },
+    "neg": {
+      "total": 9,
+      "valid": 0,
+      "valid_rate": 0.0
+    }
+  },
+  "key_propositions": {
+    "P(a)→Q(a)": {
+      "found": true,
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 6"
+    },
+    "Q(a)→P(a)": {
+      "found": true,
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples"
+    },
+    "P(c)→Q(c)": {
+      "found": true,
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples"
+    },
+    "¬P(a)": {
+      "found": true,
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 6 times"
+    },
+    "P(a)∧Q(a)": {
+      "found": true,
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 6 times"
+    }
+  },
+  "ground_truth_check": {
+    "¬P(a)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 6 times",
+      "correct": false
+    },
+    "¬P(b)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 5 times",
+      "correct": false
+    },
+    "¬P(c)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 2 times",
+      "correct": false
+    },
+    "¬Q(a)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 8 times",
+      "correct": false
+    },
+    "¬Q(b)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 6 times",
+      "correct": false
+    },
+    "¬Q(c)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 2 times",
+      "correct": false
+    },
+    "¬R(a,b)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 3 times",
+      "correct": false
+    },
+    "¬R(b,a)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 3 times",
+      "correct": false
+    },
+    "¬S(a)": {
+      "constructor": "neg",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 3 times",
+      "correct": false
+    },
+    "(P(a) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(a) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(P(a) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=3",
+      "correct": false
+    },
+    "(P(a) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(a) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(a) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=1",
+      "correct": false
+    },
+    "(P(a) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 6 times",
+      "correct": false
+    },
+    "(P(a) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(P(a) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 6",
+      "correct": true
+    },
+    "(P(a) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=0, only_b=2",
+      "correct": false
+    },
+    "(P(a) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(a) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 10 times",
+      "correct": false
+    },
+    "(P(a) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=4",
+      "correct": false
+    },
+    "(P(a) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(a) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(P(a) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 6 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=6, only_b=2",
+      "correct": false
+    },
+    "(P(a) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(P(a) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(P(a) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=0",
+      "correct": false
+    },
+    "(P(a) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(a) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(P(a) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=2",
+      "correct": false
+    },
+    "(P(a) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(a) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(a) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(P(a) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=1",
+      "correct": false
+    },
+    "(P(b) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(b) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(P(b) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=4",
+      "correct": false
+    },
+    "(P(b) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(b) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(b) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=2",
+      "correct": false
+    },
+    "(P(b) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(b) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 11 times",
+      "correct": false
+    },
+    "(P(b) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=6",
+      "correct": false
+    },
+    "(P(b) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 5 times",
+      "correct": false
+    },
+    "(P(b) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(P(b) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 5",
+      "correct": true
+    },
+    "(P(b) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=0, only_b=1",
+      "correct": false
+    },
+    "(P(b) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(b) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(b) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=2",
+      "correct": false
+    },
+    "(P(b) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(b) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(P(b) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=3",
+      "correct": false
+    },
+    "(P(b) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(P(b) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(P(b) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=1",
+      "correct": false
+    },
+    "(P(b) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(b) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(b) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(P(b) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=2",
+      "correct": false
+    },
+    "(P(c) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(c) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(c) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=5",
+      "correct": false
+    },
+    "(P(c) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(c) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(P(c) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=5",
+      "correct": false
+    },
+    "(P(c) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(c) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(P(c) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=7",
+      "correct": false
+    },
+    "(P(c) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(c) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(P(c) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=6",
+      "correct": false
+    },
+    "(P(c) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(P(c) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 3 times",
+      "correct": false
+    },
+    "(P(c) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=1",
+      "correct": false
+    },
+    "(P(c) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(c) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(P(c) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(P(c) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(c) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(P(c) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(P(c) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(P(c) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(P(c) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(P(c) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(Q(a) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 6 times",
+      "correct": false
+    },
+    "(Q(a) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(a) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=0",
+      "correct": false
+    },
+    "(Q(a) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(Q(a) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 11 times",
+      "correct": false
+    },
+    "(Q(a) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 6 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=6, only_b=3",
+      "correct": false
+    },
+    "(Q(a) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(a) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(Q(a) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 7 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=7, only_b=1",
+      "correct": false
+    },
+    "(Q(a) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(Q(a) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 11 times",
+      "correct": false
+    },
+    "(Q(a) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=3",
+      "correct": false
+    },
+    "(Q(a) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(a) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(Q(a) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 7 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=7, only_b=1",
+      "correct": false
+    },
+    "(Q(a) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(Q(a) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(a) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=0",
+      "correct": false
+    },
+    "(Q(a) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(a) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 10 times",
+      "correct": false
+    },
+    "(Q(a) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 7 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=7, only_b=2",
+      "correct": false
+    },
+    "(Q(a) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(Q(a) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(a) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(Q(a) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=0",
+      "correct": false
+    },
+    "(Q(b) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(Q(b) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 10 times",
+      "correct": false
+    },
+    "(Q(b) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=4",
+      "correct": false
+    },
+    "(Q(b) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 5 times",
+      "correct": false
+    },
+    "(Q(b) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(Q(b) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=0",
+      "correct": false
+    },
+    "(Q(b) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(b) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(b) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 6 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=6, only_b=2",
+      "correct": false
+    },
+    "(Q(b) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(Q(b) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 11 times",
+      "correct": false
+    },
+    "(Q(b) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=5",
+      "correct": false
+    },
+    "(Q(b) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(b) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(Q(b) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=1",
+      "correct": false
+    },
+    "(Q(b) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(b) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(Q(b) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 6 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=6, only_b=3",
+      "correct": false
+    },
+    "(Q(b) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(Q(b) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(Q(b) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 4 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=4, only_b=1",
+      "correct": false
+    },
+    "(Q(b) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(b) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(b) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 5 counterexamples",
+      "correct": true
+    },
+    "(Q(b) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=5, only_b=2",
+      "correct": false
+    },
+    "(Q(c) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(c) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(Q(c) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=6",
+      "correct": false
+    },
+    "(Q(c) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(c) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(Q(c) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=5",
+      "correct": false
+    },
+    "(Q(c) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(c) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 3 times",
+      "correct": false
+    },
+    "(Q(c) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=1",
+      "correct": false
+    },
+    "(Q(c) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(c) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(Q(c) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=7",
+      "correct": false
+    },
+    "(Q(c) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(Q(c) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(Q(c) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=5",
+      "correct": false
+    },
+    "(Q(c) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(c) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(Q(c) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(Q(c) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(c) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(Q(c) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(Q(c) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(Q(c) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(Q(c) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(Q(c) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=3",
+      "correct": false
+    },
+    "(R(a,b) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(R(a,b) → P(a))": {
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 3",
+      "correct": true
+    },
+    "(R(a,b) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=0, only_b=3",
+      "correct": false
+    },
+    "(R(a,b) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(R(a,b) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=5",
+      "correct": false
+    },
+    "(R(a,b) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(a,b) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(R(a,b) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(R(a,b) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 3",
+      "correct": true
+    },
+    "(R(a,b) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=0, only_b=5",
+      "correct": false
+    },
+    "(R(a,b) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 9 times",
+      "correct": false
+    },
+    "(R(a,b) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=6",
+      "correct": false
+    },
+    "(R(a,b) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(a,b) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(R(a,b) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(a,b) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=2",
+      "correct": false
+    },
+    "(R(a,b) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(R(a,b) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(a,b) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(R(a,b) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=2",
+      "correct": false
+    },
+    "(R(b,a) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(R(b,a) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=5",
+      "correct": false
+    },
+    "(R(b,a) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(R(b,a) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=3",
+      "correct": false
+    },
+    "(R(b,a) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(b,a) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(R(b,a) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 10 times",
+      "correct": false
+    },
+    "(R(b,a) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=7",
+      "correct": false
+    },
+    "(R(b,a) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(R(b,a) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=4",
+      "correct": false
+    },
+    "(R(b,a) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(b,a) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(R(b,a) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(R(b,a) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=2",
+      "correct": false
+    },
+    "(R(b,a) ∧ S(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(R(b,a) ∨ S(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(R(b,a) → S(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(R(b,a) ↔ S(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=3",
+      "correct": false
+    },
+    "(S(a) ∧ P(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 2 times",
+      "correct": false
+    },
+    "(S(a) ∨ P(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(S(a) → P(a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ P(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=1, only_b=4",
+      "correct": false
+    },
+    "(S(a) ∧ P(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(S(a) ∨ P(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 7 times",
+      "correct": false
+    },
+    "(S(a) → P(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ P(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=4",
+      "correct": false
+    },
+    "(S(a) ∧ P(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(S(a) ∨ P(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(S(a) → P(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ P(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(S(a) ∧ Q(a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 3 times",
+      "correct": false
+    },
+    "(S(a) ∨ Q(a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(S(a) → Q(a))": {
+      "constructor": "impl",
+      "system_status": "valid",
+      "system_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 3",
+      "correct": true
+    },
+    "(S(a) ↔ Q(a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=0, only_b=5",
+      "correct": false
+    },
+    "(S(a) ∧ Q(b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(S(a) ∨ Q(b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 8 times",
+      "correct": false
+    },
+    "(S(a) → Q(b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ Q(b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=5",
+      "correct": false
+    },
+    "(S(a) ∧ Q(c))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(S(a) ∨ Q(c))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(S(a) → Q(c))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ Q(c))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=2",
+      "correct": false
+    },
+    "(S(a) ∧ R(a,b))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 1 times",
+      "correct": false
+    },
+    "(S(a) ∨ R(a,b))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 5 times",
+      "correct": false
+    },
+    "(S(a) → R(a,b))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ R(a,b))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=2, only_b=2",
+      "correct": false
+    },
+    "(S(a) ∧ R(b,a))": {
+      "constructor": "conj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "both observed 0 times",
+      "correct": false
+    },
+    "(S(a) ∨ R(b,a))": {
+      "constructor": "disj",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "either observed 6 times",
+      "correct": false
+    },
+    "(S(a) → R(b,a))": {
+      "constructor": "impl",
+      "system_status": "invalid",
+      "system_confidence": 1.0,
+      "gt_holds": false,
+      "gt_reason": "refuted: 3 counterexamples",
+      "correct": true
+    },
+    "(S(a) ↔ R(b,a))": {
+      "constructor": "iff",
+      "system_status": "unknown",
+      "system_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "asymmetric: only_a=3, only_b=3",
+      "correct": false
+    }
+  },
+  "trace_steps": 594,
+  "trace_summary": {
+    "steps": 594,
+    "operations": {
+      "construct_neg": 9,
+      "verify": 297,
+      "construct_conj": 72,
+      "construct_disj": 72,
+      "construct_impl": 72,
+      "construct_iff": 72
+    },
+    "decisions": {
+      "expand": 297,
+      "retain": 230,
+      "stop": 67
+    }
+  },
+  "cost_summary": {
+    "total_cost": 1355.4,
+    "raw_compute_cost": 0,
+    "verification_cost": 1296.0,
+    "reuse_cost": 0.0,
+    "cache_saved_cost": 0.0,
+    "by_category": {
+      "construct": 59.4,
+      "verify": 1296.0
+    }
+  },
+  "total_cost": 1355.4,
+  "evidence_count": 1782
+}
