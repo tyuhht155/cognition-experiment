@@ -162,38 +162,31 @@ class ComputeEngine:
             # 把评价结果塞入 candidate.meta 供 CandidateProcessor 读取
             candidate.meta["__eval_result"] = ev
 
-            valid, apply_step_id = self.processor.process(
+            status, valid, apply_step_id = self.processor.process(
                 candidate, compute_id, depth, obj, goal, ctx, parent_step, stats)
 
-            if valid is None:
-                # 被 stop（invalid）
-                continue
+            # candidate 自身的直接验证结果
+            candidate_valid = (status == "valid")
 
-            # candidate 自身的直接验证结果（process 返回非空 set 表示直接 valid）
-            candidate_valid = len(valid) > 0
-
-            # goal_improvement：candidate 直接产出的 valid 命题是否与 goal 相关
-            goal_improvement = (
-                candidate_valid
-                and ev is not None
-                and getattr(ev, "goal_relevance", 0.0) > 0.5
-            )
+            # goal_improvement：当前无可靠 goal-state transition 定义，暂记 None
+            goal_improvement = None
 
             subtree_valid.update(valid)
 
             # 递归：parent_step 绑定到本 candidate 的 apply_step_id
+            # invalid candidate 不递归（已 stop）
             descendant_valid = False
-            if obj != candidate.new_object and apply_step_id is not None:
+            if status != "invalid" and obj != candidate.new_object and apply_step_id is not None:
                 _, child_valid = self.recursive_compute(
                     candidate.new_object, goal, ctx, depth + 1,
                     parent_step=apply_step_id)
                 subtree_valid.update(child_valid)
                 descendant_valid = len(child_valid) > 0
 
-            # 评价反馈：三个结果独立保存，actual 仍由 candidate_valid 决定
+            # 评价反馈：所有已执行的 candidate（含 invalid/unknown/gated_out）都产生 feedback
             if ctx.evaluate_enabled and ev is not None:
                 self.processor.record_feedback(
-                    ev, candidate_valid, descendant_valid, goal_improvement)
+                    ev, status, candidate_valid, descendant_valid, goal_improvement)
 
         self._sync_stats(stats)
         return compute_id, subtree_valid

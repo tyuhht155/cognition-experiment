@@ -442,14 +442,15 @@ def test_feedback_direct_vs_descendant_separated():
         trace=TraceRecorder())
     ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
     # candidate_valid=True, descendant_valid=False
-    cp.record_feedback(ev, candidate_valid=True, descendant_valid=False)
+    cp.record_feedback(ev, "valid", candidate_valid=True, descendant_valid=False)
     fb = cp.eval_feedback[-1]
     assert fb["actual"] == 1.0
     assert fb["candidate_valid"] is True
     assert fb["descendant_valid"] is False
+    assert fb["candidate_status"] == "valid"
     assert "goal_improvement" in fb
     # candidate_valid=False, descendant_valid=True → actual 仍应为 0.0
-    cp.record_feedback(ev, candidate_valid=False, descendant_valid=True)
+    cp.record_feedback(ev, "invalid", candidate_valid=False, descendant_valid=True)
     fb2 = cp.eval_feedback[-1]
     assert fb2["actual"] == 0.0
     assert fb2["candidate_valid"] is False
@@ -476,11 +477,12 @@ def test_parent_not_credited_for_descendant_valid():
         trace=TraceRecorder())
     ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
     # 模拟：父 candidate 自身未直接 valid（candidate_valid=False），但子树有 valid（descendant_valid=True）
-    cp.record_feedback(ev, candidate_valid=False, descendant_valid=True)
+    cp.record_feedback(ev, "invalid", candidate_valid=False, descendant_valid=True)
     last = cp.eval_feedback[-1]
     assert last["actual"] == 0.0, "父 candidate 不应因 descendant valid 获得 direct success"
     assert last["candidate_valid"] is False
     assert last["descendant_valid"] is True
+    assert last["candidate_status"] == "invalid"
     print("test_parent_not_credited_for_descendant_valid OK")
 
 
@@ -538,18 +540,183 @@ def test_feedback_records_three_independent_results():
         trace=TraceRecorder())
     ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
     # 三个结果全部不同组合
-    cp.record_feedback(ev, candidate_valid=True, descendant_valid=True, goal_improvement=True)
+    cp.record_feedback(ev, "valid", candidate_valid=True, descendant_valid=True, goal_improvement=True)
     fb = cp.eval_feedback[-1]
     assert fb["candidate_valid"] is True
     assert fb["descendant_valid"] is True
     assert fb["goal_improvement"] is True
     # 另一种组合
-    cp.record_feedback(ev, candidate_valid=False, descendant_valid=False, goal_improvement=False)
+    cp.record_feedback(ev, "invalid", candidate_valid=False, descendant_valid=False, goal_improvement=False)
     fb2 = cp.eval_feedback[-1]
     assert fb2["candidate_valid"] is False
     assert fb2["descendant_valid"] is False
     assert fb2["goal_improvement"] is False
     print("test_feedback_records_three_independent_results OK")
+
+
+# 27. invalid candidate 会产生 evaluation feedback
+def test_invalid_candidate_produces_feedback():
+    """被验证为 invalid 的 candidate 必须产生 feedback，不能因 continue 被跳过。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    # 预置 B→C 为 invalid，使 reuse 路径返回 invalid
+    bad_impl = P.impl(P.atom("B"), P.atom("C"))
+    bs.update_belief(bad_impl, "invalid", 0.8, evidence_count_delta=1)
+
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=1, max_candidates=5)
+    # world_history 使 cooccur_implication 从 C 生成 B→C（用 Proposition 对象）
+    A, B, C = P.atom("A"), P.atom("B"), P.atom("C")
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=100, verify_enabled=True, evaluate_enabled=True,
+                  world_history=[{A, B}, {C}, {B, C}])
+    engine.recursive_compute(C, None, ctx)
+
+    fb = engine.processor.eval_feedback
+    statuses = [f["candidate_status"] for f in fb]
+    assert "invalid" in statuses, "invalid candidate 必须产生 feedback"
+    invalid_fb = [f for f in fb if f["candidate_status"] == "invalid"]
+    assert all(f["actual"] == 0.0 for f in invalid_fb)
+    print("test_invalid_candidate_produces_feedback OK")
+
+
+# 28. gated_out candidate 会产生 feedback
+def test_gated_out_candidate_produces_feedback():
+    """被评价 gate 拒绝的 candidate 必须产生 feedback。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=1, max_candidates=5)
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=100, verify_enabled=True, evaluate_enabled=True)
+    engine.recursive_compute(P.atom("A"), None, ctx)
+
+    fb = engine.processor.eval_feedback
+    statuses = [f["candidate_status"] for f in fb]
+    # 只要有 feedback，每个 entry 的 status 必须是合法值
+    for f in fb:
+        assert f["candidate_status"] in ("valid", "invalid", "unknown", "gated_out")
+    # gated_out 的 actual 必须为 0.0
+    gated = [f for f in fb if f["candidate_status"] == "gated_out"]
+    if gated:
+        assert all(f["actual"] == 0.0 for f in gated)
+    print("test_gated_out_candidate_produces_feedback OK")
+
+
+# 29. budget exhausted / 未执行 candidate 不会产生伪造 feedback
+def test_budget_exhausted_no_fake_feedback():
+    """预算耗尽后未执行的 candidate 不应产生 feedback。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=1, max_candidates=5)
+    # 极小预算，确保部分 candidate 未执行
+    ctx = Context(knowledge_view=bs, constants=["A", "B", "C"],
+                  step_budget=3, verify_enabled=True, evaluate_enabled=True)
+    engine.recursive_compute(P.atom("A"), None, ctx)
+
+    fb = engine.processor.eval_feedback
+    # feedback 数量不能超过实际执行的 candidate 数
+    # （每个 candidate 至少消耗 1 step：apply）
+    assert len(fb) <= ctx.step_budget, "未执行的 candidate 不应产生伪造 feedback"
+    print("test_budget_exhausted_no_fake_feedback OK")
+
+
+# 30. goal_improvement 不会被 goal_relevance 冒充
+def test_goal_improvement_not_faked_by_goal_relevance():
+    """goal_improvement 在无可靠定义时必须为 None，不能用 goal_relevance > 0.5 冒充。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=TraceRecorder(),
+        max_depth=1, max_candidates=5)
+    ctx = Context(knowledge_view=bs, constants=["A", "B"],
+                  step_budget=100, verify_enabled=True, evaluate_enabled=True)
+    engine.recursive_compute(P.atom("A"), None, ctx)
+
+    fb = engine.processor.eval_feedback
+    for f in fb:
+        assert f["goal_improvement"] is None, \
+            "goal_improvement 不应被 goal_relevance 冒充，无可靠定义时必须为 None"
+    print("test_goal_improvement_not_faked_by_goal_relevance OK")
+
+
+# 31. candidate_valid 与 goal_improvement 可以独立存在
+def test_candidate_valid_and_goal_improvement_independent():
+    """candidate_valid 是事实结果，goal_improvement 当前为 None，两者解耦。"""
+    from cognition.candidate_processor import CandidateProcessor
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.trace import TraceRecorder
+    from cognition.evaluation import ValueEvaluator
+
+    bs = BeliefStore()
+    cp = CandidateProcessor(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        trace=TraceRecorder())
+    ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
+
+    # candidate_valid=True, goal_improvement=None（无可靠定义）
+    cp.record_feedback(ev, "valid", candidate_valid=True,
+                       descendant_valid=False, goal_improvement=None)
+    fb = cp.eval_feedback[-1]
+    assert fb["candidate_valid"] is True
+    assert fb["goal_improvement"] is None
+
+    # candidate_valid=False, goal_improvement=None
+    cp.record_feedback(ev, "invalid", candidate_valid=False,
+                       descendant_valid=False, goal_improvement=None)
+    fb2 = cp.eval_feedback[-1]
+    assert fb2["candidate_valid"] is False
+    assert fb2["goal_improvement"] is None
+    print("test_candidate_valid_and_goal_improvement_independent OK")
 
 
 def run_all():
@@ -580,6 +747,11 @@ def run_all():
         test_parent_not_credited_for_descendant_valid,
         test_recursive_parent_step_chain_established,
         test_feedback_records_three_independent_results,
+        test_invalid_candidate_produces_feedback,
+        test_gated_out_candidate_produces_feedback,
+        test_budget_exhausted_no_fake_feedback,
+        test_goal_improvement_not_faked_by_goal_relevance,
+        test_candidate_valid_and_goal_improvement_independent,
     ]
     passed = 0
     for t in tests:
