@@ -162,7 +162,7 @@ class ComputeEngine:
             # 把评价结果塞入 candidate.meta 供 CandidateProcessor 读取
             candidate.meta["__eval_result"] = ev
 
-            valid = self.processor.process(
+            valid, apply_step_id = self.processor.process(
                 candidate, compute_id, depth, obj, goal, ctx, parent_step, stats)
 
             if valid is None:
@@ -170,22 +170,30 @@ class ComputeEngine:
                 continue
 
             # candidate 自身的直接验证结果（process 返回非空 set 表示直接 valid）
-            candidate_direct_valid = valid is not None and len(valid) > 0
+            candidate_valid = len(valid) > 0
+
+            # goal_improvement：candidate 直接产出的 valid 命题是否与 goal 相关
+            goal_improvement = (
+                candidate_valid
+                and ev is not None
+                and getattr(ev, "goal_relevance", 0.0) > 0.5
+            )
 
             subtree_valid.update(valid)
 
-            # 递归
+            # 递归：parent_step 绑定到本 candidate 的 apply_step_id
             descendant_valid = False
-            if obj != candidate.new_object:
+            if obj != candidate.new_object and apply_step_id is not None:
                 _, child_valid = self.recursive_compute(
                     candidate.new_object, goal, ctx, depth + 1,
-                    parent_step=self._last_step_id(ctx))
+                    parent_step=apply_step_id)
                 subtree_valid.update(child_valid)
                 descendant_valid = len(child_valid) > 0
 
-            # 评价反馈：绑定到 candidate 自身的直接结果，而非 descendant 结果
+            # 评价反馈：三个结果独立保存，actual 仍由 candidate_valid 决定
             if ctx.evaluate_enabled and ev is not None:
-                self.processor.record_feedback(ev, candidate_direct_valid, descendant_valid)
+                self.processor.record_feedback(
+                    ev, candidate_valid, descendant_valid, goal_improvement)
 
         self._sync_stats(stats)
         return compute_id, subtree_valid
@@ -233,11 +241,6 @@ class ComputeEngine:
         self.actual_steps = stats["actual_steps"]
         self.useful_steps = stats["useful_steps"]
         self.verified_steps = stats["verified_steps"]
-
-    def _last_step_id(self, ctx: Context) -> Optional[str]:
-        # trace 的最后一步；ComputeEngine 不持有 trace 内部列表，通过 record 返回值获取
-        # 这里返回 None，parent_step 在递归调用处由 trace.record 的返回值提供更准确
-        return None
 
     # 兼容属性
     @property

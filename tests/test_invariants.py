@@ -441,15 +441,18 @@ def test_feedback_direct_vs_descendant_separated():
         consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
         trace=TraceRecorder())
     ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
-    # direct=True, descendant=False
-    cp.record_feedback(ev, candidate_direct_valid=True, descendant_valid=False)
+    # candidate_valid=True, descendant_valid=False
+    cp.record_feedback(ev, candidate_valid=True, descendant_valid=False)
     fb = cp.eval_feedback[-1]
     assert fb["actual"] == 1.0
+    assert fb["candidate_valid"] is True
     assert fb["descendant_valid"] is False
-    # direct=False, descendant=True → actual 仍应为 0.0（不因为 descendant 成功而判成功）
-    cp.record_feedback(ev, candidate_direct_valid=False, descendant_valid=True)
+    assert "goal_improvement" in fb
+    # candidate_valid=False, descendant_valid=True → actual 仍应为 0.0
+    cp.record_feedback(ev, candidate_valid=False, descendant_valid=True)
     fb2 = cp.eval_feedback[-1]
     assert fb2["actual"] == 0.0
+    assert fb2["candidate_valid"] is False
     assert fb2["descendant_valid"] is True
     print("test_feedback_direct_vs_descendant_separated OK")
 
@@ -472,11 +475,81 @@ def test_parent_not_credited_for_descendant_valid():
         consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
         trace=TraceRecorder())
     ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
-    # 模拟：父 candidate 自身未直接 valid（direct=False），但子树有 valid（descendant=True）
-    cp.record_feedback(ev, candidate_direct_valid=False, descendant_valid=True)
+    # 模拟：父 candidate 自身未直接 valid（candidate_valid=False），但子树有 valid（descendant_valid=True）
+    cp.record_feedback(ev, candidate_valid=False, descendant_valid=True)
     last = cp.eval_feedback[-1]
     assert last["actual"] == 0.0, "父 candidate 不应因 descendant valid 获得 direct success"
+    assert last["candidate_valid"] is False
+    assert last["descendant_valid"] is True
     print("test_parent_not_credited_for_descendant_valid OK")
+
+
+# 25. 递归 trace 的 parent_step 链已建立
+def test_recursive_parent_step_chain_established():
+    """ComputeEngine 递归调用时，子节点的 parent_step 必须是父 candidate 的 apply_step_id，
+    而不是 None。"""
+    from cognition.compute import ComputeEngine
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.operations import OperationStore
+    from cognition.trace import TraceRecorder
+
+    bs = BeliefStore()
+    trace = TraceRecorder()
+    engine = ComputeEngine(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        op_store=OperationStore(), trace=trace,
+        max_depth=2, max_candidates=3)
+    ctx = Context(knowledge_view=bs, constants=["A", "B"],
+                  step_budget=100, verify_enabled=False, evaluate_enabled=False)
+    obj = P.atom("A")
+    engine.recursive_compute(obj, None, ctx)
+
+    # 找出所有非 None 的 parent_step，确认递归建立了父子链接
+    steps = trace.to_dicts()
+    parent_steps = {s["parent_step"] for s in steps if s["parent_step"] is not None}
+    apply_step_ids = {s["step_id"] for s in steps if s["operation"] not in
+                      ("identify", "generate_candidates", "evaluate_rank")}
+    # 至少有一个步骤的 parent_step 指向某个 apply 步骤（即递归链存在）
+    assert parent_steps & apply_step_ids, "递归 trace 应建立 parent_step 链"
+    print("test_recursive_parent_step_chain_established OK")
+
+
+# 26. evaluation feedback 同时保存三个独立结果
+def test_feedback_records_three_independent_results():
+    """feedback 必须同时包含 candidate_valid、descendant_valid、goal_improvement 三个字段。"""
+    from cognition.candidate_processor import CandidateProcessor
+    from cognition.belief import BeliefStore
+    from cognition.evidence import EvidenceLog
+    from cognition.cost import CostTracker
+    from cognition.consensus import ConsensusAgreementModel
+    from cognition.prediction import TemporalPredictionState
+    from cognition.trace import TraceRecorder
+    from cognition.evaluation import ValueEvaluator
+
+    bs = BeliefStore()
+    cp = CandidateProcessor(
+        belief_store=bs, evidence_log=EvidenceLog(), cost_tracker=CostTracker(),
+        consensus=ConsensusAgreementModel(), prediction_state=TemporalPredictionState(),
+        trace=TraceRecorder())
+    ev = ValueEvaluator().evaluate(P.atom("X"), None, Context(knowledge_view=bs))
+    # 三个结果全部不同组合
+    cp.record_feedback(ev, candidate_valid=True, descendant_valid=True, goal_improvement=True)
+    fb = cp.eval_feedback[-1]
+    assert fb["candidate_valid"] is True
+    assert fb["descendant_valid"] is True
+    assert fb["goal_improvement"] is True
+    # 另一种组合
+    cp.record_feedback(ev, candidate_valid=False, descendant_valid=False, goal_improvement=False)
+    fb2 = cp.eval_feedback[-1]
+    assert fb2["candidate_valid"] is False
+    assert fb2["descendant_valid"] is False
+    assert fb2["goal_improvement"] is False
+    print("test_feedback_records_three_independent_results OK")
 
 
 def run_all():
@@ -505,6 +578,8 @@ def run_all():
         test_modus_tollens_via_knowledge_view,
         test_feedback_direct_vs_descendant_separated,
         test_parent_not_credited_for_descendant_valid,
+        test_recursive_parent_step_chain_established,
+        test_feedback_records_three_independent_results,
     ]
     passed = 0
     for t in tests:

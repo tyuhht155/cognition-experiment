@@ -61,15 +61,19 @@ class CandidateProcessor:
 
     def process(self, candidate: Candidate, compute_id: str, depth: int,
                 obj: Proposition, goal: Any, ctx: Context,
-                parent_step: Optional[str], stats: dict) -> Optional[Set[Proposition]]:
-        """处理一个 candidate，返回该 candidate 产出的有效命题集合。
+                parent_step: Optional[str], stats: dict
+                ) -> tuple:
+        """处理一个 candidate。
 
-        返回 None 表示该 candidate 被跳过（不应递归）。
-        stats 是 ComputeEngine 的统计 dict，由 CandidateProcessor 更新。
+        返回 (valid_set, apply_step_id)：
+          valid_set: 该 candidate 直接产出的有效命题集合；None 表示被 stop，
+                     set() 表示未直接 valid（gate rejected / unknown / no_verify）。
+          apply_step_id: 本 candidate 的 apply 步骤 ID，用于作为递归子调用的 parent_step。
         """
         o_prime = candidate.new_object
+        apply_step_id: Optional[str] = None
         if o_prime == obj:
-            return set()
+            return set(), apply_step_id
 
         is_composite = candidate.meta.get("op_kind") == "learned" or candidate.op_name.startswith("composite_")
 
@@ -78,6 +82,7 @@ class CandidateProcessor:
             compute_id, depth, obj, candidate.op_name, o_prime,
             parent_step=parent_step, cost=candidate.cost,
             meta={"op_kind": candidate.meta.get("op_kind"), "is_composite": is_composite})
+        apply_step_id = apply_step.step_id
         self.cost_tracker.add("apply", candidate.cost, candidate.op_name)
         stats["actual_steps"] += 1
         ctx.increment_step()
@@ -103,7 +108,7 @@ class CandidateProcessor:
             if not worth:
                 self.belief_store.update_belief(
                     o_prime, STATUS_UNKNOWN, 0.0, evidence_count_delta=0)
-                return set()
+                return set(), apply_step_id
 
         # 步骤5：验证
         if ctx.verify_enabled:
@@ -125,9 +130,9 @@ class CandidateProcessor:
                 stats["actual_steps"] += 1
                 ctx.increment_step()
                 if existing.status == STATUS_INVALID:
-                    return None
+                    return None, apply_step_id
                 if existing.status == STATUS_VALID:
-                    return {o_prime}
+                    return {o_prime}, apply_step_id
             else:
                 # 执行验证
                 self.belief_store.record_verification(o_prime)
@@ -183,10 +188,10 @@ class CandidateProcessor:
                 stats["verified_candidates"] += 1
                 if status == STATUS_VALID:
                     stats["valid_candidates"] += 1
-                    return {o_prime}
+                    return {o_prime}, apply_step_id
                 elif status == STATUS_INVALID:
                     stats["invalid_candidates"] += 1
-                    return None
+                    return None, apply_step_id
         else:
             self.belief_store.update_belief(
                 o_prime, STATUS_UNKNOWN, 0.0, evidence_count_delta=0)
@@ -196,19 +201,23 @@ class CandidateProcessor:
             stats["actual_steps"] += 1
             ctx.increment_step()
 
-        return set()
+        return set(), apply_step_id
 
-    def record_feedback(self, ev, candidate_direct_valid: bool,
-                        descendant_valid: bool = False) -> None:
-        """记录评价反馈。
+    def record_feedback(self, ev, candidate_valid: bool,
+                        descendant_valid: bool = False,
+                        goal_improvement: bool = False) -> None:
+        """记录评价反馈，三个结果独立保存。
 
-        feedback 绑定到 candidate 自身的直接结果，而不是 descendant 的结果。
-        descendant_valid 仅记录用于诊断，不影响 actual 判定。
+        candidate_valid:    candidate 自身是否被验证为 valid
+        descendant_valid:   继续递归后 descendant 是否产生 valid
+        goal_improvement:   这次计算是否使当前 goal 更接近/得到改善
         """
-        actual = 1.0 if candidate_direct_valid else 0.0
+        actual = 1.0 if candidate_valid else 0.0
         ValueEvaluator.record_feedback(
             self._eval_feedback, ev.method_tag, ev.value_score, actual,
-            extra={"descendant_valid": descendant_valid})
+            extra={"candidate_valid": candidate_valid,
+                   "descendant_valid": descendant_valid,
+                   "goal_improvement": goal_improvement})
 
     def meta_evaluate(self) -> dict:
         """根据累积反馈调整评价风格权重。"""
