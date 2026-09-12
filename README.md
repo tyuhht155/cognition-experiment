@@ -66,8 +66,9 @@ ComputeEngine (编排)
 | test_e0_2 | 10 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长 / 状态分类） |
 | test_e0_3 | 8 | E0-3 derived knowledge 闭环（valid 进入 derived / invalid 排除 / 同轮禁用 / 下轮可用） |
 | test_e0_4 | 10 | E0-4 知识修正与回滚（VALID 可被推翻 / derived 反映当前状态 / 退出后不再使用） |
+| test_e0_5 | 12 | E0-5 验证方法评估（方法对象化 / 时间反馈 / 方法可犯错 / 选择依赖历史） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **98** | **全部通过** |
+| **合计** | **110** | **全部通过** |
 
 ---
 
@@ -577,7 +578,145 @@ step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) �
 
 ---
 
-## 八、历史反哺的四种方式
+## 八、E0-5 实验：verification method evaluation
+
+### 核心变化（与 E0-4 的区别）
+
+E0-4：
+```
+observation → construction → verification → knowledge
+    → new observation → re-verification → knowledge revision → computation input update
+```
+
+E0-5：
+```
+candidate proposition → 选择 verification method → verification result → 新证据
+    → 比较该 method 的历史表现 → 更新对 method 的评价 → 后续选择 verification method
+```
+
+E0-4 验证了"知识可以修正"。E0-5 验证"验证方法本身也是计算对象"：
+- 不同 verification method 有不同成本、可靠性和适用范围
+- 方法可以犯错；reliability 可升可降
+- 方法选择是计算过程（产生 trace），不是硬编码规则
+- **不引入元认知模块**——方法评价只是普通计算对象
+
+### 三种验证方法
+
+| 方法 | cost | 特点 |
+|------|------|------|
+| `direct_observation` | 0.3 | 只看当前 observation，便宜但易受噪声影响 |
+| `repeated_observation` | 1.0 | 看全部 visible history，更可靠但更贵 |
+| `prediction_check` | 2.0 | 用前向预测检验，需要等待未来 observation；对非蕴含命题不适用 |
+
+### VerificationMethodStore
+
+记录每种方法的历史表现：
+
+| 字段 | 说明 |
+|------|------|
+| `attempts` | 总使用次数 |
+| `correct` | 时间反馈判定为"之前正确"的次数 |
+| `incorrect` | 时间反馈判定为"之前错误"的次数 |
+| `unknown` | 返回 UNKNOWN 的次数 |
+| `total_cost` / `average_cost` | 成本统计 |
+| `reliability_estimate` | `correct / (correct + incorrect)`，初始 0.5（中性） |
+
+### 时间反馈机制（非 ground truth，非共识）
+
+```
+method M 在 step t 说 prop P 是 VALID
+    → step t+1 重新验证 P
+    → 新结果为 INVALID → M 在 step t 是错的 → incorrect += 1 → reliability 下降
+    → 新结果仍为 VALID → M 在 step t 是对的 → correct += 1 → reliability 上升
+```
+
+- **不使用共识**："多个 verifier 一致"不等于可靠（内部一致性 ≠ 独立证据）
+- **不读取 ground truth**：agent 的 reliability_estimate 完全来自时间反馈
+- **ground truth 只用于实验统计**：不进入 BeliefStore / VerificationMethodStore / 方法选择
+
+### 方法选择算法
+
+```
+value ≈ reliability × applicability - cost × weight
+
+applicability 估计方法能否给出确定性答案（valid/invalid）：
+  - direct_observation: 前件在当前 step → 1.0；否则 → 0.2
+  - repeated_observation: 共现率 ≥0.8 或 <0.3 → 1.0；不确定区间 → 0.4
+  - prediction_check: 有已完成预测 → 1.0；无 → 0.1；非蕴含 → 0.0
+```
+
+这使 prediction_check 在它拥有独立未来确认数据时能胜过更便宜但返回 unknown 的方法。
+
+### 实验结果
+
+| 指标 | 值 |
+|------|-----|
+| 时间步数 | 12 |
+| 总候选数 | 21464 |
+| Trace 步骤数 | 63197 |
+| 总成本 | 17168.5 |
+
+#### 各方法统计
+
+| 方法 | attempts | correct | incorrect | unknown | total_cost | reliability |
+|------|----------|---------|-----------|---------|------------|-------------|
+| direct_observation | 45597 | 928 | 77 | 44384 | 13679.1 | 0.9234 |
+| repeated_observation | 1721 | 1441 | 33 | 16 | 1721.0 | 0.9776 |
+| prediction_check | 95 | 64 | 6 | 19 | 190.0 | 0.9143 |
+
+#### Ground Truth vs Agent Reliability
+
+| 方法 | agent reliability | gt accuracy | gt correct | gt incorrect |
+|------|-------------------|------------|------------|--------------|
+| direct_observation | 0.9234 | 0.9971 | 46466 | 136 |
+| repeated_observation | 0.9776 | 0.9915 | 3168 | 27 |
+| prediction_check | 0.9143 | **0.6727** | 111 | **54** |
+
+- prediction_check 的 GT 准确率仅 0.67（54 次错误）——**方法可以犯错**
+- agent reliability ≠ GT accuracy ——**reliability 不直接读取 ground truth**
+- direct_observation 最常用（便宜），prediction_check 最少用（贵且受限）
+
+#### 关键命题案例
+
+| 命题 | 首次方法 | 首次 verdict | actual_correct | 最终状态 | GT |
+|------|---------|-------------|-----------------|---------|-----|
+| P(a)→Q(a) | direct_observation | valid | True | valid | True (supported: 6) |
+| Q(a)→P(a) | direct_observation | valid | **False** | valid | **False** (refuted: 2) |
+| P(c)→Q(c) | direct_observation | valid | **False** | unknown | **False** (refuted: 1) |
+
+- Q(a)→P(a) 在 step 0 被 direct_observation 判为 VALID，但 GT 为 False → **方法犯错**
+- 后续步骤中 prediction_check 被选用于 Q(a)→P(a) 的重验证（当前件不在当前 step 且 repeated 共现率不确定时）
+
+### E0-5 专用测试（12 项不变量）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_verification_methods_are_objects | 验证方法本身可以被记录和计算 |
+| 2 | test_method_history_is_recorded | 每次使用 verifier 都产生历史记录 |
+| 3 | test_method_reliability_is_not_ground_truth | agent 的 reliability estimate 不直接读取 ground truth |
+| 4 | test_method_can_be_wrong | 至少一个 verifier 必须出现错误 |
+| 5 | test_method_reliability_can_decrease | 错误发生后 reliability 可以下降 |
+| 6 | test_method_reliability_can_increase | 连续正确后 reliability 可以上升 |
+| 7 | test_methods_have_different_costs | 验证方法成本不同 |
+| 8 | test_method_selection_depends_on_history | 历史表现能够影响后续方法选择 |
+| 9 | test_future_information_is_forbidden | 验证方法选择不能读取未来信息 |
+| 10 | test_ground_truth_is_not_agent_knowledge | ground truth 不得进入 KnowledgeStore / BeliefStore |
+| 11 | test_verification_result_and_method_evaluation_are_distinct | "命题是否成立"和"方法是否可靠"是两个不同对象 |
+| 12 | test_method_revision_does_not_directly_rewrite_proposition | 方法可靠性下降不能直接修改命题状态 |
+
+### E0-5 结论
+
+1. **验证方法是计算对象**：三种方法被记录、调用、统计，产生 trace
+2. **方法有历史**：method_timeline 记录每次使用的 step/method/proposition/result/cost/reliability_before/after/actual_correct
+3. **方法可以犯错**：prediction_check GT 准确率 0.67，direct_observation 也有 136 次 GT 错误
+4. **reliability 从时间反馈更新**：reliability = correct/(correct+incorrect)，来自 belief revision，不读取 ground truth
+5. **不同命题下方法价值不同**：direct 在前件出现时最优；repeated 在有历史且率高时最优；prediction_check 在有未来确认数据且其他方法不确定时最优
+6. **方法选择影响后续计算**：随着预测数据积累，prediction_check 被选用于重验证 Q(a)→P(a)
+7. **无元认知模块**：方法评价只是 VerificationMethodStore 中的普通计算对象
+
+---
+
+## 九、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -591,7 +730,7 @@ step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) �
 
 ---
 
-## 九、E0/E1/E2 实验设计
+## 十、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -601,7 +740,7 @@ step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) �
 
 ---
 
-## 十、A/B/C/D 对照实验
+## 十一、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -629,7 +768,7 @@ step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) �
 
 ---
 
-## 十一、先验声明
+## 十二、先验声明
 
 ### 不可删除的最小先验
 
@@ -646,16 +785,17 @@ step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) �
 
 ---
 
-## 十二、运行方式
+## 十三、运行方式
 
 ```bash
-# 运行测试（98 个）
+# 运行测试（110 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
 python tests/test_e0_2.py
 python tests/test_e0_3.py
 python tests/test_e0_4.py
+python tests/test_e0_5.py
 python tests/test_v0.py
 
 # 或使用 pytest
@@ -672,6 +812,9 @@ python experiments/run_e0_3.py
 
 # 运行 E0-4 实验（knowledge revision and rollback）
 python experiments/run_e0_4.py
+
+# 运行 E0-5 实验（verification method evaluation）
+python experiments/run_e0_5.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py
