@@ -67,8 +67,9 @@ ComputeEngine (编排)
 | test_e0_3 | 8 | E0-3 derived knowledge 闭环（valid 进入 derived / invalid 排除 / 同轮禁用 / 下轮可用） |
 | test_e0_4 | 10 | E0-4 知识修正与回滚（VALID 可被推翻 / derived 反映当前状态 / 退出后不再使用） |
 | test_e0_5 | 12 | E0-5 验证方法评估（方法对象化 / 时间反馈 / 方法可犯错 / 选择依赖历史） |
+| test_e0_6 | 10 | E0-6 操作选择学习（历史影响选择 / 情境偏好 / unknown 不计失败 / ground truth 不入选择 / 探索保留 / trace 完整 / A/B 对照） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **110** | **全部通过** |
+| **合计** | **120** | **全部通过** |
 
 ---
 
@@ -716,7 +717,152 @@ applicability 估计方法能否给出确定性答案（valid/invalid）：
 
 ---
 
-## 九、历史反哺的四种方式
+## 九、E0-6 实验：operation selection learning
+
+### 核心变化（与 E0-5 的区别）
+
+E0-5：
+```
+candidate proposition → 选择 verification method → verification result
+    → 比较该 method 的历史表现 → 更新对 method 的评价 → 后续选择 verification method
+```
+
+E0-6：
+```
+当前对象/命题 → 提取上下文特征 → 从历史匹配 (context, operation) 表现
+    → 根据历史结果对已有 constructor 评分 → epsilon-greedy 选择候选 → 执行构造+验证
+    → 根据结果更新 (context, operation) 历史 → 下次遇到类似情境改变选择
+```
+
+E0-5 验证了"验证方法本身是计算对象"。E0-6 验证"**系统能否从计算历史中学会选择更有效的 constructor**"：
+- 不创造新操作，只学习已有 constructors (neg/conj/disj/impl/iff) 的选择
+- 不硬编码"某种命题必须使用某个操作"
+- ground truth 只用于实验统计，不进入选择逻辑
+- 保留探索（epsilon-greedy, ε=0.2）
+- **不引入元认知模块**——操作选择、历史统计、评价都是普通计算对象
+
+### OperationSelectionStore
+
+记录每个 (context_signature, operation) 的历史表现：
+
+| 字段 | 说明 |
+|------|------|
+| `attempts` | 总尝试次数 |
+| `valid` / `invalid` / `unknown` | 验证结果计数 |
+| `success_rate` | `valid / (valid + invalid)`，unknown 不计入（初始 0.5 中性） |
+| `info_rate` | `(valid + invalid) / attempts`，惩罚只产生 unknown 的 constructor |
+| `valid_yield` | `valid / attempts`，每尝试一次获得 valid 的比例 |
+| `total_cost` / `average_cost` | 成本统计 |
+
+### 选择评分
+
+```
+score = success_rate × info_rate - cost × weight
+
+cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
+```
+
+- `success_rate × info_rate`：综合"有确定性答案的比例"和"确定性答案中 valid 的比例"
+- 只产生 unknown 的 constructor（如 conj/disj）→ info_rate=0 → score ≤ 0
+- 自然惩罚无信息的操作，不需要硬编码
+
+### 上下文特征提取
+
+上下文签名基于命题结构特征（非元认知模块，只是普通计算对象）：
+
+| 签名格式 | 说明 |
+|---------|------|
+| `unary_{kind}_{status}` | 一元 constructor 的上下文（neg） |
+| `binary_{kind_a}_{kind_b}_{status_a}_{status_b}` | 二元 constructor 的上下文（conj/disj/impl/iff） |
+
+其中：
+- `kind`：atom / relation / implies / iff / not / and / or
+- `status`：obs（已观察）/ der（已推导）/ new（新对象）
+
+### A/B 对照实验设计
+
+| | Group A（随机） | Group B（学习） |
+|--|----------------|-----------------|
+| 初始知识 | 相同 | 相同 |
+| 操作集合 | 相同 (neg/conj/disj/impl/iff) | 相同 |
+| 计算预算 | 相同 (12/step) | 相同 |
+| 验证机制 | 相同（observation-based） | 相同 |
+| 选择方式 | 随机 | epsilon-greedy + 历史评分 |
+| 唯一变量 | ❌ 无学习 | ✅ 有学习 |
+
+### 实验结果
+
+| 指标 | Group A（随机） | Group B（学习） | 差异 |
+|------|----------------|-----------------|------|
+| 总候选数 | 10260 | 10788 | +528 |
+| 实际执行数 | 144 | 144 | 0 |
+| valid | 9 | 11 | +2 |
+| invalid | 42 | 72 | +30 |
+| unknown | 93 | 61 | -32 |
+| 总成本 | 120.8 | 117.2 | -3.6 |
+| 效率 (valid/cost) | 0.0745 | 0.0939 | **1.26x** |
+
+#### Group B 操作选择分布
+
+| 操作 | A 次数 | B 次数 | B success_rate | B info_rate | B valid_yield |
+|------|--------|--------|----------------|-------------|---------------|
+| neg | 3 | 20 | 0.000 | 0.450 | 0.000 |
+| conj | 34 | 21 | 0.500 | 0.000 | 0.000 |
+| disj | 39 | 19 | 0.500 | 0.000 | 0.000 |
+| impl | 33 | **66** | 0.179 | **0.849** | **0.152** |
+| iff | 35 | 18 | 0.056 | 1.000 | 0.056 |
+
+**学习效果**：
+- Group B 大幅增加 `impl` 选择（66 vs 33）——impl 是唯一能产生高 info_rate 且有一定 valid_yield 的操作
+- Group B 减少 `conj`/`disj`（均只产生 unknown，info_rate=0）
+- Group B 增加 `neg`（20 vs 3）——neg 有中等 info_rate（0.45）
+
+#### 上下文特定偏好
+
+| 上下文 | 最佳操作 | valid_yield |
+|--------|---------|-------------|
+| binary_atom_atom_obs_obs | impl | 0.1905 |
+| binary_atom_relation_obs_obs | impl | 0.1429 |
+| unary_atom_obs | neg | 0.000 (但 info_rate=1.0) |
+| unary_implies_der | neg | 0.000 (info_rate=0.0) |
+
+不同上下文形成了不同的操作偏好模式。
+
+### E0-6 专用测试（10 项不变量）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_history_influences_selection | 历史经验能够影响后续操作选择 |
+| 2 | test_different_contexts_different_preferences | 不同情境可以形成不同的操作偏好 |
+| 3 | test_unknown_not_treated_as_failure | unknown 不会被错误当成失败 |
+| 4 | test_ground_truth_not_in_selection_logic | ground truth 不进入选择逻辑 |
+| 5 | test_exploration_still_exists | 仍然存在探索（epsilon-greedy） |
+| 6 | test_history_selection_records_complete | 历史选择记录完整 |
+| 7 | test_ab_groups_use_same_budget | A/B 两组使用相同预算 |
+| 8 | test_no_new_operations_created | 不创造新操作 |
+| 9 | test_future_information_forbidden | 操作选择不能读取未来信息 |
+| 10 | test_operation_selection_produces_trace | 操作选择产生 trace |
+
+### E0-6 结论
+
+1. **操作选择可以学习**：Group B 基于历史评分选择 constructor，效率比随机选择高 26%
+2. **学习目标是情境-操作匹配**：系统不是简单偏好某个操作名，而是根据上下文签名选择不同操作
+3. **不同情境形成不同偏好**：binary atom 上下文偏好 impl，unary 上下文偏好 neg
+4. **unknown 不被伪造为失败**：conj/disj 只产生 unknown，被 info_rate=0 自然惩罚，不影响 success_rate
+5. **ground truth 不进入选择**：select_candidates / compute_score / verify_proposition 源码均不含 ground_truth
+6. **探索保留**：epsilon=0.2 确保持续尝试非最优操作，获取新经验
+7. **无元认知模块**：操作选择、历史统计、评价都是普通计算对象，产生 trace
+
+### E0-6 未证明什么
+
+- **未证明新操作发现**：E0-6 只测试已有操作的选择学习（Level 1），不创造新操作（Level 2）
+- **未证明学习收敛**：当前实验只有 12 步，不足以展示长期收敛行为
+- **未证明多情境泛化**：上下文签名较粗（kind+status），未测试更细粒度的特征提取
+- **未证明优于硬编码**：学习效率 1.26x 是与随机选择对比，未与人工设计的硬编码规则对比
+
+---
+
+## 十、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -730,7 +876,7 @@ applicability 估计方法能否给出确定性答案（valid/invalid）：
 
 ---
 
-## 十、E0/E1/E2 实验设计
+## 十一、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -740,7 +886,7 @@ applicability 估计方法能否给出确定性答案（valid/invalid）：
 
 ---
 
-## 十一、A/B/C/D 对照实验
+## 十二、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -768,7 +914,7 @@ applicability 估计方法能否给出确定性答案（valid/invalid）：
 
 ---
 
-## 十二、先验声明
+## 十三、先验声明
 
 ### 不可删除的最小先验
 
@@ -785,10 +931,10 @@ applicability 估计方法能否给出确定性答案（valid/invalid）：
 
 ---
 
-## 十三、运行方式
+## 十四、运行方式
 
 ```bash
-# 运行测试（110 个）
+# 运行测试（120 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
@@ -796,6 +942,7 @@ python tests/test_e0_2.py
 python tests/test_e0_3.py
 python tests/test_e0_4.py
 python tests/test_e0_5.py
+python tests/test_e0_6.py
 python tests/test_v0.py
 
 # 或使用 pytest
@@ -815,6 +962,9 @@ python experiments/run_e0_4.py
 
 # 运行 E0-5 实验（verification method evaluation）
 python experiments/run_e0_5.py
+
+# 运行 E0-6 实验（operation selection learning）
+python experiments/run_e0_6.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py

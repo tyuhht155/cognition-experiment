@@ -1,0 +1,5227 @@
+{
+  "experiment": "E0-6",
+  "description": "operation selection learning (learning which constructors are more effective)",
+  "group_a": {
+    "use_learning": false,
+    "seed": 42,
+    "n_steps": 12,
+    "budget_per_step": 12,
+    "total_candidates_generated": 10260,
+    "total_executed": 144,
+    "total_valid": 9,
+    "total_invalid": 42,
+    "total_unknown": 93,
+    "total_cost": 120.8,
+    "belief_store_stats": {
+      "total": 144,
+      "valid": 9,
+      "invalid": 42,
+      "unknown": 93
+    },
+    "operation_counts": {
+      "neg": 3,
+      "conj": 34,
+      "disj": 39,
+      "impl": 33,
+      "iff": 35
+    },
+    "operation_stats": {
+      "neg": {
+        "operation": "neg",
+        "attempts": 3,
+        "valid": 0,
+        "invalid": 1,
+        "unknown": 2,
+        "total_cost": 1.5,
+        "success_rate": 0.0,
+        "info_rate": 0.3333,
+        "valid_yield": 0.0
+      },
+      "conj": {
+        "operation": "conj",
+        "attempts": 34,
+        "valid": 0,
+        "invalid": 0,
+        "unknown": 34,
+        "total_cost": 23.8,
+        "success_rate": 0.5,
+        "info_rate": 0.0,
+        "valid_yield": 0.0
+      },
+      "disj": {
+        "operation": "disj",
+        "attempts": 39,
+        "valid": 0,
+        "invalid": 0,
+        "unknown": 39,
+        "total_cost": 27.3,
+        "success_rate": 0.5,
+        "info_rate": 0.0,
+        "valid_yield": 0.0
+      },
+      "impl": {
+        "operation": "impl",
+        "attempts": 33,
+        "valid": 4,
+        "invalid": 19,
+        "unknown": 10,
+        "total_cost": 29.7,
+        "success_rate": 0.1739,
+        "info_rate": 0.697,
+        "valid_yield": 0.1212
+      },
+      "iff": {
+        "operation": "iff",
+        "attempts": 35,
+        "valid": 5,
+        "invalid": 22,
+        "unknown": 8,
+        "total_cost": 38.5,
+        "success_rate": 0.1852,
+        "info_rate": 0.7714,
+        "valid_yield": 0.1429
+      }
+    },
+    "context_stats": {
+      "binary_atom_relation_obs_obs": {
+        "disj": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "disj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "impl",
+          "attempts": 2,
+          "valid": 1,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.8,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 1.0,
+          "valid_yield": 0.5
+        },
+        "iff": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 2,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 1.0,
+          "info_rate": 1.0,
+          "valid_yield": 1.0
+        },
+        "conj": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "conj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_atom_obs_obs": {
+        "disj": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "disj",
+          "attempts": 7,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 7,
+          "total_cost": 4.9,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "iff",
+          "attempts": 5,
+          "valid": 1,
+          "invalid": 4,
+          "unknown": 0,
+          "total_cost": 5.5,
+          "average_cost": 1.1,
+          "success_rate": 0.2,
+          "info_rate": 1.0,
+          "valid_yield": 0.2
+        },
+        "impl": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "impl",
+          "attempts": 6,
+          "valid": 3,
+          "invalid": 3,
+          "unknown": 0,
+          "total_cost": 5.4,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 1.0,
+          "valid_yield": 0.5
+        },
+        "conj": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_atom_obs_obs": {
+        "iff": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "iff",
+          "attempts": 3,
+          "valid": 2,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 3.3,
+          "average_cost": 1.1,
+          "success_rate": 0.6667,
+          "info_rate": 1.0,
+          "valid_yield": 0.6667
+        },
+        "conj": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "conj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "impl",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 3,
+          "unknown": 0,
+          "total_cost": 2.7,
+          "average_cost": 0.9,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_iff_der_der": {
+        "iff": {
+          "context_sig": "binary_iff_iff_der_der",
+          "operation": "iff",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 3.3,
+          "average_cost": 1.1,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_iff_iff_der_der",
+          "operation": "conj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_iff_der_der",
+          "operation": "disj",
+          "attempts": 5,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 5,
+          "total_cost": 3.5,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_implies_obs_der": {
+        "disj": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "disj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "iff",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 4,
+          "unknown": 0,
+          "total_cost": 4.4,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "conj",
+          "attempts": 5,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 5,
+          "total_cost": 3.5,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "impl",
+          "attempts": 5,
+          "valid": 0,
+          "invalid": 5,
+          "unknown": 0,
+          "total_cost": 4.5,
+          "average_cost": 0.9,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_relation_der_obs": {
+        "conj": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "iff",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "disj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_atom_der_obs": {
+        "iff": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "iff",
+          "attempts": 5,
+          "valid": 0,
+          "invalid": 5,
+          "unknown": 0,
+          "total_cost": 5.5,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "conj",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 2.8,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "impl",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 3.6,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "disj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_implies_der_der": {
+        "conj": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "impl",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.9,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "disj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_iff_obs_der": {
+        "disj": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "disj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "impl",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 0.9,
+          "average_cost": 0.9,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_atom_der_obs": {
+        "iff": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "disj",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 2.8,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "impl",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.8,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_iff_obs_der": {
+        "impl": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "impl",
+          "attempts": 6,
+          "valid": 0,
+          "invalid": 6,
+          "unknown": 0,
+          "total_cost": 5.4,
+          "average_cost": 0.9,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "disj",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 2.8,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_relation_der_obs": {
+        "iff": {
+          "context_sig": "binary_implies_relation_der_obs",
+          "operation": "iff",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_iff_der_der": {
+        "iff": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "iff",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 3.3,
+          "average_cost": 1.1,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "impl",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.8,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "conj": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "conj",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 2.8,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "disj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_relation_obs_obs": {
+        "disj": {
+          "context_sig": "binary_relation_relation_obs_obs",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_implies_der_der": {
+        "conj": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "conj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "impl",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.9,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_atom_obs": {
+        "neg": {
+          "context_sig": "unary_atom_obs",
+          "operation": "neg",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 0.5,
+          "average_cost": 0.5,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_iff_der": {
+        "neg": {
+          "context_sig": "unary_iff_der",
+          "operation": "neg",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.5,
+          "average_cost": 0.5,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_implies_der": {
+        "neg": {
+          "context_sig": "unary_implies_der",
+          "operation": "neg",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.5,
+          "average_cost": 0.5,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      }
+    },
+    "step_records": [
+      {
+        "step": 0,
+        "observed_count": 3,
+        "derived_count": 0,
+        "constructible_count": 3,
+        "candidates_available": 27,
+        "candidates_selected": 12,
+        "valid": 7,
+        "invalid": 0,
+        "unknown": 5,
+        "step_cost": 10.8,
+        "cumulative_cost": 10.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 3,
+          "disj": 2,
+          "impl": 2,
+          "iff": 5
+        },
+        "visible_history_length": 1
+      },
+      {
+        "step": 1,
+        "observed_count": 6,
+        "derived_count": 7,
+        "constructible_count": 13,
+        "candidates_available": 625,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 4,
+        "unknown": 8,
+        "step_cost": 10.2,
+        "cumulative_cost": 21.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 4,
+          "disj": 3,
+          "impl": 1,
+          "iff": 4
+        },
+        "visible_history_length": 2
+      },
+      {
+        "step": 2,
+        "observed_count": 6,
+        "derived_count": 7,
+        "constructible_count": 13,
+        "candidates_available": 613,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 5,
+        "unknown": 6,
+        "step_cost": 11.6,
+        "cumulative_cost": 32.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 2,
+          "disj": 1,
+          "impl": 2,
+          "iff": 7
+        },
+        "visible_history_length": 3
+      },
+      {
+        "step": 3,
+        "observed_count": 7,
+        "derived_count": 8,
+        "constructible_count": 15,
+        "candidates_available": 819,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 2,
+        "unknown": 10,
+        "step_cost": 10.2,
+        "cumulative_cost": 42.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 2,
+          "disj": 4,
+          "impl": 3,
+          "iff": 3
+        },
+        "visible_history_length": 4
+      },
+      {
+        "step": 4,
+        "observed_count": 7,
+        "derived_count": 8,
+        "constructible_count": 15,
+        "candidates_available": 807,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 2,
+        "unknown": 10,
+        "step_cost": 9.4,
+        "cumulative_cost": 52.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 5,
+          "disj": 4,
+          "impl": 1,
+          "iff": 2
+        },
+        "visible_history_length": 5
+      },
+      {
+        "step": 5,
+        "observed_count": 7,
+        "derived_count": 8,
+        "constructible_count": 15,
+        "candidates_available": 795,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 3,
+        "unknown": 9,
+        "step_cost": 9.8,
+        "cumulative_cost": 62.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 5,
+          "disj": 2,
+          "impl": 3,
+          "iff": 2
+        },
+        "visible_history_length": 6
+      },
+      {
+        "step": 6,
+        "observed_count": 8,
+        "derived_count": 8,
+        "constructible_count": 16,
+        "candidates_available": 904,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 3,
+        "unknown": 8,
+        "step_cost": 9.4,
+        "cumulative_cost": 71.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 4,
+          "disj": 4,
+          "impl": 3,
+          "iff": 1
+        },
+        "visible_history_length": 7
+      },
+      {
+        "step": 7,
+        "observed_count": 9,
+        "derived_count": 9,
+        "constructible_count": 18,
+        "candidates_available": 1158,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 4,
+        "unknown": 8,
+        "step_cost": 10.0,
+        "cumulative_cost": 81.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 4,
+          "disj": 3,
+          "impl": 2,
+          "iff": 3
+        },
+        "visible_history_length": 8
+      },
+      {
+        "step": 8,
+        "observed_count": 9,
+        "derived_count": 9,
+        "constructible_count": 18,
+        "candidates_available": 1146,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 4,
+        "unknown": 8,
+        "step_cost": 9.0,
+        "cumulative_cost": 90.4,
+        "operation_counts": {
+          "neg": 3,
+          "conj": 2,
+          "disj": 3,
+          "impl": 2,
+          "iff": 2
+        },
+        "visible_history_length": 9
+      },
+      {
+        "step": 9,
+        "observed_count": 9,
+        "derived_count": 9,
+        "constructible_count": 18,
+        "candidates_available": 1134,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 4,
+        "unknown": 8,
+        "step_cost": 9.6,
+        "cumulative_cost": 100.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 6,
+          "impl": 4,
+          "iff": 1
+        },
+        "visible_history_length": 10
+      },
+      {
+        "step": 10,
+        "observed_count": 9,
+        "derived_count": 9,
+        "constructible_count": 18,
+        "candidates_available": 1122,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 6,
+        "unknown": 6,
+        "step_cost": 10.8,
+        "cumulative_cost": 110.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 2,
+          "impl": 6,
+          "iff": 3
+        },
+        "visible_history_length": 11
+      },
+      {
+        "step": 11,
+        "observed_count": 9,
+        "derived_count": 9,
+        "constructible_count": 18,
+        "candidates_available": 1110,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 5,
+        "unknown": 7,
+        "step_cost": 10.0,
+        "cumulative_cost": 120.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 5,
+          "impl": 4,
+          "iff": 2
+        },
+        "visible_history_length": 12
+      }
+    ],
+    "selection_timeline": [
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(a) ∨ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(a) ∨ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → R(a,b))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(R(a,b) ↔ Q(a))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(R(a,b) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ Q(a))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → Q(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ R(a,b))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(R(a,b) ↔ P(a))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ R(a,b))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ Q(a)) ↔ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(Q(b) ∨ (P(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "conj",
+        "proposition": "((Q(a) ↔ R(a,b)) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((Q(a) ↔ R(a,b)) ↔ Q(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ Q(a)) ∧ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ R(a,b)) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ R(a,b)) ∧ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(R(a,b) ∨ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) → Q(a)) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(a) ∨ Q(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(P(b) → (R(a,b) ↔ P(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) → R(a,b)) ↔ Q(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((Q(a) ↔ R(a,b)) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) → R(a,b)) ↔ R(a,b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "iff",
+        "proposition": "((P(a) → Q(a)) ↔ (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_relation_relation_obs_obs",
+        "operation": "disj",
+        "proposition": "(R(b,a) ∨ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ R(a,b)) ↔ R(b,a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "conj",
+        "proposition": "((Q(a) ↔ R(a,b)) ∧ (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) → R(a,b)) → (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "iff",
+        "proposition": "((R(a,b) ↔ P(a)) ↔ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ R(a,b)) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → P(b))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ (P(a) → Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((P(a) ↔ R(a,b)) → P(b))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ Q(a)) ∨ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "iff",
+        "proposition": "((Q(b) → P(b)) ↔ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "conj",
+        "proposition": "(Q(b) ∧ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(R(a,b) ∨ (Q(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(P(b) ∨ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ R(a,b)) ∨ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((P(a) ↔ Q(a)) → P(a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "iff",
+        "proposition": "((Q(b) → P(b)) ↔ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(b) → (P(a) ↔ R(a,b)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ Q(a)) ∨ (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) ↔ R(a,b)) → (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → R(a,b)) ∧ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "conj",
+        "proposition": "(P(b) ∧ (P(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(P(a) ∨ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → R(a,b)) ∧ (Q(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(P(a) ∨ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → R(a,b)) ∧ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ R(a,b)) ↔ P(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "conj",
+        "proposition": "((Q(a) ↔ R(a,b)) ∧ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(R(b,a) ↔ P(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(b) ∨ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "conj",
+        "proposition": "((Q(b) → P(b)) ∧ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(b) → (R(a,b) ↔ P(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((Q(a) ↔ R(a,b)) → S(a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ R(a,b)) ∧ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ Q(a)) ∨ R(b,a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "conj",
+        "proposition": "(Q(b) ∧ (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "iff",
+        "proposition": "(R(a,b) ↔ (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → R(a,b)) ∧ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(b) → (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ Q(a)) ↔ (Q(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ Q(a)) ∨ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → R(a,b)) ∧ Q(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → Q(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ R(b,a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "conj",
+        "proposition": "(P(c) ∧ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((Q(a) ↔ R(a,b)) ∧ Q(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(P(b) ∨ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((Q(a) ↔ R(a,b)) ↔ P(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ Q(a)) ∨ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(R(a,b) → (R(a,b) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(P(b) → (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "disj",
+        "proposition": "((R(a,b) ↔ Q(a)) ∨ R(b,a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(P(b) ∨ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "conj",
+        "proposition": "(P(b) ∧ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "iff",
+        "proposition": "(Q(c) ↔ (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(b) ∨ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ S(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((P(c) → Q(a)) → P(a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "conj",
+        "proposition": "(S(a) ∧ (Q(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((R(a,b) ↔ P(a)) ∧ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) ↔ R(a,b)) ∧ (P(c) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(b) ∨ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((R(a,b) ↔ P(a)) ↔ P(c))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_iff_relation_der_obs",
+        "operation": "conj",
+        "proposition": "((R(a,b) ↔ P(a)) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((Q(b) → P(b)) → Q(a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬Q(c)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ (R(a,b) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_iff_der",
+        "operation": "neg",
+        "proposition": "¬(P(a) ↔ Q(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) ↔ R(a,b)) ∨ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(c) ↔ P(c))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(P(b) ∨ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(b) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "disj",
+        "proposition": "((R(a,b) ↔ Q(a)) ∨ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(a) → R(a,b))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(P(a) ∨ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → R(a,b)) ∨ (Q(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(c) ∧ Q(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(P(c) → (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "disj",
+        "proposition": "((R(a,b) ↔ Q(a)) ∨ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(R(a,b) ∨ (P(a) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_relation_iff_obs_der",
+        "operation": "iff",
+        "proposition": "(R(b,a) ↔ (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(Q(a) ∨ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_iff_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((R(a,b) ↔ P(a)) → Q(a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(c) → Q(a)) ∨ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(b) → (Q(b) → P(b)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "disj",
+        "proposition": "(S(a) ∨ (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(c) → (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "impl",
+        "proposition": "(P(b) → (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(R(b,a) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(R(a,b) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_iff_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(c) → (P(a) ↔ Q(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → (P(a) ↔ R(a,b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "disj",
+        "proposition": "((R(a,b) ↔ P(a)) ∨ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ R(a,b)) ↔ (P(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "iff",
+        "proposition": "((P(a) ↔ Q(a)) ↔ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ (P(a) → Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ P(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_iff_iff_der_der",
+        "operation": "disj",
+        "proposition": "((R(a,b) ↔ Q(a)) ∨ (R(a,b) ↔ P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(R(a,b) ∨ P(c))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(R(a,b) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "impl",
+        "proposition": "(Q(c) → (P(a) → Q(a)))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ Q(c))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(c) → Q(a)) ∨ (R(a,b) ↔ Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ S(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) → R(a,b)) ∨ Q(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(c) → Q(a)) ∨ Q(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → P(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0,
+        "was_exploration": true
+      }
+    ],
+    "key_propositions": {
+      "P(a)→Q(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 6"
+      },
+      "Q(a)→P(a)": {
+        "status": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 2 counterexamples"
+      },
+      "P(c)→Q(c)": {
+        "status": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 1 counterexamples"
+      },
+      "R(a,b)↔R(b,a)": {
+        "status": "not_in_store",
+        "confidence": 0,
+        "gt_holds": false,
+        "gt_reason": "asymmetric: only_a=2, only_b=2"
+      }
+    },
+    "trace_steps": 432,
+    "exploration_count": 144,
+    "exploit_count": 0,
+    "exploration_rate": 1.0
+  },
+  "group_b": {
+    "use_learning": true,
+    "seed": 42,
+    "n_steps": 12,
+    "budget_per_step": 12,
+    "total_candidates_generated": 10788,
+    "total_executed": 144,
+    "total_valid": 11,
+    "total_invalid": 72,
+    "total_unknown": 61,
+    "total_cost": 117.2,
+    "belief_store_stats": {
+      "total": 144,
+      "valid": 11,
+      "invalid": 72,
+      "unknown": 61
+    },
+    "operation_counts": {
+      "neg": 20,
+      "conj": 21,
+      "disj": 19,
+      "impl": 66,
+      "iff": 18
+    },
+    "operation_stats": {
+      "neg": {
+        "operation": "neg",
+        "attempts": 20,
+        "valid": 0,
+        "invalid": 9,
+        "unknown": 11,
+        "total_cost": 10.0,
+        "success_rate": 0.0,
+        "info_rate": 0.45,
+        "valid_yield": 0.0
+      },
+      "conj": {
+        "operation": "conj",
+        "attempts": 21,
+        "valid": 0,
+        "invalid": 0,
+        "unknown": 21,
+        "total_cost": 14.7,
+        "success_rate": 0.5,
+        "info_rate": 0.0,
+        "valid_yield": 0.0
+      },
+      "disj": {
+        "operation": "disj",
+        "attempts": 19,
+        "valid": 0,
+        "invalid": 0,
+        "unknown": 19,
+        "total_cost": 13.3,
+        "success_rate": 0.5,
+        "info_rate": 0.0,
+        "valid_yield": 0.0
+      },
+      "impl": {
+        "operation": "impl",
+        "attempts": 66,
+        "valid": 10,
+        "invalid": 46,
+        "unknown": 10,
+        "total_cost": 59.4,
+        "success_rate": 0.1786,
+        "info_rate": 0.8485,
+        "valid_yield": 0.1515
+      },
+      "iff": {
+        "operation": "iff",
+        "attempts": 18,
+        "valid": 1,
+        "invalid": 17,
+        "unknown": 0,
+        "total_cost": 19.8,
+        "success_rate": 0.0556,
+        "info_rate": 1.0,
+        "valid_yield": 0.0556
+      }
+    },
+    "context_stats": {
+      "unary_atom_obs": {
+        "neg": {
+          "context_sig": "unary_atom_obs",
+          "operation": "neg",
+          "attempts": 7,
+          "valid": 0,
+          "invalid": 7,
+          "unknown": 0,
+          "total_cost": 3.5,
+          "average_cost": 0.5,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_relation_obs": {
+        "neg": {
+          "context_sig": "unary_relation_obs",
+          "operation": "neg",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 1.0,
+          "average_cost": 0.5,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_atom_obs_obs": {
+        "conj": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "impl",
+          "attempts": 42,
+          "valid": 8,
+          "invalid": 34,
+          "unknown": 0,
+          "total_cost": 37.8,
+          "average_cost": 0.9,
+          "success_rate": 0.1905,
+          "info_rate": 1.0,
+          "valid_yield": 0.1905
+        },
+        "iff": {
+          "context_sig": "binary_atom_atom_obs_obs",
+          "operation": "iff",
+          "attempts": 11,
+          "valid": 1,
+          "invalid": 10,
+          "unknown": 0,
+          "total_cost": 12.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0909,
+          "info_rate": 1.0,
+          "valid_yield": 0.0909
+        }
+      },
+      "binary_atom_relation_obs_obs": {
+        "conj": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "impl",
+          "attempts": 14,
+          "valid": 2,
+          "invalid": 12,
+          "unknown": 0,
+          "total_cost": 12.6,
+          "average_cost": 0.9,
+          "success_rate": 0.1429,
+          "info_rate": 1.0,
+          "valid_yield": 0.1429
+        },
+        "iff": {
+          "context_sig": "binary_atom_relation_obs_obs",
+          "operation": "iff",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_atom_obs_obs": {
+        "conj": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "conj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_relation_atom_obs_obs",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_implies_der": {
+        "neg": {
+          "context_sig": "unary_implies_der",
+          "operation": "neg",
+          "attempts": 10,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 10,
+          "total_cost": 5.0,
+          "average_cost": 0.5,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_implies_der_der": {
+        "conj": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "conj",
+          "attempts": 9,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 9,
+          "total_cost": 6.3,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "disj",
+          "attempts": 10,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 10,
+          "total_cost": 7.0,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "impl",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.7,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_implies_implies_der_der",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_atom_der_obs": {
+        "conj": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "conj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "disj",
+          "attempts": 3,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 3,
+          "total_cost": 2.1,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "impl",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.8,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_implies_atom_der_obs",
+          "operation": "iff",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_relation_der_obs": {
+        "conj": {
+          "context_sig": "binary_implies_relation_der_obs",
+          "operation": "conj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_relation_der_obs",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_relation_der_obs",
+          "operation": "impl",
+          "attempts": 4,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 4,
+          "total_cost": 3.6,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_implies_relation_der_obs",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_implies_obs_der": {
+        "conj": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "disj",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 2,
+          "total_cost": 1.4,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_atom_implies_obs_der",
+          "operation": "iff",
+          "attempts": 2,
+          "valid": 0,
+          "invalid": 2,
+          "unknown": 0,
+          "total_cost": 2.2,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_implies_obs_der": {
+        "conj": {
+          "context_sig": "binary_relation_implies_obs_der",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_relation_implies_obs_der",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_implies_obs_der",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_relation_implies_obs_der",
+          "operation": "iff",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 1,
+          "unknown": 0,
+          "total_cost": 1.1,
+          "average_cost": 1.1,
+          "success_rate": 0.0,
+          "info_rate": 1.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_relation_obs_obs": {
+        "conj": {
+          "context_sig": "binary_relation_relation_obs_obs",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_relation_relation_obs_obs",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_relation_obs_obs",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_relation_relation_obs_obs",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "unary_iff_der": {
+        "neg": {
+          "context_sig": "unary_iff_der",
+          "operation": "neg",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.5,
+          "average_cost": 0.5,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_implies_iff_der_der": {
+        "conj": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "conj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "disj",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.7,
+          "average_cost": 0.7,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_implies_iff_der_der",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_implies_der_der": {
+        "conj": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "impl",
+          "attempts": 1,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 1,
+          "total_cost": 0.9,
+          "average_cost": 0.9,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_iff_implies_der_der",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_atom_der_obs": {
+        "conj": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_iff_atom_der_obs",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_iff_relation_der_obs": {
+        "conj": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_iff_relation_der_obs",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_atom_iff_obs_der": {
+        "conj": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_atom_iff_obs_der",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      },
+      "binary_relation_iff_obs_der": {
+        "conj": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "conj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "disj": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "disj",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "impl": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "impl",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        },
+        "iff": {
+          "context_sig": "binary_relation_iff_obs_der",
+          "operation": "iff",
+          "attempts": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "total_cost": 0.0,
+          "average_cost": 0.0,
+          "success_rate": 0.5,
+          "info_rate": 0.0,
+          "valid_yield": 0.0
+        }
+      }
+    },
+    "step_records": [
+      {
+        "step": 0,
+        "observed_count": 3,
+        "derived_count": 0,
+        "constructible_count": 3,
+        "candidates_available": 27,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 3,
+        "unknown": 7,
+        "step_cost": 8.2,
+        "cumulative_cost": 8.2,
+        "operation_counts": {
+          "neg": 3,
+          "conj": 5,
+          "disj": 2,
+          "impl": 2,
+          "iff": 0
+        },
+        "visible_history_length": 1
+      },
+      {
+        "step": 1,
+        "observed_count": 6,
+        "derived_count": 2,
+        "constructible_count": 8,
+        "candidates_available": 220,
+        "candidates_selected": 12,
+        "valid": 3,
+        "invalid": 9,
+        "unknown": 0,
+        "step_cost": 11.4,
+        "cumulative_cost": 19.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 9,
+          "iff": 3
+        },
+        "visible_history_length": 2
+      },
+      {
+        "step": 2,
+        "observed_count": 6,
+        "derived_count": 5,
+        "constructible_count": 11,
+        "candidates_available": 427,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 8,
+        "unknown": 3,
+        "step_cost": 9.8,
+        "cumulative_cost": 29.4,
+        "operation_counts": {
+          "neg": 2,
+          "conj": 1,
+          "disj": 0,
+          "impl": 9,
+          "iff": 0
+        },
+        "visible_history_length": 3
+      },
+      {
+        "step": 3,
+        "observed_count": 7,
+        "derived_count": 6,
+        "constructible_count": 13,
+        "candidates_available": 601,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 9,
+        "unknown": 1,
+        "step_cost": 11.0,
+        "cumulative_cost": 40.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 11,
+          "iff": 1
+        },
+        "visible_history_length": 4
+      },
+      {
+        "step": 4,
+        "observed_count": 7,
+        "derived_count": 8,
+        "constructible_count": 15,
+        "candidates_available": 807,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 11,
+        "unknown": 1,
+        "step_cost": 13.0,
+        "cumulative_cost": 53.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 1,
+          "iff": 11
+        },
+        "visible_history_length": 5
+      },
+      {
+        "step": 5,
+        "observed_count": 7,
+        "derived_count": 8,
+        "constructible_count": 15,
+        "candidates_available": 795,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 5,
+        "unknown": 7,
+        "step_cost": 6.8,
+        "cumulative_cost": 60.2,
+        "operation_counts": {
+          "neg": 10,
+          "conj": 1,
+          "disj": 0,
+          "impl": 0,
+          "iff": 1
+        },
+        "visible_history_length": 6
+      },
+      {
+        "step": 6,
+        "observed_count": 8,
+        "derived_count": 8,
+        "constructible_count": 16,
+        "candidates_available": 904,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 8,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 71.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 12,
+          "iff": 0
+        },
+        "visible_history_length": 7
+      },
+      {
+        "step": 7,
+        "observed_count": 9,
+        "derived_count": 10,
+        "constructible_count": 19,
+        "candidates_available": 1303,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 10,
+        "unknown": 1,
+        "step_cost": 10.8,
+        "cumulative_cost": 81.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 1,
+          "impl": 10,
+          "iff": 1
+        },
+        "visible_history_length": 8
+      },
+      {
+        "step": 8,
+        "observed_count": 9,
+        "derived_count": 11,
+        "constructible_count": 20,
+        "candidates_available": 1444,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 6,
+        "unknown": 6,
+        "step_cost": 9.6,
+        "cumulative_cost": 91.4,
+        "operation_counts": {
+          "neg": 3,
+          "conj": 0,
+          "disj": 0,
+          "impl": 9,
+          "iff": 0
+        },
+        "visible_history_length": 9
+      },
+      {
+        "step": 9,
+        "observed_count": 9,
+        "derived_count": 11,
+        "constructible_count": 20,
+        "candidates_available": 1432,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 2,
+        "unknown": 10,
+        "step_cost": 8.2,
+        "cumulative_cost": 99.6,
+        "operation_counts": {
+          "neg": 2,
+          "conj": 5,
+          "disj": 4,
+          "impl": 1,
+          "iff": 0
+        },
+        "visible_history_length": 10
+      },
+      {
+        "step": 10,
+        "observed_count": 9,
+        "derived_count": 11,
+        "constructible_count": 20,
+        "candidates_available": 1420,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 0,
+        "unknown": 12,
+        "step_cost": 8.4,
+        "cumulative_cost": 108.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 5,
+          "disj": 7,
+          "impl": 0,
+          "iff": 0
+        },
+        "visible_history_length": 11
+      },
+      {
+        "step": 11,
+        "observed_count": 9,
+        "derived_count": 11,
+        "constructible_count": 20,
+        "candidates_available": 1408,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 1,
+        "unknown": 11,
+        "step_cost": 9.2,
+        "cumulative_cost": 117.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 4,
+          "disj": 5,
+          "impl": 2,
+          "iff": 1
+        },
+        "visible_history_length": 12
+      }
+    ],
+    "selection_timeline": [
+      {
+        "step": 0,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬P(a)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → R(a,b))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬Q(a)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → Q(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "unary_relation_obs",
+        "operation": "neg",
+        "proposition": "¬R(a,b)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(P(a) ∧ Q(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(R(a,b) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "conj",
+        "proposition": "(P(a) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "disj",
+        "proposition": "(P(a) ∨ Q(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "disj",
+        "proposition": "(P(a) ∨ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 0,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(Q(a) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → P(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → Q(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → Q(b))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ (P(a) → Q(a)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(R(b,a) ↔ P(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → R(b,a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "iff",
+        "proposition": "((P(a) → Q(a)) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 1,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → P(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.73,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.23,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.23,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "conj",
+        "proposition": "(P(a) ∧ R(b,a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.23,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.23,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.1586,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.1586,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → P(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.1586,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → P(b))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.1586,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → Q(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.1586,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(a) → Q(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 2,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(a) → R(a,b))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((Q(a) → P(a)) → Q(b))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → P(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → Q(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ Q(b))",
+        "result": "valid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": 0.0633,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 3,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ P(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ Q(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_relation_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(R(b,a) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(a) ↔ S(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ P(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ Q(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ S(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ P(a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ P(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ Q(b))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": 0.67,
+        "was_exploration": false
+      },
+      {
+        "step": 4,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(b) → Q(b))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(b) → R(b,a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "iff",
+        "proposition": "(Q(a) ↔ R(b,a))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_iff_der",
+        "operation": "neg",
+        "proposition": "¬(P(b) ↔ Q(b))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(Q(a) → P(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(Q(b) → P(b))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(S(a) → Q(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬P(b)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬Q(b)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_relation_obs",
+        "operation": "neg",
+        "proposition": "¬R(b,a)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬S(a)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 5,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → P(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → P(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → P(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → Q(a))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → R(a,b))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → P(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "impl",
+        "proposition": "((P(b) → Q(b)) → Q(b))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → P(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 6,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → P(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.02,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(P(b) ↔ (P(a) → R(a,b)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(a) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(b) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(a) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(b) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → P(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_relation_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(R(a,b) ∨ (P(b) → Q(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → P(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → P(c))",
+        "result": "valid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → Q(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 7,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → Q(b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.0367,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(P(c) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → R(a,b))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_relation_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → R(b,a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "impl",
+        "proposition": "((P(b) → Q(b)) → R(a,b))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(Q(c) → S(a))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "impl",
+        "proposition": "(S(a) → Q(c))",
+        "result": "invalid",
+        "cost": 0.9,
+        "score": -0.07,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(c) → P(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(P(c) → Q(a))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 8,
+        "context_sig": "binary_iff_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(b) ↔ Q(b)) → (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 8,
+        "context_sig": "unary_implies_der",
+        "operation": "neg",
+        "proposition": "¬(Q(c) → P(c))",
+        "result": "unknown",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬P(c)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "unary_atom_obs",
+        "operation": "neg",
+        "proposition": "¬Q(c)",
+        "result": "invalid",
+        "cost": 0.5,
+        "score": -0.15,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "conj",
+        "proposition": "((Q(b) → P(b)) ∧ R(a,b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(a) → R(a,b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "impl",
+        "proposition": "((Q(c) → P(c)) → R(b,a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(b) → Q(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(b) → Q(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(b) → R(b,a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(Q(c) ∨ (P(c) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(b) → R(b,a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_atom_atom_obs_obs",
+        "operation": "conj",
+        "proposition": "(P(c) ∧ Q(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 9,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(b) ↔ Q(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_iff_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(b) ↔ Q(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(c) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_atom_implies_obs_der",
+        "operation": "disj",
+        "proposition": "(S(a) ∨ (P(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(c) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (P(c) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (P(c) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (Q(a) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (Q(a) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (Q(b) → P(b)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (Q(c) → P(c)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 10,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (Q(c) → P(c)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ (S(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ (S(a) → Q(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ P(a))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "impl",
+        "proposition": "((P(c) → Q(a)) → (Q(c) → P(c)))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_relation_der_obs",
+        "operation": "impl",
+        "proposition": "((P(a) → Q(a)) → R(b,a))",
+        "result": "unknown",
+        "cost": 0.9,
+        "score": -0.27,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ P(b))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "conj",
+        "proposition": "((P(a) → Q(a)) ∧ P(c))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_atom_der_obs",
+        "operation": "disj",
+        "proposition": "((P(a) → Q(a)) ∨ P(c))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": false
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_relation_implies_obs_der",
+        "operation": "iff",
+        "proposition": "(R(b,a) ↔ (Q(b) → P(b)))",
+        "result": "invalid",
+        "cost": 1.1,
+        "score": -0.33,
+        "was_exploration": true
+      },
+      {
+        "step": 11,
+        "context_sig": "binary_implies_implies_der_der",
+        "operation": "disj",
+        "proposition": "((P(b) → Q(b)) ∨ (P(c) → P(a)))",
+        "result": "unknown",
+        "cost": 0.7,
+        "score": -0.21,
+        "was_exploration": true
+      }
+    ],
+    "key_propositions": {
+      "P(a)→Q(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 6"
+      },
+      "Q(a)→P(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 2 counterexamples"
+      },
+      "P(c)→Q(c)": {
+        "status": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 1 counterexamples"
+      },
+      "R(a,b)↔R(b,a)": {
+        "status": "not_in_store",
+        "confidence": 0,
+        "gt_holds": false,
+        "gt_reason": "asymmetric: only_a=2, only_b=2"
+      }
+    },
+    "trace_steps": 432,
+    "exploration_count": 30,
+    "exploit_count": 114,
+    "exploration_rate": 0.2083
+  },
+  "ab_comparison": {
+    "valid_diff": 2,
+    "invalid_diff": 30,
+    "unknown_diff": -32,
+    "cost_diff": -3.6,
+    "efficiency_a": 0.074503,
+    "efficiency_b": 0.093857,
+    "valid_per_executed_a": 0.0625,
+    "valid_per_executed_b": 0.0764,
+    "efficiency_ratio": 1.2598
+  },
+  "checks": {
+    "check_history_influences_selection": true,
+    "check_different_contexts_different_prefs": true,
+    "check_unknown_not_failure": true,
+    "check_ground_truth_not_in_selection": true,
+    "check_exploration_exists": true,
+    "check_history_records_complete": true,
+    "check_ab_difference": true
+  },
+  "all_checks_passed": true
+}
