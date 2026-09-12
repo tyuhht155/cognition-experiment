@@ -1,0 +1,2900 @@
+{
+  "experiment": "E0-7.4",
+  "description": "future value / credit assignment",
+  "phase1_stats": {
+    "steps_run": 3,
+    "transforms_recorded": 1105,
+    "valid": 556,
+    "invalid": 129,
+    "unknown": 420
+  },
+  "credit_experiment_3step": {
+    "goal_n": 3,
+    "phase1_stats": {
+      "steps_run": 3,
+      "transforms_recorded": 1105,
+      "valid": 556,
+      "invalid": 129,
+      "unknown": 420
+    },
+    "group_last_only": {
+      "summary": {
+        "reached_count": 2,
+        "total_episodes": 14,
+        "avg_steps": 6.928571428571429,
+        "avg_cost": 214.07142857142858
+      },
+      "episodes": [
+        {
+          "reached": false,
+          "steps": 4,
+          "total_cost": 190.7,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 44,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 424,
+              "selected_count": 50,
+              "valid": 46,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 6,
+          "total_cost": 209.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 31,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 172,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 59,
+              "selected_count": 50,
+              "valid": 23,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 38,
+              "selected_count": 38,
+              "valid": 18,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 221.5,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 19,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 25,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 24,
+              "selected_count": 24,
+              "valid": 11,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 98.5,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 27,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 232.7,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 1,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 221,
+              "selected_count": 50,
+              "valid": 33,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 61,
+              "selected_count": 50,
+              "valid": 23,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 10,
+          "total_cost": 372.3,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 42,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 205,
+              "selected_count": 50,
+              "valid": 28,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 155,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 7,
+              "candidates_count": 105,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 8,
+              "candidates_count": 55,
+              "selected_count": 50,
+              "valid": 44,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 188.6,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 29,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 57,
+              "selected_count": 50,
+              "valid": 21,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 7,
+              "selected_count": 7,
+              "valid": 7,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 174.3,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 10,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 23,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 24,
+              "selected_count": 24,
+              "valid": 11,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 5,
+          "total_cost": 138.3,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 324,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 363,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 189.1,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 10,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 311,
+              "selected_count": 50,
+              "valid": 36,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 18,
+              "selected_count": 18,
+              "valid": 6,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 271.0,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 42,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 99,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 49,
+              "selected_count": 49,
+              "valid": 39,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 207.0,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 2,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 274,
+              "selected_count": 50,
+              "valid": 27,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 55,
+              "selected_count": 50,
+              "valid": 23,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 5,
+              "selected_count": 5,
+              "valid": 5,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 9,
+          "total_cost": 289.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 90,
+              "selected_count": 50,
+              "valid": 44,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 131,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 7,
+              "candidates_count": 81,
+              "selected_count": 50,
+              "valid": 31,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 213.2,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 10,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 2,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 85,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 35,
+              "selected_count": 35,
+              "valid": 35,
+              "reached": false
+            }
+          ]
+        }
+      ]
+    },
+    "group_equal": {
+      "summary": {
+        "reached_count": 5,
+        "total_episodes": 14,
+        "avg_steps": 5.642857142857143,
+        "avg_cost": 180.14285714285714
+      },
+      "episodes": [
+        {
+          "reached": false,
+          "steps": 4,
+          "total_cost": 188.3,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 47,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 424,
+              "selected_count": 50,
+              "valid": 42,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 5,
+          "total_cost": 190.8,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 31,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 43,
+              "selected_count": 43,
+              "valid": 20,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 148,
+              "selected_count": 50,
+              "valid": 35,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 215.8,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 19,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 30,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 13,
+              "selected_count": 13,
+              "valid": 3,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 270.6,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 2,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 11,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 45,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 99,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 49,
+              "selected_count": 49,
+              "valid": 30,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 169.0,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 32,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 11,
+              "selected_count": 11,
+              "valid": 4,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 270.8,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 2,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 46,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 99,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 49,
+              "selected_count": 49,
+              "valid": 45,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 199.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 25,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 62,
+              "selected_count": 50,
+              "valid": 26,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 82,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 8,
+              "selected_count": 8,
+              "valid": 8,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 8,
+          "total_cost": 271.6,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 46,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 99,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 49,
+              "selected_count": 49,
+              "valid": 44,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 9,
+          "total_cost": 322.1,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 43,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 148,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 98,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 7,
+              "candidates_count": 48,
+              "selected_count": 48,
+              "valid": 48,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 4,
+          "total_cost": 126.7,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 28,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 80.1,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 75.5,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 68.9,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 71.9,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": true
+            }
+          ]
+        }
+      ]
+    },
+    "group_discounted": {
+      "summary": {
+        "reached_count": 8,
+        "total_episodes": 14,
+        "avg_steps": 4.857142857142857,
+        "avg_cost": 157.1357142857143
+      },
+      "episodes": [
+        {
+          "reached": false,
+          "steps": 4,
+          "total_cost": 186.1,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 42,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 424,
+              "selected_count": 50,
+              "valid": 45,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 5,
+          "total_cost": 194.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 35,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 44,
+              "selected_count": 44,
+              "valid": 19,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 148,
+              "selected_count": 50,
+              "valid": 35,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 10,
+          "total_cost": 427.8,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 22,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 17,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 17,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 45,
+              "selected_count": 45,
+              "valid": 42,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 22,
+              "reached": false
+            },
+            {
+              "step": 7,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 16,
+              "reached": false
+            },
+            {
+              "step": 8,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": false
+            },
+            {
+              "step": 9,
+              "candidates_count": 84,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 9,
+          "total_cost": 322.1,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 120,
+              "selected_count": 50,
+              "valid": 48,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 148,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": false
+            },
+            {
+              "step": 6,
+              "candidates_count": 98,
+              "selected_count": 50,
+              "valid": 15,
+              "reached": false
+            },
+            {
+              "step": 7,
+              "candidates_count": 48,
+              "selected_count": 48,
+              "valid": 48,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 7,
+          "total_cost": 181.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 220,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 170,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 28,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 24,
+              "selected_count": 24,
+              "valid": 12,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": false,
+          "steps": 6,
+          "total_cost": 159.9,
+          "provenance_chain_length": 0,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 28,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 58,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 8,
+              "selected_count": 8,
+              "valid": 8,
+              "reached": false
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 6,
+          "total_cost": 190.5,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 3,
+              "candidates_count": 243,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": false
+            },
+            {
+              "step": 4,
+              "candidates_count": 193,
+              "selected_count": 50,
+              "valid": 12,
+              "reached": false
+            },
+            {
+              "step": 5,
+              "candidates_count": 224,
+              "selected_count": 50,
+              "valid": 28,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 108.3,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 374,
+              "selected_count": 50,
+              "valid": 31,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 70.9,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 374,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 67.5,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 75.3,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 75.1,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 374,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 67.5,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 3,
+          "total_cost": 72.1,
+          "provenance_chain_length": 5,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": false
+            },
+            {
+              "step": 2,
+              "candidates_count": 293,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "credit_experiment_2step": {
+    "goal_n": 2,
+    "phase1_stats": {
+      "steps_run": 3,
+      "transforms_recorded": 1105,
+      "valid": 556,
+      "invalid": 129,
+      "unknown": 420
+    },
+    "group_last_only": {
+      "summary": {
+        "reached_count": 14,
+        "total_episodes": 14,
+        "avg_steps": 2.0,
+        "avg_cost": 58.57142857142857
+      },
+      "episodes": [
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 104.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 44,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 85.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 33,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 66.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 19,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 70.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 22,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 67.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 61.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 17,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 42.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 48.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 49.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 8,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 45.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 43.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 42.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 40.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 2,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 51.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": true
+            }
+          ]
+        }
+      ]
+    },
+    "group_equal": {
+      "summary": {
+        "reached_count": 14,
+        "total_episodes": 14,
+        "avg_steps": 2.0,
+        "avg_cost": 59.05714285714286
+      },
+      "episodes": [
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 108.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 47,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 81.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 30,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 65.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 19,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 64.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 18,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 71.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 22,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 65.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 46.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 43.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 43.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 50.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 9,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 47.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 48.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 45.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 43.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 4,
+              "reached": true
+            }
+          ]
+        }
+      ]
+    },
+    "group_discounted": {
+      "summary": {
+        "reached_count": 14,
+        "total_episodes": 14,
+        "avg_steps": 2.0,
+        "avg_cost": 59.24285714285714
+      },
+      "episodes": [
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 101.5,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 42,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 92.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 38,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 67.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 59.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 14,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 69.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 21,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 66.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 20,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 47.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 53.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 11,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 48.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 7,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 46.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 42.3,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 46.7,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 6,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 44.9,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 5,
+              "reached": true
+            }
+          ]
+        },
+        {
+          "reached": true,
+          "steps": 2,
+          "total_cost": 42.1,
+          "provenance_chain_length": 3,
+          "trace": [
+            {
+              "step": 0,
+              "candidates_count": 27,
+              "selected_count": 27,
+              "valid": 24,
+              "reached": false
+            },
+            {
+              "step": 1,
+              "candidates_count": 270,
+              "selected_count": 50,
+              "valid": 3,
+              "reached": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "goal_change_test": {
+    "goal1_reached": true,
+    "goal2_reached": false,
+    "A_to_B_score_under_goal1": 0.335,
+    "A_to_B_score_under_goal2": -0.03,
+    "scores_differ": true
+  },
+  "operation_name_independence": {
+    "original_reached": false,
+    "unknown_reached": false,
+    "same_outcome": true,
+    "original_steps": 4,
+    "unknown_steps": 4
+  },
+  "analysis": {
+    "credit_3step_last_only_reached": 2,
+    "credit_3step_equal_reached": 5,
+    "credit_3step_discounted_reached": 8,
+    "discounted_best_or_equal_3step": true,
+    "goal_change_scores_differ": true,
+    "operation_name_independence": true,
+    "all_checks_passed": true
+  }
+}
