@@ -70,8 +70,9 @@ ComputeEngine (编排)
 | test_e0_6 | 10 | E0-6 操作选择学习（历史影响选择 / 情境偏好 / unknown 不计失败 / ground truth 不入选择 / 探索保留 / trace 完整 / A/B 对照） |
 | test_e0_7 | 10 | E0-7 变换历史学习（结构签名 / 变换记录 / 新对象泛化 / 候选非信念 / unknown 独立 / ground truth 隔离 / 无未来信息 / 无未验证泛化 / A/B 对照） |
 | test_e0_7_1 | 16 | E0-7.1 严格变换实例化（op_name 独立匹配 / 实例化重建 / 新词项迁移 / 绑定一致性 / 反事实拒绝 / 三层分离 / UNKNOWN op 仍工作） |
+| test_e0_7_2 | 10 | E0-7.2 变换递归复用（新对象重入计算 / 2步链 / 3步链 / 隐藏中间步骤 / 无捷径 / 中间验证 / INVALID 阻断 / UNKNOWN op / trace 完整 / 无未来信息） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **146** | **全部通过** |
+| **合计** | **156** | **全部通过** |
 
 ---
 
@@ -1118,7 +1119,114 @@ R(a,b) 和 R(b,a) 签名相同（都是"二元关系+2个不同词项"），R(a,
 
 ---
 
-## 十二、历史反哺的四种方式
+## 十二、E0-7.2 实验：Transformation Composition / Recursive Reuse（变换递归复用）
+
+### 核心问题
+
+E0-7.1 证明了单步变换 A→B 可以独立于 operation_name 实例化为 A'→B'。
+E0-7.2 要验证：**A→B, B→C 能否被系统递归复用，形成多步计算链？**
+
+关键不是直接学习 A→C，而是验证：
+```
+A → [变换1] → B → [B进入知识空间] → [变换2] → C
+```
+
+新生成的 Proposition 必须真正重新进入下一轮计算循环。
+
+### 核心机制：recursive_compute
+
+`recursive_compute` 是通用递归循环，**不新增 TransformationChainEngine**：
+
+```
+for round in range(max_rounds):
+    constructible = observed ∪ derived_valid      # 当前知识空间
+    candidates = generate_candidates_from_transforms(constructible, ...)
+    for candidate in candidates:
+        verify → verdict
+        belief_store.update_belief(prop, verdict)  # 验证后才入信念
+    if no new_valids: break                          # 知识空间不再增长则停止
+```
+
+**关键设计**：
+- `derived_valid` 每轮从 `belief_store` 重新计算 → 新 VALID 命题自动进入下一轮 constructible
+- 候选生成后不直接入 belief，必须验证后 `update_belief` → 未验证候选不传播
+- INVALID 命题不在 `derived_valid` 中 → 错误中间结果不能触发后续变换
+- 每轮候选限制 200 个（计算预算）
+
+### 扩展验证：verify_proposition_extended
+
+E0-7 的 `verify_proposition` 不处理 `and`/`or` kind，导致 conj 命题永远返回 "unknown"，
+无法成为 VALID，阻塞链式传播。
+
+E0-7.2 新增 `verify_proposition_extended`：
+- `and(A, B)`：两部分都 valid → valid；任一 invalid → invalid；否则 unknown
+- `or(A, B)`：任一 valid → valid；都 invalid → invalid；否则 unknown
+- 其他 kind 委托给 E0-7 的 verify_proposition
+
+### 链设计
+
+```
+T1: (P(x), Q(x)) → P(x)→Q(x)                          [impl]
+T2: (P(x)→Q(x), Q(x)) → (P(x)→Q(x))∧Q(x)               [conj — 输入需要 P→Q!]
+T3: ((P(x)→Q(x))∧Q(x), R(x)) → ((P(x)→Q(x))∧Q(x))∧R(x) [conj]
+```
+
+T2 的输入需要 P(x)→Q(x)——如果 Round 0 没产生 P(b)→Q(b)，T2 无法匹配。
+这就是**隐藏中间步骤**：目标依赖中间对象的产生。
+
+### 实验结果
+
+| 场景 | 结果 |
+|------|------|
+| 2-step chain | P(b)→Q(b) VALID, (P→Q)∧Q VALID ✓ |
+| 3-step chain | P→Q, (P→Q)∧Q, ((P→Q)∧Q)∧R 全部 VALID ✓ |
+| Hidden intermediate（只给 P(b)） | 链不启动（缺 Q(b)）✓ |
+| Invalid intermediate（P(b)→Q(b) INVALID） | 链停止（P→Q 不在 derived_valid）✓ |
+| operation_name=UNKNOWN（2-step） | 链仍成功 ✓ |
+| operation_name=UNKNOWN（3-step） | 链仍成功 ✓ |
+
+### 关键检查全部通过
+
+| 检查项 | 结果 |
+|--------|------|
+| two_step_chain_succeeded | True |
+| three_step_chain_succeeded | True |
+| hidden_intermediate_blocked | True |
+| invalid_intermediate_blocked | True |
+| unknown_ops_2step_succeeded | True |
+| unknown_ops_3step_succeeded | True |
+| trace_contains_each_step | True |
+| no_direct_shortcut | True |
+| constructible_grew_across_rounds | True |
+| no_future_info | True |
+| no_ground_truth_in_logic | True |
+
+### 理论结论
+
+1. **单步 Transformation 能否递归成为多步计算？** 能。recursive_compute 证明新生成对象自动进入下一轮 constructible，形成 P→Q → (P→Q)∧Q → ((P→Q)∧Q)∧R 链。
+2. **新生成的 Proposition 是否真正进入知识空间？** 是。constructible_count 逐轮增长，新 VALID 命题出现在下一轮 constructible 中。
+3. **第二步是否可以完全由第一步的输出触发？** 是。T2 输入需要 P→Q，只有 Round 0 产生 P(b)→Q(b) 后 Round 1 才能匹配 T2。
+4. **operation_name=UNKNOWN 时多步链是否仍成立？** 是。2-step 和 3-step 在 UNKNOWN 下全部成功。
+5. **中间结果验证失败时链是否停止？** 是。P(b)→Q(b) 为 INVALID 时不在 derived_valid，T2 无法匹配。
+6. **系统有没有偷偷使用最终目标信息？** 没有。候选仅从变换历史实例化，无目标导向。
+7. **系统有没有偷偷使用未来信息？** 没有。visible_history 固定，constructible 仅来自当前 belief。
+8. **当前机制是否表现出"从已有计算结果继续计算"的能力？** 是。这正是 recursive_compute 的核心。
+
+**E0-7.2 证明：历史变换可以被递归复用，新生成对象能够重新进入计算循环，从而形成多步计算链。**
+
+### 尚未解决的问题
+
+- **如何寻找正确的中间对象**：当前变换链从已有历史中匹配，不解决"在多个可能中间对象中如何选择"。
+- **变换冲突**：同一输入匹配多个矛盾变换时如何选择（当前无策略，全部生成）。
+- **变换组合**：两个独立变换能否组合产生穷举不会产生的新候选（当前只支持历史中出现过的变换的链化）。
+
+### 下一步最核心的理论瓶颈
+
+当存在多个可能的中间对象/多个可匹配变换时，**系统如何计算"下一步应该选择什么"**。这是从"能形成链"到"能形成有用的链"的关键跨越。
+
+---
+
+## 十三、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
