@@ -69,8 +69,9 @@ ComputeEngine (编排)
 | test_e0_5 | 12 | E0-5 验证方法评估（方法对象化 / 时间反馈 / 方法可犯错 / 选择依赖历史） |
 | test_e0_6 | 10 | E0-6 操作选择学习（历史影响选择 / 情境偏好 / unknown 不计失败 / ground truth 不入选择 / 探索保留 / trace 完整 / A/B 对照） |
 | test_e0_7 | 10 | E0-7 变换历史学习（结构签名 / 变换记录 / 新对象泛化 / 候选非信念 / unknown 独立 / ground truth 隔离 / 无未来信息 / 无未验证泛化 / A/B 对照） |
+| test_e0_7_1 | 16 | E0-7.1 严格变换实例化（op_name 独立匹配 / 实例化重建 / 新词项迁移 / 绑定一致性 / 反事实拒绝 / 三层分离 / UNKNOWN op 仍工作） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **130** | **全部通过** |
+| **合计** | **146** | **全部通过** |
 
 ---
 
@@ -1034,7 +1035,90 @@ Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T
 
 ---
 
-## 十一、历史反哺的四种方式
+## 十一、E0-7.1 实验：strict transformation instantiation（operation_name 独立性）
+
+### 核心问题
+
+E0-7 审查发现：虽然 TransformationRecord 的 **匹配层**（find_matches）不读 operation_name，
+但 **候选构造层** 仍然 100% 依赖暴力枚举 constructor name（neg/conj/disj/impl/iff）。
+变换历史仅对已生成候选加分（boost），不生成新候选。
+test_new_object_with_same_structure_triggers_transform 通过是因为它调用了
+`apply_constructor(record.operation_name, matched_objs)` —— 测试"通过"是因为读了 operation_name。
+
+E0-7.1 的严格问题：**input_structure → output_structure 能否独立于 operation_name 产生候选？**
+
+### 三个层次分离
+
+| 层次 | 功能 | 实现 |
+|------|------|------|
+| A. Recognition | 发现历史变换 | `find_matches`（用 input_sigs 结构匹配） |
+| B. Instantiation | 从 sig+binding 重建输出 | `instantiate_output`（structure_sig 的逆函数） |
+| C. Execution | 验证候选 + 更新信念 | `verify_proposition` + `belief_store.update_belief` |
+
+### 核心函数：instantiate_output
+
+`instantiate_output(output_sig, binding)` 是 `structure_sig` 的逆函数：
+- 输入：output_sig（结构模板，如 `("implies", ("predicate","P",("_t0",)), ("predicate","Q",("_t0",)))`）
+- 输入：binding（词项映射，如 `{"_t0": "b"}`）
+- 输出：重建的 Proposition（如 `P.impl(P(b), P(b))`，即 P(b)→Q(b)）
+
+此函数 **不读取 operation_name**。它只使用 sig 中的命题结构信息
+（kind 如 "implies" 是 Proposition 的结构属性，不是 operation 的身份标识）。
+
+### 核心函数：generate_candidates_from_transforms
+
+`generate_candidates_from_transforms(current_objects, transform_store, belief_store)`
+- 调用 `find_matches` 检索匹配变换
+- 调用 `instantiate_output(record.output_sig, binding)` 重建候选命题
+- **不枚举 constructor**，**不调用 apply_constructor**，**不读 record.operation_name**
+- operation_name 仅作为 provenance 保存在候选字典中
+
+### 三个阶段实验
+
+| 阶段 | operation_name | 候选来源 | 验证 |
+|------|---------------|---------|------|
+| Phase 1: 历史构建 | 真实 operation | 暴力枚举（E0-7 机制） | 正常验证 |
+| Phase 2: 严格模式 | 保存但不读取 | 仅从变换历史实例化 | 正常验证 |
+| Phase 3: UNKNOWN | 全部设为 "UNKNOWN" | 仅从变换历史实例化 | 正常验证 |
+
+### 实验结果
+
+- Phase 1：2425 条变换记录（19 valid, 389 invalid, 2017 unknown）
+- Phase 2：P(c),Q(c) → 10 个候选 → 4 valid, 2 invalid, 4 unknown；P(c)→Q(c) 验证为 VALID
+- Phase 3：P(d),Q(d) → 10 个候选 → 4 valid, 2 invalid, 4 unknown；P(d)→Q(d) 验证为 VALID
+- 反事实：P(c),R(c) → 0 候选（结构不匹配）
+- 绑定一致性：P(b),Q(c) → 共享绑定变换 0 匹配（b≠c 被拒绝）
+- 三层分离：recognition ✓ / instantiation ✓ / execution ✓
+
+### structure_sig 对 R(a,b)/R(b,a)/R(a,a) 的处理
+
+- R(a,b) → `("relation","R",("_t0","_t1"))`，tm={a:_t0, b:_t1}
+- R(b,a) → `("relation","R",("_t0","_t1"))`，tm={b:_t0, a:_t1}
+- R(a,a) → `("relation","R",("_t0","_t0"))`，tm={a:_t0}
+
+R(a,b) 和 R(b,a) 签名相同（都是"二元关系+2个不同词项"），R(a,a) 不同。
+这是正确的类比行为：R(a,b)→¬R(a,b) 迁移到 R(b,a) 产生 ¬R(b,a)，词项按位置交换。
+
+### 理论结论
+
+1. **E0-7 当前到底学到了什么？** E0-7 学到的是"哪些 operation 在哪些 context 下有效 + 变换结构作为 boost 参考"。候选生成仍由暴力枚举驱动，变换历史只加分不生成。
+2. **operation_name 是否只是 provenance？** 在 E0-7 中不是——它仍控制候选构造。在 E0-7.1 中是——候选从 output_sig 独立重建。
+3. **input_structure → output_structure 是否已成为独立知识？** 在 E0-7.1 中是。instantiate_output 证明了 output_sig 包含足够信息独立重建输出。
+4. **能否在完全不知道 operation_name 的情况下实例化变换？** 能。Phase 3（operation_name="UNKNOWN"）与 Phase 2 结果完全一致。
+5. **P(a),Q(a)→P(a)→Q(a) 能否迁移到 P(b),Q(b)？** 能。通过 placeholder binding _t0→b 实例化 P(b)→Q(b)。
+6. **这种迁移属于什么？** 单纯结构匹配 + 类比迁移，不是 deduction（不依赖逻辑规则）也不是 induction（不产生全称命题）。
+7. **如果失败，失败在哪层？** 无失败。三层（recognition/instantiation/execution）全部通过。
+8. **E0-7.1 相对于 E0-7 新增了什么？** instantiate_output（结构重建）+ generate_candidates_from_transforms（从变换历史独立生成候选，不枚举 operation）。
+9. **是否从 Level 1 迈向 Level 2？** 是。Level 1 = operation selection learning（E0-6）。Level 2 = operation-independent transformation learning（E0-7.1）。系统不再依赖 operation identity 来构造候选，而是从结构模板独立实例化。
+10. **下一步瓶颈？** 当前只在单一变换步骤上测试。未测试变换链（A→B→C 能否从历史重建）、变换组合（两个变换能否组合产生新候选）、变换冲突（同一输入匹配多个矛盾变换时的选择）。
+
+### Representation 限制
+
+- `structure_sig` 不存储量化变量名（forall/exists 的 name 字段），因此 `instantiate_output` 无法重建量化命题。这是已知的 representation 限制，不是 bug。E0-7.1 的候选不包含 ∀x(P(x)→Q(x))，因为系统不做全称泛化。
+
+---
+
+## 十二、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -1048,7 +1132,7 @@ Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T
 
 ---
 
-## 十二、E0/E1/E2 实验设计
+## 十三、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -1058,7 +1142,7 @@ Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T
 
 ---
 
-## 十三、A/B/C/D 对照实验
+## 十四、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -1086,7 +1170,7 @@ Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T
 
 ---
 
-## 十四、先验声明
+## 十五、先验声明
 
 ### 不可删除的最小先验
 
@@ -1103,10 +1187,10 @@ Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T
 
 ---
 
-## 十五、运行方式
+## 十六、运行方式
 
 ```bash
-# 运行测试（130 个）
+# 运行测试（146 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
@@ -1116,6 +1200,7 @@ python tests/test_e0_4.py
 python tests/test_e0_5.py
 python tests/test_e0_6.py
 python tests/test_e0_7.py
+python tests/test_e0_7_1.py
 python tests/test_v0.py
 
 # 或使用 pytest
@@ -1141,6 +1226,9 @@ python experiments/run_e0_6.py
 
 # 运行 E0-7 实验（transformation history learning）
 python experiments/run_e0_7.py
+
+# 运行 E0-7.1 实验（strict transformation instantiation）
+python experiments/run_e0_7_1.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py

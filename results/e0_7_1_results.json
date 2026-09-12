@@ -1,0 +1,529 @@
+{
+  "experiment": "E0-7.1",
+  "description": "strict transformation instantiation (operation_name independent)",
+  "phase1_history": {
+    "steps_run": 4,
+    "candidates_generated": 2425,
+    "candidates_executed": 2425,
+    "transforms_recorded": 2425,
+    "valid": 19,
+    "invalid": 389,
+    "unknown": 2017,
+    "step_details": [
+      {
+        "step": 0,
+        "observed_count": 3,
+        "candidates_available": 27,
+        "candidates_selected": 27,
+        "valid": 12,
+        "invalid": 3,
+        "unknown": 12
+      },
+      {
+        "step": 1,
+        "observed_count": 5,
+        "candidates_available": 1078,
+        "candidates_selected": 1078,
+        "valid": 4,
+        "invalid": 206,
+        "unknown": 868
+      },
+      {
+        "step": 2,
+        "observed_count": 6,
+        "candidates_available": 765,
+        "candidates_selected": 765,
+        "valid": 3,
+        "invalid": 126,
+        "unknown": 636
+      },
+      {
+        "step": 3,
+        "observed_count": 6,
+        "candidates_available": 555,
+        "candidates_selected": 555,
+        "valid": 0,
+        "invalid": 54,
+        "unknown": 501
+      }
+    ]
+  },
+  "key_transforms_in_history": {
+    "P(a)→Q(a)": {
+      "found_in_history": true,
+      "actual_verdict": "valid",
+      "expected_verdict": "valid",
+      "operation_name": "impl"
+    },
+    "P(b)→Q(b)": {
+      "found_in_history": true,
+      "actual_verdict": "valid",
+      "expected_verdict": "valid",
+      "operation_name": "impl"
+    },
+    "S(a)→T(a)": {
+      "found_in_history": true,
+      "actual_verdict": "invalid",
+      "expected_verdict": "invalid",
+      "operation_name": "impl"
+    }
+  },
+  "phase2_strict": {
+    "phase_name": "Phase 2 (strict, op_name preserved)",
+    "phase_step": 4,
+    "new_objects": [
+      "P(c)",
+      "Q(c)"
+    ],
+    "visible_history_length": 5,
+    "recognition_matches": 20,
+    "instantiation_candidates": 10,
+    "execution_valid": 4,
+    "execution_invalid": 2,
+    "execution_unknown": 4,
+    "candidates": [
+      {
+        "proposition": "¬P(c)",
+        "source": "transform_instantiation",
+        "record_id": "3f8d7bd393ad",
+        "matched_objects": [
+          "P(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "invalid",
+        "operation_name_provenance": "neg",
+        "verdict": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "¬Q(c)",
+        "source": "transform_instantiation",
+        "record_id": "86beb22964be",
+        "matched_objects": [
+          "Q(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "invalid",
+        "operation_name_provenance": "neg",
+        "verdict": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(c) ∧ Q(c))",
+        "source": "transform_instantiation",
+        "record_id": "60e2c1d9022b",
+        "matched_objects": [
+          "P(c)",
+          "Q(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "conj",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(c) ∨ Q(c))",
+        "source": "transform_instantiation",
+        "record_id": "b859466505aa",
+        "matched_objects": [
+          "P(c)",
+          "Q(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "disj",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(c) → Q(c))",
+        "source": "transform_instantiation",
+        "record_id": "e3d469543a9f",
+        "matched_objects": [
+          "P(c)",
+          "Q(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "impl",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1"
+      },
+      {
+        "proposition": "(P(c) ↔ Q(c))",
+        "source": "transform_instantiation",
+        "record_id": "0955c4821bb5",
+        "matched_objects": [
+          "P(c)",
+          "Q(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "iff",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(c) ∧ P(c))",
+        "source": "transform_instantiation",
+        "record_id": "4ea44cf93107",
+        "matched_objects": [
+          "Q(c)",
+          "P(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "conj",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(c) ∨ P(c))",
+        "source": "transform_instantiation",
+        "record_id": "f687a5e1e150",
+        "matched_objects": [
+          "Q(c)",
+          "P(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "disj",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(c) → P(c))",
+        "source": "transform_instantiation",
+        "record_id": "d5ddb53b1c12",
+        "matched_objects": [
+          "Q(c)",
+          "P(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "impl",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1"
+      },
+      {
+        "proposition": "(Q(c) ↔ P(c))",
+        "source": "transform_instantiation",
+        "record_id": "a2ecd379fdd5",
+        "matched_objects": [
+          "Q(c)",
+          "P(c)"
+        ],
+        "binding": {
+          "_t0": "c"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "iff",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      }
+    ]
+  },
+  "phase2_belief_check": {
+    "Pc_Qc_before": false,
+    "Pc_Qc_after": true,
+    "Pc_Qc_status": "valid"
+  },
+  "phase3_unknown_ops": {
+    "phase_name": "Phase 3 (op_name=UNKNOWN)",
+    "phase_step": 5,
+    "new_objects": [
+      "P(d)",
+      "Q(d)"
+    ],
+    "visible_history_length": 6,
+    "recognition_matches": 20,
+    "instantiation_candidates": 10,
+    "execution_valid": 4,
+    "execution_invalid": 2,
+    "execution_unknown": 4,
+    "candidates": [
+      {
+        "proposition": "¬P(d)",
+        "source": "transform_instantiation",
+        "record_id": "3f8d7bd393ad",
+        "matched_objects": [
+          "P(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "invalid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "¬Q(d)",
+        "source": "transform_instantiation",
+        "record_id": "86beb22964be",
+        "matched_objects": [
+          "Q(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "invalid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "invalid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(d) ∧ Q(d))",
+        "source": "transform_instantiation",
+        "record_id": "60e2c1d9022b",
+        "matched_objects": [
+          "P(d)",
+          "Q(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(d) ∨ Q(d))",
+        "source": "transform_instantiation",
+        "record_id": "b859466505aa",
+        "matched_objects": [
+          "P(d)",
+          "Q(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(P(d) → Q(d))",
+        "source": "transform_instantiation",
+        "record_id": "e3d469543a9f",
+        "matched_objects": [
+          "P(d)",
+          "Q(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1"
+      },
+      {
+        "proposition": "(P(d) ↔ Q(d))",
+        "source": "transform_instantiation",
+        "record_id": "0955c4821bb5",
+        "matched_objects": [
+          "P(d)",
+          "Q(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(d) ∧ P(d))",
+        "source": "transform_instantiation",
+        "record_id": "4ea44cf93107",
+        "matched_objects": [
+          "Q(d)",
+          "P(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(d) ∨ P(d))",
+        "source": "transform_instantiation",
+        "record_id": "f687a5e1e150",
+        "matched_objects": [
+          "Q(d)",
+          "P(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "unknown",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "unknown",
+        "confidence": 0.0,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      },
+      {
+        "proposition": "(Q(d) → P(d))",
+        "source": "transform_instantiation",
+        "record_id": "d5ddb53b1c12",
+        "matched_objects": [
+          "Q(d)",
+          "P(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1"
+      },
+      {
+        "proposition": "(Q(d) ↔ P(d))",
+        "source": "transform_instantiation",
+        "record_id": "a2ecd379fdd5",
+        "matched_objects": [
+          "Q(d)",
+          "P(d)"
+        ],
+        "binding": {
+          "_t0": "d"
+        },
+        "transform_verification": "valid",
+        "operation_name_provenance": "UNKNOWN",
+        "verdict": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "unknown structure"
+      }
+    ]
+  },
+  "phase3_belief_check": {
+    "Pd_Qd_before": false,
+    "Pd_Qd_after": true,
+    "Pd_Qd_status": "valid"
+  },
+  "counterfactual_test": {
+    "input": [
+      "P(c)",
+      "R(c)"
+    ],
+    "matches_found": 2,
+    "candidates_generated": 0,
+    "has_false_candidate_Pc_Qc": false,
+    "passed": true
+  },
+  "binding_inconsistency_test": {
+    "input": [
+      "P(b)",
+      "Q(c)"
+    ],
+    "shared_binding_matches": 0,
+    "candidates_from_shared_binding": 0,
+    "passed": true
+  },
+  "three_layer_separation": {
+    "layer_a_recognition": {
+      "name": "recognition",
+      "description": "find_matches discovers historical transforms",
+      "input_count": 2,
+      "matches_found": 20,
+      "passed": true
+    },
+    "layer_b_instantiation": {
+      "name": "instantiation",
+      "description": "instantiate_output reconstructs output from sig+binding",
+      "candidates_instantiated": 20,
+      "contains_Pc_Qc": true,
+      "passed": true
+    },
+    "layer_c_execution": {
+      "name": "execution",
+      "description": "verify + belief update",
+      "verdict_for_Pc_Qc": "valid",
+      "belief_status": "valid",
+      "passed": true
+    }
+  },
+  "checks": {
+    "check_transform_history_recorded": true,
+    "check_key_transform_Pa_Qa_found": true,
+    "check_key_transform_Pa_Qa_valid": true,
+    "check_key_transform_Sa_Ta_invalid": true,
+    "check_phase2_candidates_from_transforms": true,
+    "check_phase2_Pc_Qc_verified_valid": true,
+    "check_phase2_Pc_Qc_was_new": true,
+    "check_phase3_works_with_unknown_ops": true,
+    "check_phase3_Pd_Qd_verified_valid": true,
+    "check_phase3_Pd_Qd_was_new": true,
+    "check_counterfactual_no_false_candidate": true,
+    "check_binding_inconsistency_rejected": true,
+    "check_no_forall_generated": true,
+    "check_three_layer_separation": true,
+    "check_operation_name_not_read_in_construction": true
+  },
+  "all_checks_passed": true
+}
