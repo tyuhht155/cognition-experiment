@@ -1,0 +1,578 @@
+{
+  "experiment": "E0-3",
+  "description": "时间展开穷举构造 + 验证闭环（derived knowledge as computation input）",
+  "n_steps": 12,
+  "step_records": [
+    {
+      "step": 0,
+      "observed_object_count": 3,
+      "derived_object_count": 0,
+      "constructible_object_count": 3,
+      "new_objects": [
+        "P(a)",
+        "Q(a)",
+        "R(a,b)"
+      ],
+      "new_object_count": 3,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 27,
+      "candidates_from_observed": 27,
+      "candidates_from_derived": 0,
+      "by_constructor": {
+        "neg": 3,
+        "conj": 6,
+        "disj": 6,
+        "impl": 6,
+        "iff": 6
+      },
+      "valid": 6,
+      "invalid": 0,
+      "unknown": 21,
+      "re_verified_unknown": 0,
+      "duplicates_skipped": 0,
+      "verification_cost": 117.0,
+      "cumulative_cost": 122.4,
+      "visible_history_length": 1
+    },
+    {
+      "step": 1,
+      "observed_object_count": 6,
+      "derived_object_count": 6,
+      "constructible_object_count": 12,
+      "new_objects": [
+        "P(b)",
+        "Q(b)",
+        "R(b,a)"
+      ],
+      "new_object_count": 3,
+      "new_derived_objects": [
+        "(P(a) → Q(a))",
+        "(P(a) → R(a,b))",
+        "(Q(a) → P(a))",
+        "(Q(a) → R(a,b))",
+        "(R(a,b) → P(a))",
+        "(R(a,b) → Q(a))"
+      ],
+      "new_derived_count": 6,
+      "candidates_generated": 540,
+      "candidates_from_observed": 126,
+      "candidates_from_derived": 414,
+      "by_constructor": {
+        "neg": 12,
+        "conj": 132,
+        "disj": 132,
+        "impl": 132,
+        "iff": 132
+      },
+      "valid": 6,
+      "invalid": 60,
+      "unknown": 468,
+      "re_verified_unknown": 21,
+      "duplicates_skipped": 6,
+      "verification_cost": 2325.0,
+      "cumulative_cost": 2554.2,
+      "visible_history_length": 2
+    },
+    {
+      "step": 2,
+      "observed_object_count": 6,
+      "derived_object_count": 12,
+      "constructible_object_count": 18,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [
+        "(P(b) → Q(b))",
+        "(P(b) → R(b,a))",
+        "(Q(b) → P(b))",
+        "(Q(b) → R(b,a))",
+        "(R(b,a) → P(b))",
+        "(R(b,a) → Q(b))"
+      ],
+      "new_derived_count": 6,
+      "candidates_generated": 1242,
+      "candidates_from_observed": 126,
+      "candidates_from_derived": 1116,
+      "by_constructor": {
+        "neg": 18,
+        "conj": 306,
+        "disj": 306,
+        "impl": 306,
+        "iff": 306
+      },
+      "valid": 0,
+      "invalid": 42,
+      "unknown": 1128,
+      "re_verified_unknown": 468,
+      "duplicates_skipped": 72,
+      "verification_cost": 5040.0,
+      "cumulative_cost": 7828.2,
+      "visible_history_length": 3
+    },
+    {
+      "step": 3,
+      "observed_object_count": 7,
+      "derived_object_count": 12,
+      "constructible_object_count": 19,
+      "new_objects": [
+        "S(a)"
+      ],
+      "new_object_count": 1,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 1387,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 1212,
+      "by_constructor": {
+        "neg": 19,
+        "conj": 342,
+        "disj": 342,
+        "impl": 342,
+        "iff": 342
+      },
+      "valid": 1,
+      "invalid": 23,
+      "unknown": 1249,
+      "re_verified_unknown": 1128,
+      "duplicates_skipped": 114,
+      "verification_cost": 5452.0,
+      "cumulative_cost": 13534.8,
+      "visible_history_length": 4
+    },
+    {
+      "step": 4,
+      "observed_object_count": 7,
+      "derived_object_count": 13,
+      "constructible_object_count": 20,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [
+        "(S(a) → Q(a))"
+      ],
+      "new_derived_count": 1,
+      "candidates_generated": 1540,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 1365,
+      "by_constructor": {
+        "neg": 20,
+        "conj": 380,
+        "disj": 380,
+        "impl": 380,
+        "iff": 380
+      },
+      "valid": 0,
+      "invalid": 8,
+      "unknown": 1394,
+      "re_verified_unknown": 1249,
+      "duplicates_skipped": 138,
+      "verification_cost": 5989.0,
+      "cumulative_cost": 19804.2,
+      "visible_history_length": 5
+    },
+    {
+      "step": 5,
+      "observed_object_count": 7,
+      "derived_object_count": 13,
+      "constructible_object_count": 20,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 1540,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 1365,
+      "by_constructor": {
+        "neg": 20,
+        "conj": 380,
+        "disj": 380,
+        "impl": 380,
+        "iff": 380
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 1394,
+      "re_verified_unknown": 1394,
+      "duplicates_skipped": 146,
+      "verification_cost": 5946.5,
+      "cumulative_cost": 26029.5,
+      "visible_history_length": 6
+    },
+    {
+      "step": 6,
+      "observed_object_count": 8,
+      "derived_object_count": 13,
+      "constructible_object_count": 21,
+      "new_objects": [
+        "P(c)"
+      ],
+      "new_object_count": 1,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 1701,
+      "candidates_from_observed": 232,
+      "candidates_from_derived": 1469,
+      "by_constructor": {
+        "neg": 21,
+        "conj": 420,
+        "disj": 420,
+        "impl": 420,
+        "iff": 420
+      },
+      "valid": 2,
+      "invalid": 25,
+      "unknown": 1528,
+      "re_verified_unknown": 1394,
+      "duplicates_skipped": 146,
+      "verification_cost": 6650.5,
+      "cumulative_cost": 32991.0,
+      "visible_history_length": 7
+    },
+    {
+      "step": 7,
+      "observed_object_count": 9,
+      "derived_object_count": 15,
+      "constructible_object_count": 24,
+      "new_objects": [
+        "Q(c)"
+      ],
+      "new_object_count": 1,
+      "new_derived_objects": [
+        "(P(c) → P(a))",
+        "(P(c) → Q(a))"
+      ],
+      "new_derived_count": 2,
+      "candidates_generated": 2232,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 1935,
+      "by_constructor": {
+        "neg": 24,
+        "conj": 552,
+        "disj": 552,
+        "impl": 552,
+        "iff": 552
+      },
+      "valid": 1,
+      "invalid": 48,
+      "unknown": 2010,
+      "re_verified_unknown": 1528,
+      "duplicates_skipped": 173,
+      "verification_cost": 8824.0,
+      "cumulative_cost": 42226.8,
+      "visible_history_length": 8
+    },
+    {
+      "step": 8,
+      "observed_object_count": 9,
+      "derived_object_count": 16,
+      "constructible_object_count": 25,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [
+        "(Q(c) → P(c))"
+      ],
+      "new_derived_count": 1,
+      "candidates_generated": 2425,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 2128,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 10,
+      "unknown": 2193,
+      "re_verified_unknown": 2010,
+      "duplicates_skipped": 222,
+      "verification_cost": 9401.5,
+      "cumulative_cost": 52068.9,
+      "visible_history_length": 9
+    },
+    {
+      "step": 9,
+      "observed_object_count": 9,
+      "derived_object_count": 16,
+      "constructible_object_count": 25,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 2425,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 2128,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "re_verified_unknown": 2193,
+      "duplicates_skipped": 232,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 61855.5,
+      "visible_history_length": 10
+    },
+    {
+      "step": 10,
+      "observed_object_count": 9,
+      "derived_object_count": 16,
+      "constructible_object_count": 25,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 2425,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 2128,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "re_verified_unknown": 2193,
+      "duplicates_skipped": 232,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 71642.1,
+      "visible_history_length": 11
+    },
+    {
+      "step": 11,
+      "observed_object_count": 9,
+      "derived_object_count": 16,
+      "constructible_object_count": 25,
+      "new_objects": [],
+      "new_object_count": 0,
+      "new_derived_objects": [],
+      "new_derived_count": 0,
+      "candidates_generated": 2425,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 2128,
+      "by_constructor": {
+        "neg": 25,
+        "conj": 600,
+        "disj": 600,
+        "impl": 600,
+        "iff": 600
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 2193,
+      "re_verified_unknown": 2193,
+      "duplicates_skipped": 232,
+      "verification_cost": 9348.0,
+      "cumulative_cost": 81428.7,
+      "visible_history_length": 12
+    }
+  ],
+  "key_propositions_timeline": {
+    "P(a)→Q(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": 0,
+      "first_refuted_step": null,
+      "final_status": "valid",
+      "final_confidence": 0.4,
+      "gt_holds": true,
+      "gt_reason": "supported: 6",
+      "in_derived_objects": true
+    },
+    "Q(a)→P(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": 0,
+      "first_refuted_step": null,
+      "final_status": "valid",
+      "final_confidence": 0.4,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "in_derived_objects": true
+    },
+    "P(c)→Q(c)": {
+      "first_constructed_step": 7,
+      "first_supported_step": null,
+      "first_refuted_step": 7,
+      "final_status": "invalid",
+      "final_confidence": 0.95,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "in_derived_objects": false
+    },
+    "¬P(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": null,
+      "first_refuted_step": null,
+      "final_status": "unknown",
+      "final_confidence": 0.0,
+      "gt_holds": false,
+      "gt_reason": "inner proposition observed 6 times",
+      "in_derived_objects": false
+    },
+    "P(a)∧Q(a)": {
+      "first_constructed_step": 0,
+      "first_supported_step": null,
+      "first_refuted_step": null,
+      "final_status": "unknown",
+      "final_confidence": 0.0,
+      "gt_holds": true,
+      "gt_reason": "both observed 6 times",
+      "in_derived_objects": false
+    }
+  },
+  "future_information_leak_check": {
+    "passed": true,
+    "details": "all steps correct"
+  },
+  "derived_object_timeline": [
+    {
+      "proposition": "(P(a) → Q(a))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(P(a) → R(a,b))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(Q(a) → P(a))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(Q(a) → R(a,b))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(R(a,b) → P(a))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(R(a,b) → Q(a))",
+      "first_valid_step": 1,
+      "first_used_as_input_step": 1,
+      "times_used_as_input": 11
+    },
+    {
+      "proposition": "(P(b) → Q(b))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(P(b) → R(b,a))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(Q(b) → P(b))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(Q(b) → R(b,a))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(R(b,a) → P(b))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(R(b,a) → Q(b))",
+      "first_valid_step": 2,
+      "first_used_as_input_step": 2,
+      "times_used_as_input": 10
+    },
+    {
+      "proposition": "(S(a) → Q(a))",
+      "first_valid_step": 4,
+      "first_used_as_input_step": 4,
+      "times_used_as_input": 8
+    },
+    {
+      "proposition": "(P(c) → P(a))",
+      "first_valid_step": 7,
+      "first_used_as_input_step": 7,
+      "times_used_as_input": 5
+    },
+    {
+      "proposition": "(P(c) → Q(a))",
+      "first_valid_step": 7,
+      "first_used_as_input_step": 7,
+      "times_used_as_input": 5
+    },
+    {
+      "proposition": "(Q(c) → P(c))",
+      "first_valid_step": 8,
+      "first_used_as_input_step": 8,
+      "times_used_as_input": 4
+    }
+  ],
+  "pa_qa_in_derived_objects": true,
+  "pc_qc_not_in_derived_objects": true,
+  "total_candidates": 19909,
+  "total_valid": 16,
+  "total_invalid": 216,
+  "total_unknown": 17964,
+  "total_duplicates_skipped": 1713,
+  "total_re_verified_unknown": 15771,
+  "total_cost": 81428.7,
+  "belief_store_stats": {
+    "total": 2425,
+    "valid": 16,
+    "invalid": 216,
+    "unknown": 2193
+  },
+  "trace_steps": 36392,
+  "evidence_count": 109176,
+  "final_derived_objects": [
+    "(P(a) → Q(a))",
+    "(P(a) → R(a,b))",
+    "(P(b) → Q(b))",
+    "(P(b) → R(b,a))",
+    "(P(c) → P(a))",
+    "(P(c) → Q(a))",
+    "(Q(a) → P(a))",
+    "(Q(a) → R(a,b))",
+    "(Q(b) → P(b))",
+    "(Q(b) → R(b,a))",
+    "(Q(c) → P(c))",
+    "(R(a,b) → P(a))",
+    "(R(a,b) → Q(a))",
+    "(R(b,a) → P(b))",
+    "(R(b,a) → Q(b))",
+    "(S(a) → Q(a))"
+  ],
+  "final_observed_objects": [
+    "P(a)",
+    "P(b)",
+    "P(c)",
+    "Q(a)",
+    "Q(b)",
+    "Q(c)",
+    "R(a,b)",
+    "R(b,a)",
+    "S(a)"
+  ]
+}

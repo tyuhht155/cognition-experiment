@@ -62,10 +62,11 @@ ComputeEngine (编排)
 |------|------|------|
 | test_core | 15 | 基础功能 |
 | test_audit | 10 | 审计修复 |
-| test_invariants | 41 | 架构不变量（feedback 语义 / 统计累计 / gated_out 不递归 / 知识边界等） |
+| test_invariants | 37 | 架构不变量（feedback 语义 / 统计累计 / gated_out 不递归 / 知识边界等） |
 | test_e0_2 | 10 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长 / 状态分类） |
+| test_e0_3 | 8 | E0-3 derived knowledge 闭环（valid 进入 derived / invalid 排除 / 同轮禁用 / 下轮可用） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **84** | **全部通过** |
+| **合计** | **88** | **全部通过** |
 
 ---
 
@@ -280,7 +281,134 @@ for t in world_history:
 
 ---
 
-## 六、历史反哺的四种方式
+## 六、E0-3 实验：derived knowledge as computation input
+
+### 核心变化（与 E0-2 的唯一区别）
+
+E0-2：
+```
+observation → construction → verification
+```
+
+E0-3：
+```
+observation → construction → verification
+    ↓
+valid proposition
+    ↓
+new computation input
+```
+
+- **constructible_objects = observed_objects ∪ derived_objects**
+- derived_objects = 已构造并验证为 STATUS_VALID 的命题集合
+- STATUS_INVALID / STATUS_UNKNOWN 不进入 derived_objects
+- 本轮新验证为 valid 的命题不立即进入本轮 constructible_objects（禁止递归展开）
+- 下一轮进入 derived_objects 后才可作为 constructor 输入
+
+### 集合定义
+
+| 集合 | 定义 |
+|------|------|
+| observed_objects | 截至当前时刻实际观察到的原始对象 |
+| derived_objects | 已由系统构造出来，并且获得 STATUS_VALID 的命题 |
+| constructible_objects | observed_objects ∪ derived_objects |
+
+### 实验设计
+
+```
+for t in world_history:
+  1. 只向系统提供当前时刻 t 的 observation
+  2. 把 observation 中的新对象加入 observed_objects
+  3. 将上一轮之前已验证为 valid 的命题加入 derived_objects
+  4. constructible_objects = observed_objects ∪ derived_objects
+  5. 从 constructible_objects 进行单层穷举构造
+  6. 对候选进行验证（Verifier 只能看到 history[:t+1]）
+  7. valid 的新对象在下一轮加入 derived_objects
+  8. 下一时刻继续
+```
+
+### 禁止递归展开
+
+- A、B → A→B（本轮验证为 VALID）
+- 本轮不能立即继续：A→B + C → (A→B)→C
+- 必须等到下一轮，A→B 进入 derived_objects 后才允许使用
+
+### constructor 限定
+
+只使用：neg、conj、disj、impl、iff。不增加任何 constructor。
+
+### 实验结果
+
+| 指标 | 值 |
+|------|-----|
+| 时间步数 | 12 |
+| 总候选数 | 19909 |
+| valid | 16 |
+| invalid | 216 |
+| unknown | 17964 |
+| duplicates_skipped | 1713 |
+| re_verified_unknown | 15771 |
+| 总成本 | 81428.7 |
+| Trace 步骤数 | 36392 |
+| 证据数 | 109176 |
+| derived_objects 数量 | 16 |
+
+### 关键命题时间线
+
+| 命题 | 首次构造 | 首次支持 | 首次反例 | 最终状态 | in derived_objects | Ground-truth |
+|------|---------|---------|---------|---------|-------------------|-------------|
+| P(a)→Q(a) | step 0 | step 0 | — | valid (0.4) | True | True (supported: 6) |
+| Q(a)→P(a) | step 0 | step 0 | — | valid (0.4) | True | False (refuted: 2) |
+| P(c)→Q(c) | step 7 | — | step 7 | invalid (0.95) | False | False (refuted: 1) |
+| ¬P(a) | step 0 | — | — | unknown (0.0) | False | False |
+| P(a)∧Q(a) | step 0 | — | — | unknown (0.0) | False | True |
+
+### derived_object_timeline（部分）
+
+| proposition | first_valid_step | first_used_as_input_step | times_used_as_input |
+|-------------|-----------------|------------------------|-------------------|
+| (P(a) → Q(a)) | 1 | 1 | 11 |
+| (P(a) → R(a,b)) | 1 | 1 | 11 |
+| (Q(a) → P(a)) | 1 | 1 | 11 |
+| (P(b) → Q(b)) | 2 | 2 | 10 |
+| (S(a) → Q(a)) | 4 | 4 | 8 |
+| (P(c) → P(a)) | 7 | 7 | 5 |
+| (Q(c) → P(c)) | 8 | 8 | 4 |
+
+### 每步统计（obs=observed, der=derived, cbl=constructible）
+
+| step | obs | der | cbl | cand | fr_obs | fr_der | valid | invalid | unknown |
+|------|-----|-----|-----|------|--------|--------|-------|---------|---------|
+| 0 | 3 | 0 | 3 | 27 | 27 | 0 | 6 | 0 | 21 |
+| 1 | 6 | 6 | 12 | 540 | 126 | 414 | 6 | 60 | 468 |
+| 2 | 6 | 12 | 18 | 1242 | 126 | 1116 | 0 | 42 | 1128 |
+| 7 | 9 | 15 | 24 | 2232 | 297 | 1935 | 1 | 48 | 2010 |
+| 11 | 9 | 16 | 25 | 2425 | 297 | 2128 | 0 | 0 | 2193 |
+
+### E0-3 专用测试（8 项不变量）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_valid_belief_enters_derived_objects | STATUS_VALID 命题进入 derived_objects |
+| 2 | test_invalid_belief_never_enters_derived_objects | STATUS_INVALID 命题绝不进入 derived_objects |
+| 3 | test_unknown_belief_never_enters_derived_objects | STATUS_UNKNOWN 命题不进入 derived_objects |
+| 4 | test_unknown_can_become_valid_later | UNKNOWN 可重新验证；变为 VALID 后才进入 derived_objects |
+| 5 | test_derived_object_can_be_used_next_step | 上一轮 valid 的命题在下一轮可作为 constructor 输入 |
+| 6 | test_derived_object_cannot_be_used_same_step | 本轮新 valid 命题不能在本轮作为 constructor 输入（禁止递归） |
+| 7 | test_no_future_information | 每时刻只看到 history[:t+1]，禁止未来信息 |
+| 8 | test_ground_truth_not_used_by_verifier | ground_truth 只在实验结束后外部比较，不进入 Verifier |
+
+### E0-3 结论
+
+1. **知识重新进入计算**：P(a)→Q(a) 在 step 0 验证为 VALID，step 1 进入 derived_objects 并被用作 constructor 输入
+2. **状态过滤**：只有 STATUS_VALID 进入 derived_objects；INVALID 和 UNKNOWN 被排除
+3. **禁止递归展开**：本轮新 valid 不进入本轮 constructible（derived_object_count 在 step 0 为 0）
+4. **下一轮可用**：derived_object_timeline 显示所有 valid 命题在下一轮被使用（times_used_as_input > 0）
+5. **组合爆炸**：constructible_objects 增长导致候选数从 E0-2 的 2521 增至 19909（derived_objects 参与构造）
+
+---
+
+## 七、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -294,7 +422,7 @@ for t in world_history:
 
 ---
 
-## 七、E0/E1/E2 实验设计
+## 八、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -304,7 +432,7 @@ for t in world_history:
 
 ---
 
-## 八、A/B/C/D 对照实验
+## 九、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -332,7 +460,7 @@ for t in world_history:
 
 ---
 
-## 九、先验声明
+## 十、先验声明
 
 ### 不可删除的最小先验
 
@@ -349,21 +477,28 @@ for t in world_history:
 
 ---
 
-## 十、运行方式
+## 十一、运行方式
 
 ```bash
-# 运行测试（84 个）
+# 运行测试（88 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
 python tests/test_e0_2.py
+python tests/test_e0_3.py
 python tests/test_v0.py
+
+# 或使用 pytest
+pytest -q
 
 # 运行 E0-1 实验
 python experiments/run_e0.py
 
 # 运行 E0-2 实验（时间展开）
 python experiments/run_e0_2.py
+
+# 运行 E0-3 实验（derived knowledge as computation input）
+python experiments/run_e0_3.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py
