@@ -1,0 +1,5589 @@
+{
+  "experiment": "E0-7",
+  "description": "transformation history learning (input_structure → output_structure)",
+  "group_a": {
+    "use_learning": true,
+    "use_transform_history": false,
+    "seed": 42,
+    "n_steps": 12,
+    "budget_per_step": 12,
+    "total_candidates_generated": 17534,
+    "total_executed": 144,
+    "total_valid": 13,
+    "total_invalid": 105,
+    "total_unknown": 26,
+    "total_cost": 125.4,
+    "belief_store_stats": {
+      "total": 144,
+      "valid": 13,
+      "invalid": 105,
+      "unknown": 26
+    },
+    "operation_counts": {
+      "neg": 5,
+      "conj": 11,
+      "disj": 9,
+      "impl": 110,
+      "iff": 9
+    },
+    "step_records": [
+      {
+        "step": 0,
+        "observed_count": 4,
+        "derived_count": 0,
+        "constructible_count": 4,
+        "candidates_available": 52,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 4,
+        "unknown": 6,
+        "step_cost": 8.0,
+        "cumulative_cost": 8.0,
+        "operation_counts": {
+          "neg": 4,
+          "conj": 2,
+          "disj": 4,
+          "impl": 2,
+          "iff": 0
+        },
+        "visible_history_length": 1,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 1,
+        "observed_count": 8,
+        "derived_count": 2,
+        "constructible_count": 10,
+        "candidates_available": 358,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 8,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 18.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 1,
+          "impl": 8,
+          "iff": 2
+        },
+        "visible_history_length": 2,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 2,
+        "observed_count": 8,
+        "derived_count": 4,
+        "constructible_count": 12,
+        "candidates_available": 516,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 10,
+        "unknown": 1,
+        "step_cost": 10.6,
+        "cumulative_cost": 29.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 11,
+          "iff": 0
+        },
+        "visible_history_length": 3,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 3,
+        "observed_count": 8,
+        "derived_count": 5,
+        "constructible_count": 13,
+        "candidates_available": 601,
+        "candidates_selected": 12,
+        "valid": 3,
+        "invalid": 8,
+        "unknown": 1,
+        "step_cost": 10.6,
+        "cumulative_cost": 40.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 11,
+          "iff": 0
+        },
+        "visible_history_length": 4,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 4,
+        "observed_count": 8,
+        "derived_count": 8,
+        "constructible_count": 16,
+        "candidates_available": 928,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 10,
+        "unknown": 1,
+        "step_cost": 11.0,
+        "cumulative_cost": 51.0,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 9,
+          "iff": 2
+        },
+        "visible_history_length": 5,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 5,
+        "observed_count": 8,
+        "derived_count": 9,
+        "constructible_count": 17,
+        "candidates_available": 1045,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 8,
+        "unknown": 2,
+        "step_cost": 10.4,
+        "cumulative_cost": 61.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 1,
+          "impl": 10,
+          "iff": 0
+        },
+        "visible_history_length": 6,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 6,
+        "observed_count": 12,
+        "derived_count": 11,
+        "constructible_count": 23,
+        "candidates_available": 1975,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 10,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 72.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 1,
+          "impl": 10,
+          "iff": 1
+        },
+        "visible_history_length": 7,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 7,
+        "observed_count": 12,
+        "derived_count": 11,
+        "constructible_count": 23,
+        "candidates_available": 1963,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 8,
+        "unknown": 2,
+        "step_cost": 10.4,
+        "cumulative_cost": 82.6,
+        "operation_counts": {
+          "neg": 1,
+          "conj": 0,
+          "disj": 1,
+          "impl": 9,
+          "iff": 1
+        },
+        "visible_history_length": 8,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 8,
+        "observed_count": 12,
+        "derived_count": 13,
+        "constructible_count": 25,
+        "candidates_available": 2329,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 10,
+        "unknown": 2,
+        "step_cost": 11.0,
+        "cumulative_cost": 93.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 11,
+          "iff": 1
+        },
+        "visible_history_length": 9,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 9,
+        "observed_count": 12,
+        "derived_count": 13,
+        "constructible_count": 25,
+        "candidates_available": 2317,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 10,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 104.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 2,
+          "disj": 0,
+          "impl": 8,
+          "iff": 2
+        },
+        "visible_history_length": 10,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 10,
+        "observed_count": 12,
+        "derived_count": 13,
+        "constructible_count": 25,
+        "candidates_available": 2305,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 12,
+        "unknown": 0,
+        "step_cost": 10.8,
+        "cumulative_cost": 115.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 12,
+          "iff": 0
+        },
+        "visible_history_length": 11,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 11,
+        "observed_count": 16,
+        "derived_count": 13,
+        "constructible_count": 29,
+        "candidates_available": 3145,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 7,
+        "unknown": 5,
+        "step_cost": 10.2,
+        "cumulative_cost": 125.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 2,
+          "disj": 1,
+          "impl": 9,
+          "iff": 0
+        },
+        "visible_history_length": 12,
+        "transform_boosts_this_step": 0
+      }
+    ],
+    "key_propositions": {
+      "P(a)→Q(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 5",
+        "first_valid_step": 1
+      },
+      "Q(a)→P(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 2 counterexamples",
+        "first_valid_step": 0
+      },
+      "P(b)→Q(b)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 5",
+        "first_valid_step": 2
+      },
+      "P(c)→Q(c)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 2",
+        "first_valid_step": 7
+      },
+      "P(d)→Q(d)": {
+        "status": "not_in_store",
+        "confidence": 0,
+        "gt_holds": true,
+        "gt_reason": "supported: 1",
+        "first_valid_step": null
+      },
+      "S(a)→T(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 3",
+        "first_valid_step": 4
+      },
+      "S(c)→T(c)": {
+        "status": "not_in_store",
+        "confidence": 0,
+        "gt_holds": false,
+        "gt_reason": "refuted: 1 counterexamples",
+        "first_valid_step": null
+      },
+      "S(d)→T(d)": {
+        "status": "not_in_store",
+        "confidence": 0,
+        "gt_holds": true,
+        "gt_reason": "supported: 1",
+        "first_valid_step": null
+      }
+    },
+    "trace_steps": 432,
+    "exploration_count": 35,
+    "exploit_count": 109,
+    "exploration_rate": 0.2431,
+    "transform_boost_count": 0,
+    "transform_store_stats": {
+      "total": 144,
+      "valid": 13,
+      "invalid": 105,
+      "unknown": 26,
+      "by_output_kind": {
+        "not": 5,
+        "implies": 110,
+        "and": 11,
+        "or": 9,
+        "iff": 9
+      }
+    },
+    "transform_records": [
+      {
+        "record_id": "373151dc9fa9",
+        "input_sigs": "(('predicate', 'P', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'P', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬P(a)"
+      },
+      {
+        "record_id": "1d3fc3890466",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → P(a))"
+      },
+      {
+        "record_id": "979449bc7eec",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬Q(a)"
+      },
+      {
+        "record_id": "927f7824df65",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('and', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∧ S(a))"
+      },
+      {
+        "record_id": "cf9cab3c0c4d",
+        "input_sigs": "(('predicate', 'S', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'S', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬S(a)"
+      },
+      {
+        "record_id": "b98d858adbef",
+        "input_sigs": "(('predicate', 'T', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'T', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬T(a)"
+      },
+      {
+        "record_id": "dc500b9a042a",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) ∨ Q(a))"
+      },
+      {
+        "record_id": "7551efa7a28e",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → S(a))"
+      },
+      {
+        "record_id": "2edbb14276fe",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('and', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∧ Q(a))"
+      },
+      {
+        "record_id": "6267ae2cefc6",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∨ Q(a))"
+      },
+      {
+        "record_id": "7b8bf1ff8511",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) ∨ S(a))"
+      },
+      {
+        "record_id": "ddd380ac4fc8",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∨ S(a))"
+      },
+      {
+        "record_id": "e22564437e62",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → P(b))"
+      },
+      {
+        "record_id": "4ab871a765df",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → Q(a))"
+      },
+      {
+        "record_id": "570fa001b337",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → Q(b))"
+      },
+      {
+        "record_id": "b417ec63b129",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → S(b))"
+      },
+      {
+        "record_id": "717ec1169669",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → T(a))"
+      },
+      {
+        "record_id": "3e66ac2d7646",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → T(b))"
+      },
+      {
+        "record_id": "d53ff5970786",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "output_sig": "('iff', ('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) ↔ (Q(a) → P(a)))"
+      },
+      {
+        "record_id": "75c26ea7d179",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → P(a))"
+      },
+      {
+        "record_id": "7508cf2ba4da",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "output_sig": "('and', ('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 1,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) ∧ (P(a) → S(a)))"
+      },
+      {
+        "record_id": "cf793958acd2",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) ↔ S(a))"
+      },
+      {
+        "record_id": "c0e75d65950c",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('or', ('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 1,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) ∨ (Q(a) → P(a)))"
+      },
+      {
+        "record_id": "e9134da11a82",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → Q(a))"
+      },
+      {
+        "record_id": "c219dc72aa85",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → Q(b))"
+      },
+      {
+        "record_id": "c650bc8f258c",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → S(a))"
+      },
+      {
+        "record_id": "f9d181448b19",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → S(b))"
+      },
+      {
+        "record_id": "171c6669a127",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → T(a))"
+      },
+      {
+        "record_id": "2e3b1a41aa3f",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → T(b))"
+      },
+      {
+        "record_id": "793a8cd3bfa7",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → P(b))"
+      },
+      {
+        "record_id": "e011f51d35c1",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → Q(b))"
+      },
+      {
+        "record_id": "9388ec13b819",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → S(a))"
+      },
+      {
+        "record_id": "cbd2a7144e90",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → S(b))"
+      },
+      {
+        "record_id": "825ba894daca",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → T(a))"
+      },
+      {
+        "record_id": "63229532a990",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → T(b))"
+      },
+      {
+        "record_id": "9de6ab85ec08",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('and', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 2,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((P(a) → T(a)) ∧ Q(a))"
+      },
+      {
+        "record_id": "0751b6e8a229",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → P(a))"
+      },
+      {
+        "record_id": "a176482139e8",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → P(b))"
+      },
+      {
+        "record_id": "735bb1ac67bf",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → Q(a))"
+      },
+      {
+        "record_id": "c41c07e10da7",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → S(a))"
+      },
+      {
+        "record_id": "5d70ab2822f6",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → S(b))"
+      },
+      {
+        "record_id": "af81a981b014",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → T(a))"
+      },
+      {
+        "record_id": "c70c52926cfa",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → T(b))"
+      },
+      {
+        "record_id": "fe5109f7c003",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('and', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 3,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) ∧ T(b))"
+      },
+      {
+        "record_id": "b2cafe9d5fe7",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → P(a))"
+      },
+      {
+        "record_id": "eff1820a0b9b",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → P(b))"
+      },
+      {
+        "record_id": "f69556430e90",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → Q(a))"
+      },
+      {
+        "record_id": "3ffed2280ce2",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → Q(b))"
+      },
+      {
+        "record_id": "41b99da2f718",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → S(b))"
+      },
+      {
+        "record_id": "77406bf99026",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) ↔ T(b))"
+      },
+      {
+        "record_id": "9c390348d30a",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → T(a))"
+      },
+      {
+        "record_id": "9e8262495818",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → T(b))"
+      },
+      {
+        "record_id": "872a387977ce",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → P(a))"
+      },
+      {
+        "record_id": "dd30a1e1ff1f",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → P(b))"
+      },
+      {
+        "record_id": "29ff1c444894",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → Q(a))"
+      },
+      {
+        "record_id": "7af69c6f2cf7",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → Q(b))"
+      },
+      {
+        "record_id": "7d295c4877e5",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → S(a))"
+      },
+      {
+        "record_id": "642ac553c924",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → T(a))"
+      },
+      {
+        "record_id": "349039cc7904",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('iff', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) ↔ Q(a))"
+      },
+      {
+        "record_id": "775b90575ce3",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 4,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((Q(b) → P(b)) ∧ (P(b) → Q(b)))"
+      },
+      {
+        "record_id": "6ca09f6f176f",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → T(b))"
+      },
+      {
+        "record_id": "476733c3782d",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "output_sig": "('and', ('predicate', 'P', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 5,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) ∧ (P(a) → S(a)))"
+      },
+      {
+        "record_id": "b76dc6a51f7b",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → P(a))"
+      },
+      {
+        "record_id": "bca154e1f514",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → P(b))"
+      },
+      {
+        "record_id": "64f0f5959a19",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → Q(a))"
+      },
+      {
+        "record_id": "9b245bfe1725",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → Q(b))"
+      },
+      {
+        "record_id": "993a6b5e00d7",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('or', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 5,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "((Q(a) → P(a)) ∨ (Q(b) → P(b)))"
+      },
+      {
+        "record_id": "95a308ff1d75",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → S(a))"
+      },
+      {
+        "record_id": "bb48cf6a7799",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → S(b))"
+      },
+      {
+        "record_id": "900bc9fc706e",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → T(b))"
+      },
+      {
+        "record_id": "31fa0644df7a",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(b) → P(a))"
+      },
+      {
+        "record_id": "b1b94b5e8bee",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(T(b) → P(b))"
+      },
+      {
+        "record_id": "7f438258d9ad",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → P(c))"
+      },
+      {
+        "record_id": "2ff84e4c070b",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → Q(c))"
+      },
+      {
+        "record_id": "f3e4e16fa491",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → S(c))"
+      },
+      {
+        "record_id": "1ebb3f52ca68",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → T(c))"
+      },
+      {
+        "record_id": "36c23fe56a51",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('or', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 6,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((P(a) → Q(a)) ∨ T(a))"
+      },
+      {
+        "record_id": "a46e002d72ee",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → P(c))"
+      },
+      {
+        "record_id": "64613415b187",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((P(b) → Q(b)) → P(b))"
+      },
+      {
+        "record_id": "5e6c44ebd4b9",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → Q(c))"
+      },
+      {
+        "record_id": "b3f4c0c883d1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → S(c))"
+      },
+      {
+        "record_id": "601a843994ed",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('iff', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((S(a) → T(a)) ↔ Q(c))"
+      },
+      {
+        "record_id": "94ba5b02f4d1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → T(c))"
+      },
+      {
+        "record_id": "60410ccd4866",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → P(a))"
+      },
+      {
+        "record_id": "0b3094579fd3",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → P(b))"
+      },
+      {
+        "record_id": "004deb8215a1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → Q(a))"
+      },
+      {
+        "record_id": "a6911d303fea",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → Q(b))"
+      },
+      {
+        "record_id": "99494e22add1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → Q(c))"
+      },
+      {
+        "record_id": "f37f917e326a",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('iff', ('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(b) ↔ (S(a) → P(a)))"
+      },
+      {
+        "record_id": "2924ded3ce59",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → S(a))"
+      },
+      {
+        "record_id": "cd4418762e88",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → S(b))"
+      },
+      {
+        "record_id": "b781cdbe9be9",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → S(c))"
+      },
+      {
+        "record_id": "5b398106f4ae",
+        "input_sigs": "(('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('or', ('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 7,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((T(a) → Q(a)) ∨ T(c))"
+      },
+      {
+        "record_id": "7b93f02e2b8a",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))),)",
+        "output_sig": "('not', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "neg",
+        "context_sig": "unary_implies_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 7,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬(S(a) → P(a))"
+      },
+      {
+        "record_id": "d034f082e40f",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → T(a))"
+      },
+      {
+        "record_id": "1d0c539af349",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → T(b))"
+      },
+      {
+        "record_id": "62e4d320daf7",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → T(c))"
+      },
+      {
+        "record_id": "ef85922ed8d3",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → P(c))"
+      },
+      {
+        "record_id": "b00860a17abb",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "((P(c) → Q(c)) → (S(a) → Q(a)))"
+      },
+      {
+        "record_id": "deb5eab69ac0",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → Q(c))"
+      },
+      {
+        "record_id": "424da82282c4",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → S(c))"
+      },
+      {
+        "record_id": "e0376fb59282",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → T(c))"
+      },
+      {
+        "record_id": "411b7337da98",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → P(c))"
+      },
+      {
+        "record_id": "6643ea198a44",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((Q(a) → P(a)) → Q(c))"
+      },
+      {
+        "record_id": "48defd688487",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → Q(c))"
+      },
+      {
+        "record_id": "930622cb4ec5",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → S(c))"
+      },
+      {
+        "record_id": "b4492ebe2ac2",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → T(c))"
+      },
+      {
+        "record_id": "443bae53a313",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) ↔ S(b))"
+      },
+      {
+        "record_id": "9372a690c3fb",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → P(a))"
+      },
+      {
+        "record_id": "eb47dae0cbf1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) ↔ Q(b))"
+      },
+      {
+        "record_id": "4954e150bb33",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → P(b))"
+      },
+      {
+        "record_id": "f2f8f74d42e6",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → P(c))"
+      },
+      {
+        "record_id": "82b9363b4eb8",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → Q(a))"
+      },
+      {
+        "record_id": "1707a1e280a5",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 9,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((P(b) → Q(b)) ∧ (P(c) → S(c)))"
+      },
+      {
+        "record_id": "0ec4e2d4b2dc",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('and', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 9,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(c) ∧ P(a))"
+      },
+      {
+        "record_id": "83da2cf2281c",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → Q(b))"
+      },
+      {
+        "record_id": "87444aa991be",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → S(a))"
+      },
+      {
+        "record_id": "dcca5abab5f3",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → S(b))"
+      },
+      {
+        "record_id": "fb1174538df4",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'T', ('_t1',))))",
+        "output_sig": "('iff', ('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'T', ('_t1',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(c) ↔ (P(a) → T(a)))"
+      },
+      {
+        "record_id": "bd15a290ed7e",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → S(c))"
+      },
+      {
+        "record_id": "c4b26ea8868d",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(b) → (T(a) → Q(a)))"
+      },
+      {
+        "record_id": "30f5a2d31eb0",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → T(a))"
+      },
+      {
+        "record_id": "b20ccf568f66",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → T(b))"
+      },
+      {
+        "record_id": "383eef324f39",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → T(c))"
+      },
+      {
+        "record_id": "b61b30528704",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → P(c))"
+      },
+      {
+        "record_id": "673f8ceb4d70",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → Q(c))"
+      },
+      {
+        "record_id": "84b4878ca7e5",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → S(c))"
+      },
+      {
+        "record_id": "9f7a1d27f44f",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → T(c))"
+      },
+      {
+        "record_id": "2c9a647e0140",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(b) → P(c))"
+      },
+      {
+        "record_id": "24cd6a296b7d",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(b) → Q(c))"
+      },
+      {
+        "record_id": "1b02748c429b",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(b) → S(c))"
+      },
+      {
+        "record_id": "eeb785b7b386",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(b) → T(c))"
+      },
+      {
+        "record_id": "fbfbfb775417",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((S(a) → P(a)) ∧ (P(a) → T(a)))"
+      },
+      {
+        "record_id": "2beafe4297d2",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "((P(a) → Q(a)) → P(d))"
+      },
+      {
+        "record_id": "520d75474e1b",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(a) → P(d))"
+      },
+      {
+        "record_id": "9b08c153ee11",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(a) → Q(d))"
+      },
+      {
+        "record_id": "3a35b60ff7a1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(a) → S(d))"
+      },
+      {
+        "record_id": "a432bb270464",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('and', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(S(c) ∧ T(c))"
+      },
+      {
+        "record_id": "4a652f0f4475",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',))), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((P(a) → T(a)) → (S(a) → P(a)))"
+      },
+      {
+        "record_id": "4f8fd7b81c53",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(a) → T(d))"
+      },
+      {
+        "record_id": "91430ab85cf7",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(b) → P(d))"
+      },
+      {
+        "record_id": "66853c460e70",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('or', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((S(a) → P(a)) ∨ Q(a))"
+      },
+      {
+        "record_id": "39e21dbe074e",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(b) → Q(d))"
+      },
+      {
+        "record_id": "40cdd5404488",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "d": "_t1"
+        },
+        "output_prop_str": "(P(b) → S(d))"
+      }
+    ]
+  },
+  "group_b": {
+    "use_learning": true,
+    "use_transform_history": true,
+    "seed": 42,
+    "n_steps": 12,
+    "budget_per_step": 12,
+    "total_candidates_generated": 29291,
+    "total_executed": 144,
+    "total_valid": 29,
+    "total_invalid": 93,
+    "total_unknown": 22,
+    "total_cost": 126.2,
+    "belief_store_stats": {
+      "total": 144,
+      "valid": 29,
+      "invalid": 93,
+      "unknown": 22
+    },
+    "operation_counts": {
+      "neg": 5,
+      "conj": 10,
+      "disj": 7,
+      "impl": 112,
+      "iff": 10
+    },
+    "step_records": [
+      {
+        "step": 0,
+        "observed_count": 4,
+        "derived_count": 0,
+        "constructible_count": 4,
+        "candidates_available": 52,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 4,
+        "unknown": 6,
+        "step_cost": 8.0,
+        "cumulative_cost": 8.0,
+        "operation_counts": {
+          "neg": 4,
+          "conj": 2,
+          "disj": 4,
+          "impl": 2,
+          "iff": 0
+        },
+        "visible_history_length": 1,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 1,
+        "observed_count": 8,
+        "derived_count": 2,
+        "constructible_count": 10,
+        "candidates_available": 358,
+        "candidates_selected": 12,
+        "valid": 4,
+        "invalid": 7,
+        "unknown": 1,
+        "step_cost": 11.2,
+        "cumulative_cost": 19.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 8,
+          "iff": 3
+        },
+        "visible_history_length": 2,
+        "transform_boosts_this_step": 2
+      },
+      {
+        "step": 2,
+        "observed_count": 8,
+        "derived_count": 6,
+        "constructible_count": 14,
+        "candidates_available": 718,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 10,
+        "unknown": 1,
+        "step_cost": 11.0,
+        "cumulative_cost": 30.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 11,
+          "iff": 1
+        },
+        "visible_history_length": 3,
+        "transform_boosts_this_step": 2
+      },
+      {
+        "step": 3,
+        "observed_count": 8,
+        "derived_count": 7,
+        "constructible_count": 15,
+        "candidates_available": 819,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 9,
+        "unknown": 1,
+        "step_cost": 10.6,
+        "cumulative_cost": 40.8,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 1,
+          "impl": 11,
+          "iff": 0
+        },
+        "visible_history_length": 4,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 4,
+        "observed_count": 8,
+        "derived_count": 9,
+        "constructible_count": 17,
+        "candidates_available": 1057,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 9,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 51.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 10,
+          "iff": 1
+        },
+        "visible_history_length": 5,
+        "transform_boosts_this_step": 2
+      },
+      {
+        "step": 5,
+        "observed_count": 8,
+        "derived_count": 10,
+        "constructible_count": 18,
+        "candidates_available": 1182,
+        "candidates_selected": 12,
+        "valid": 2,
+        "invalid": 10,
+        "unknown": 0,
+        "step_cost": 11.0,
+        "cumulative_cost": 62.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 11,
+          "iff": 1
+        },
+        "visible_history_length": 6,
+        "transform_boosts_this_step": 1
+      },
+      {
+        "step": 6,
+        "observed_count": 12,
+        "derived_count": 12,
+        "constructible_count": 24,
+        "candidates_available": 2160,
+        "candidates_selected": 12,
+        "valid": 9,
+        "invalid": 1,
+        "unknown": 2,
+        "step_cost": 10.6,
+        "cumulative_cost": 73.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 2,
+          "impl": 9,
+          "iff": 1
+        },
+        "visible_history_length": 7,
+        "transform_boosts_this_step": 9
+      },
+      {
+        "step": 7,
+        "observed_count": 12,
+        "derived_count": 21,
+        "constructible_count": 33,
+        "candidates_available": 4173,
+        "candidates_selected": 12,
+        "valid": 1,
+        "invalid": 10,
+        "unknown": 1,
+        "step_cost": 10.4,
+        "cumulative_cost": 83.6,
+        "operation_counts": {
+          "neg": 1,
+          "conj": 0,
+          "disj": 0,
+          "impl": 11,
+          "iff": 0
+        },
+        "visible_history_length": 8,
+        "transform_boosts_this_step": 1
+      },
+      {
+        "step": 8,
+        "observed_count": 12,
+        "derived_count": 22,
+        "constructible_count": 34,
+        "candidates_available": 4426,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 11,
+        "unknown": 1,
+        "step_cost": 11.0,
+        "cumulative_cost": 94.6,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 9,
+          "iff": 2
+        },
+        "visible_history_length": 9,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 9,
+        "observed_count": 12,
+        "derived_count": 22,
+        "constructible_count": 34,
+        "candidates_available": 4414,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 10,
+        "unknown": 2,
+        "step_cost": 10.8,
+        "cumulative_cost": 105.4,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 1,
+          "disj": 0,
+          "impl": 10,
+          "iff": 1
+        },
+        "visible_history_length": 10,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 10,
+        "observed_count": 12,
+        "derived_count": 22,
+        "constructible_count": 34,
+        "candidates_available": 4402,
+        "candidates_selected": 12,
+        "valid": 0,
+        "invalid": 12,
+        "unknown": 0,
+        "step_cost": 10.8,
+        "cumulative_cost": 116.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 0,
+          "disj": 0,
+          "impl": 12,
+          "iff": 0
+        },
+        "visible_history_length": 11,
+        "transform_boosts_this_step": 0
+      },
+      {
+        "step": 11,
+        "observed_count": 16,
+        "derived_count": 22,
+        "constructible_count": 38,
+        "candidates_available": 5530,
+        "candidates_selected": 12,
+        "valid": 7,
+        "invalid": 0,
+        "unknown": 5,
+        "step_cost": 10.0,
+        "cumulative_cost": 126.2,
+        "operation_counts": {
+          "neg": 0,
+          "conj": 4,
+          "disj": 0,
+          "impl": 8,
+          "iff": 0
+        },
+        "visible_history_length": 12,
+        "transform_boosts_this_step": 7
+      }
+    ],
+    "key_propositions": {
+      "P(a)→Q(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 5",
+        "first_valid_step": 1
+      },
+      "Q(a)→P(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 2 counterexamples",
+        "first_valid_step": 0
+      },
+      "P(b)→Q(b)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 5",
+        "first_valid_step": 2
+      },
+      "P(c)→Q(c)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 2",
+        "first_valid_step": 6
+      },
+      "P(d)→Q(d)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1",
+        "first_valid_step": 11
+      },
+      "S(a)→T(a)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 3",
+        "first_valid_step": 4
+      },
+      "S(c)→T(c)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": false,
+        "gt_reason": "refuted: 1 counterexamples",
+        "first_valid_step": 6
+      },
+      "S(d)→T(d)": {
+        "status": "valid",
+        "confidence": 0.8,
+        "gt_holds": true,
+        "gt_reason": "supported: 1",
+        "first_valid_step": 11
+      }
+    },
+    "trace_steps": 432,
+    "exploration_count": 33,
+    "exploit_count": 111,
+    "exploration_rate": 0.2292,
+    "transform_boost_count": 24,
+    "transform_store_stats": {
+      "total": 144,
+      "valid": 29,
+      "invalid": 93,
+      "unknown": 22,
+      "by_output_kind": {
+        "not": 5,
+        "implies": 112,
+        "and": 10,
+        "or": 7,
+        "iff": 10
+      }
+    },
+    "transform_records": [
+      {
+        "record_id": "157a1c4e9376",
+        "input_sigs": "(('predicate', 'P', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'P', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬P(a)"
+      },
+      {
+        "record_id": "5956f3d4ff0c",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → P(a))"
+      },
+      {
+        "record_id": "28c67c975755",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬Q(a)"
+      },
+      {
+        "record_id": "f45540cb533b",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('and', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∧ S(a))"
+      },
+      {
+        "record_id": "bead1aca274a",
+        "input_sigs": "(('predicate', 'S', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'S', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬S(a)"
+      },
+      {
+        "record_id": "0eb2a70f24bb",
+        "input_sigs": "(('predicate', 'T', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'T', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "¬T(a)"
+      },
+      {
+        "record_id": "1a922291b9d6",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) ∨ Q(a))"
+      },
+      {
+        "record_id": "914fdd88b935",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 0,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → S(a))"
+      },
+      {
+        "record_id": "b686f4784166",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('and', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∧ Q(a))"
+      },
+      {
+        "record_id": "acc8111d64ff",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∨ Q(a))"
+      },
+      {
+        "record_id": "d76f653e7788",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) ∨ S(a))"
+      },
+      {
+        "record_id": "3737c6171023",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('or', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 0,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) ∨ S(a))"
+      },
+      {
+        "record_id": "f3fa21a6c03c",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → S(b))"
+      },
+      {
+        "record_id": "667ff8239a19",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → P(b))"
+      },
+      {
+        "record_id": "1c1e0bcf52df",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → P(b))"
+      },
+      {
+        "record_id": "06264e07164c",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → Q(a))"
+      },
+      {
+        "record_id": "46a33e0726e0",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → Q(b))"
+      },
+      {
+        "record_id": "8eff8242ad2b",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → S(b))"
+      },
+      {
+        "record_id": "be11cd80ddc9",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "output_sig": "('iff', ('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) ↔ (Q(a) → P(a)))"
+      },
+      {
+        "record_id": "bb59431f96e8",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → T(a))"
+      },
+      {
+        "record_id": "96bd500cdc11",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) ↔ T(b))"
+      },
+      {
+        "record_id": "717abbd6094d",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) ↔ S(a))"
+      },
+      {
+        "record_id": "54cbc5beb9a1",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('and', ('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 1,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) ∧ (Q(a) → P(a)))"
+      },
+      {
+        "record_id": "59a32a84373f",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 1,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(a) → T(b))"
+      },
+      {
+        "record_id": "3570fc562a5b",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → Q(b))"
+      },
+      {
+        "record_id": "3b73279c5009",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(P(b) → T(b))"
+      },
+      {
+        "record_id": "01c9b3f5a204",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → P(a))"
+      },
+      {
+        "record_id": "5e31d5a14495",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → Q(a))"
+      },
+      {
+        "record_id": "abd34ebd18ac",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → S(a))"
+      },
+      {
+        "record_id": "2c55a0d6fcd1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(b) → T(a))"
+      },
+      {
+        "record_id": "ba53099bb00d",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → P(b))"
+      },
+      {
+        "record_id": "8c14b49f6ff5",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → Q(b))"
+      },
+      {
+        "record_id": "41fa255f3d9a",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → S(a))"
+      },
+      {
+        "record_id": "39de2746d82f",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → S(b))"
+      },
+      {
+        "record_id": "bdeaf9a7f666",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 2,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(Q(a) → T(a))"
+      },
+      {
+        "record_id": "3aad1fd1288b",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "output_sig": "('iff', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t1',)), ('predicate', 'S', ('_t1',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 2,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "((Q(a) → P(a)) ↔ (P(b) → S(b)))"
+      },
+      {
+        "record_id": "5c5764c32f08",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(a) → T(b))"
+      },
+      {
+        "record_id": "86e1b6941970",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → P(a))"
+      },
+      {
+        "record_id": "3384291919a5",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → Q(a))"
+      },
+      {
+        "record_id": "e403e790f1bc",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → S(a))"
+      },
+      {
+        "record_id": "1ed5414070fd",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → S(b))"
+      },
+      {
+        "record_id": "23c15c244f70",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(b) → T(a))"
+      },
+      {
+        "record_id": "00ba7923d431",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) → T(b))"
+      },
+      {
+        "record_id": "025b11912568",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))))",
+        "output_sig": "('or', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 3,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((Q(b) → P(b)) ∨ (P(b) → S(b)))"
+      },
+      {
+        "record_id": "4b8d212fd35b",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → P(a))"
+      },
+      {
+        "record_id": "9b897362ed2c",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → P(b))"
+      },
+      {
+        "record_id": "bdd2fd001077",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → Q(a))"
+      },
+      {
+        "record_id": "cd9cf43dc0c1",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 3,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → Q(b))"
+      },
+      {
+        "record_id": "b1b2a3b7f22e",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → P(b))"
+      },
+      {
+        "record_id": "f75a841e5ba0",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((S(a) → P(a)) → Q(a))"
+      },
+      {
+        "record_id": "ed29c8772920",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "output_sig": "('iff', ('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(Q(b) ↔ (Q(b) → P(b)))"
+      },
+      {
+        "record_id": "22d45c5b8de6",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → Q(b))"
+      },
+      {
+        "record_id": "21cbd50545c9",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → S(b))"
+      },
+      {
+        "record_id": "eab9fed32872",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(S(a) → T(a))"
+      },
+      {
+        "record_id": "0f471d52a00b",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(S(a) → T(b))"
+      },
+      {
+        "record_id": "e1e119fbb360",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → P(a))"
+      },
+      {
+        "record_id": "6d079eed7b4d",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → Q(a))"
+      },
+      {
+        "record_id": "ce080434ebf9",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('and', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 4,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "((P(a) → Q(a)) ∧ S(b))"
+      },
+      {
+        "record_id": "27cd5befe206",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → S(a))"
+      },
+      {
+        "record_id": "88baf2a3085c",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 4,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(S(b) → T(a))"
+      },
+      {
+        "record_id": "0bbe00f0a29e",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('iff', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(T(b) ↔ P(b))"
+      },
+      {
+        "record_id": "94384b707f44",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(S(b) → T(b))"
+      },
+      {
+        "record_id": "31391a04e42a",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → P(a))"
+      },
+      {
+        "record_id": "b69198b1fe98",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → P(b))"
+      },
+      {
+        "record_id": "a4908acddf34",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → Q(a))"
+      },
+      {
+        "record_id": "9457ee18e90c",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → Q(b))"
+      },
+      {
+        "record_id": "9852f9d14f71",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(T(a) → S(a))"
+      },
+      {
+        "record_id": "d7f3357b67ed",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → S(b))"
+      },
+      {
+        "record_id": "b4f89322a1f9",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(T(a) → T(b))"
+      },
+      {
+        "record_id": "0b3b9302c4f3",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(b) → P(a))"
+      },
+      {
+        "record_id": "c265ae3a6e50",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(T(b) → P(b))"
+      },
+      {
+        "record_id": "a756e795737d",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 5,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(b) → Q(a))"
+      },
+      {
+        "record_id": "1127df962284",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → Q(c))"
+      },
+      {
+        "record_id": "7825d11dffef",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → S(c))"
+      },
+      {
+        "record_id": "25490603c4bb",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(P(c) → T(c))"
+      },
+      {
+        "record_id": "131f1f11ac42",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → P(c))"
+      },
+      {
+        "record_id": "c95293aaaf6f",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(S(c) → P(c))"
+      },
+      {
+        "record_id": "98138c9f08d8",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('or', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "disj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 6,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((P(a) → S(a)) ∨ T(a))"
+      },
+      {
+        "record_id": "8c6e4e484c42",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(S(c) → Q(c))"
+      },
+      {
+        "record_id": "8c968bf1443f",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('iff', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((Q(b) → P(b)) ↔ T(b))"
+      },
+      {
+        "record_id": "e96b1cbe953e",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(S(c) → T(c))"
+      },
+      {
+        "record_id": "43a55db7c149",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "(T(b) → Q(b))"
+      },
+      {
+        "record_id": "6e1651b0982e",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('or', ('predicate', 'Q', ('_t0',)), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "disj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 6,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) ∨ (Q(b) → P(b)))"
+      },
+      {
+        "record_id": "32a3555eb5a1",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 6,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(T(c) → P(c))"
+      },
+      {
+        "record_id": "1c9c59955c6f",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(T(c) → Q(c))"
+      },
+      {
+        "record_id": "cf801ac17f0a",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → P(c))"
+      },
+      {
+        "record_id": "795450214afd",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → Q(c))"
+      },
+      {
+        "record_id": "540a29095b4c",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → S(c))"
+      },
+      {
+        "record_id": "a95e15bb0c44",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(a) → T(c))"
+      },
+      {
+        "record_id": "a3f2865cbc76",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "((S(c) → T(c)) → S(c))"
+      },
+      {
+        "record_id": "2d9517b43934",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → P(c))"
+      },
+      {
+        "record_id": "20e047e98d06",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → Q(c))"
+      },
+      {
+        "record_id": "29677e6af019",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → S(c))"
+      },
+      {
+        "record_id": "8ea53b6c537a",
+        "input_sigs": "(('predicate', 'S', ('_t0',)),)",
+        "output_sig": "('not', ('predicate', 'S', ('_t0',)))",
+        "operation_name": "neg",
+        "context_sig": "unary_predicate_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.5,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "¬S(c)"
+      },
+      {
+        "record_id": "081dc6666bf1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(P(b) → T(c))"
+      },
+      {
+        "record_id": "f6f8678459c0",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 7,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → P(a))"
+      },
+      {
+        "record_id": "bc1a1cee3711",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → P(b))"
+      },
+      {
+        "record_id": "9a5f190b2ee1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → Q(a))"
+      },
+      {
+        "record_id": "f999afb6fdf3",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 8,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "((P(c) → S(c)) ∧ (S(c) → P(c)))"
+      },
+      {
+        "record_id": "f48cb517c6be",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → Q(b))"
+      },
+      {
+        "record_id": "0cd77f2aabc8",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → S(a))"
+      },
+      {
+        "record_id": "12233cd279ea",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → S(b))"
+      },
+      {
+        "record_id": "a7cbd1b34cbf",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(P(c) → T(a))"
+      },
+      {
+        "record_id": "41614923f92d",
+        "input_sigs": "(('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('iff', ('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',))), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "((Q(b) → P(b)) ↔ S(a))"
+      },
+      {
+        "record_id": "98fa6e524099",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(P(c) → T(b))"
+      },
+      {
+        "record_id": "4a5ac65773a9",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → P(c))"
+      },
+      {
+        "record_id": "e7a8d8eb5d61",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → Q(c))"
+      },
+      {
+        "record_id": "38b53ed32b69",
+        "input_sigs": "(('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('iff', ('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 8,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((T(b) → Q(b)) ↔ T(b))"
+      },
+      {
+        "record_id": "814cc7a89a98",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → S(c))"
+      },
+      {
+        "record_id": "7f55386c75a1",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "(P(a) → (S(a) → Q(a)))"
+      },
+      {
+        "record_id": "565d8eeb197c",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(a) → T(c))"
+      },
+      {
+        "record_id": "489fca86ba9e",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → P(c))"
+      },
+      {
+        "record_id": "3d89d6e77688",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → Q(c))"
+      },
+      {
+        "record_id": "b3ef158c953a",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0"
+        },
+        "output_prop_str": "((P(b) → S(b)) → P(b))"
+      },
+      {
+        "record_id": "ea3173ec074e",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "output_sig": "('and', ('predicate', 'S', ('_t0',)), ('implies', ('predicate', 'T', ('_t0',)), ('predicate', 'Q', ('_t0',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 9,
+        "confidence": 0.0,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(S(c) ∧ (T(c) → Q(c)))"
+      },
+      {
+        "record_id": "8c2aecef1228",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → S(c))"
+      },
+      {
+        "record_id": "bfab37f0873e",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(Q(b) → T(c))"
+      },
+      {
+        "record_id": "3aa95f294270",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → P(a))"
+      },
+      {
+        "record_id": "0c52221d1497",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('iff', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "iff",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 1.1,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(b) ↔ T(c))"
+      },
+      {
+        "record_id": "ffd921b4cb59",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 9,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → P(b))"
+      },
+      {
+        "record_id": "a244a4a2a69e",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "output_sig": "('implies', ('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'S', ('_t1',)), ('predicate', 'Q', ('_t1',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(T(c) → (S(a) → Q(a)))"
+      },
+      {
+        "record_id": "6c8c33038666",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → Q(a))"
+      },
+      {
+        "record_id": "7ae74e89bdda",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → Q(b))"
+      },
+      {
+        "record_id": "7789bd25e49b",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → S(a))"
+      },
+      {
+        "record_id": "ece60194bae6",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → S(b))"
+      },
+      {
+        "record_id": "8d0acd56249a",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → S(c))"
+      },
+      {
+        "record_id": "b073c4d309fe",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "a": "_t1"
+        },
+        "output_prop_str": "(Q(c) → T(a))"
+      },
+      {
+        "record_id": "89fb873f7f95",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0",
+          "b": "_t1"
+        },
+        "output_prop_str": "(Q(c) → T(b))"
+      },
+      {
+        "record_id": "a670cca9d9e1",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "c": "_t0"
+        },
+        "output_prop_str": "(Q(c) → T(c))"
+      },
+      {
+        "record_id": "ac849b08e288",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → P(c))"
+      },
+      {
+        "record_id": "97769df4856b",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → Q(c))"
+      },
+      {
+        "record_id": "5a891ea5bba2",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'S', ('_t1',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "invalid",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 10,
+        "confidence": 0.8,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(S(a) → S(c))"
+      },
+      {
+        "record_id": "707d86d19c53",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'Q', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((S(a) → Q(a)) ∧ (Q(c) → P(c)))"
+      },
+      {
+        "record_id": "50fdc596ef4c",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t1',)))",
+        "output_sig": "('and', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('predicate', 'T', ('_t1',)))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_predicate_der_obs",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((P(a) → Q(a)) ∧ T(c))"
+      },
+      {
+        "record_id": "881901a92efa",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(P(d) → Q(d))"
+      },
+      {
+        "record_id": "999f817b3d6e",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(P(d) → S(d))"
+      },
+      {
+        "record_id": "fa05bbfb8321",
+        "input_sigs": "(('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(P(d) → T(d))"
+      },
+      {
+        "record_id": "20c27688ebc1",
+        "input_sigs": "(('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('and', ('predicate', 'T', ('_t0',)), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_predicate_implies_obs_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "(T(b) ∧ (T(c) → P(c)))"
+      },
+      {
+        "record_id": "3ad0363a3851",
+        "input_sigs": "(('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "output_sig": "('implies', ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'Q', ('_t0',))), ('implies', ('predicate', 'T', ('_t1',)), ('predicate', 'P', ('_t1',))))",
+        "operation_name": "impl",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "b": "_t0",
+          "c": "_t1"
+        },
+        "output_prop_str": "((P(b) → Q(b)) → (T(c) → P(c)))"
+      },
+      {
+        "record_id": "894dceed6ffd",
+        "input_sigs": "(('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'Q', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(Q(d) → P(d))"
+      },
+      {
+        "record_id": "1fb193c00a15",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'P', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(S(d) → P(d))"
+      },
+      {
+        "record_id": "fc8da847193b",
+        "input_sigs": "(('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))))",
+        "output_sig": "('and', ('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',))), ('implies', ('predicate', 'P', ('_t0',)), ('predicate', 'S', ('_t0',))))",
+        "operation_name": "conj",
+        "context_sig": "binary_implies_implies_der_der",
+        "verification_result": "unknown",
+        "usefulness": 0.0,
+        "cost": 0.7,
+        "step": 11,
+        "confidence": 0.0,
+        "input_terms": {
+          "a": "_t0"
+        },
+        "output_prop_str": "((S(a) → T(a)) ∧ (P(a) → S(a)))"
+      },
+      {
+        "record_id": "c7d66de73a0c",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'Q', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(S(d) → Q(d))"
+      },
+      {
+        "record_id": "e865d864ea28",
+        "input_sigs": "(('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "output_sig": "('implies', ('predicate', 'S', ('_t0',)), ('predicate', 'T', ('_t0',)))",
+        "operation_name": "impl",
+        "context_sig": "binary_predicate_predicate_obs_obs",
+        "verification_result": "valid",
+        "usefulness": 1.0,
+        "cost": 0.9,
+        "step": 11,
+        "confidence": 0.8,
+        "input_terms": {
+          "d": "_t0"
+        },
+        "output_prop_str": "(S(d) → T(d))"
+      }
+    ]
+  },
+  "ab_comparison": {
+    "valid_diff": 16,
+    "invalid_diff": -12,
+    "unknown_diff": -4,
+    "cost_diff": 0.8,
+    "efficiency_a": 0.103668,
+    "efficiency_b": 0.229794,
+    "valid_per_executed_a": 0.0903,
+    "valid_per_executed_b": 0.2014,
+    "efficiency_ratio": 2.2166,
+    "key_prop_first_valid": {
+      "P(a)→Q(a)": {
+        "a_first_valid_step": 1,
+        "b_first_valid_step": 1,
+        "improvement": 0
+      },
+      "Q(a)→P(a)": {
+        "a_first_valid_step": 0,
+        "b_first_valid_step": 0,
+        "improvement": 0
+      },
+      "P(b)→Q(b)": {
+        "a_first_valid_step": 2,
+        "b_first_valid_step": 2,
+        "improvement": 0
+      },
+      "P(c)→Q(c)": {
+        "a_first_valid_step": 7,
+        "b_first_valid_step": 6,
+        "improvement": -1
+      },
+      "P(d)→Q(d)": {
+        "a_first_valid_step": null,
+        "b_first_valid_step": 11,
+        "improvement": null
+      },
+      "S(a)→T(a)": {
+        "a_first_valid_step": 4,
+        "b_first_valid_step": 4,
+        "improvement": 0
+      },
+      "S(c)→T(c)": {
+        "a_first_valid_step": null,
+        "b_first_valid_step": 6,
+        "improvement": null
+      },
+      "S(d)→T(d)": {
+        "a_first_valid_step": null,
+        "b_first_valid_step": 11,
+        "improvement": null
+      }
+    }
+  },
+  "checks": {
+    "check_transform_history_recorded": true,
+    "check_transform_matches_found": true,
+    "check_structure_generalization": true,
+    "check_unknown_not_failure": true,
+    "check_ground_truth_not_in_selection": true,
+    "check_exploration_exists": true,
+    "check_no_unverified_generalization": true,
+    "check_ab_difference": true
+  },
+  "all_checks_passed": true
+}

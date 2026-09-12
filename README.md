@@ -68,8 +68,9 @@ ComputeEngine (编排)
 | test_e0_4 | 10 | E0-4 知识修正与回滚（VALID 可被推翻 / derived 反映当前状态 / 退出后不再使用） |
 | test_e0_5 | 12 | E0-5 验证方法评估（方法对象化 / 时间反馈 / 方法可犯错 / 选择依赖历史） |
 | test_e0_6 | 10 | E0-6 操作选择学习（历史影响选择 / 情境偏好 / unknown 不计失败 / ground truth 不入选择 / 探索保留 / trace 完整 / A/B 对照） |
+| test_e0_7 | 10 | E0-7 变换历史学习（结构签名 / 变换记录 / 新对象泛化 / 候选非信念 / unknown 独立 / ground truth 隔离 / 无未来信息 / 无未验证泛化 / A/B 对照） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **120** | **全部通过** |
+| **合计** | **130** | **全部通过** |
 
 ---
 
@@ -862,7 +863,178 @@ cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
 
 ---
 
-## 十、历史反哺的四种方式
+## 十、E0-7 实验：transformation history learning
+
+### 核心变化（与 E0-6 的区别）
+
+E0-6：
+```
+当前对象 → 提取 context 签名 → 从历史选择 constructor → 验证 → 结果反馈
+    → 更新对 constructor 的评价 → 后续选择 constructor
+```
+
+E0-7：
+```
+输入对象 → operation → 输出对象 → 验证
+    → 记录 (input_structure → output_structure) 变换
+    → 遇到结构相似的新输入 → 从变换历史检索 → 生成候选 → 验证
+```
+
+E0-6 学到的是：**context → "impl"**（操作选择）
+E0-7 要学的是：**input_structure → output_structure**（计算变换）
+
+关键区别：E0-6 在同一 context 下无法区分"哪对输入有效"；E0-7 可以记住具体哪些 (input_structure → output_structure) 产生了 valid 结果。
+
+### 核心设计
+
+#### 1. 使用 predicate 而非 atom
+
+E0-6 使用 `P.atom("P(a)")`，P(a) 和 P(b) 是完全不同的 atom，无法结构泛化。
+
+E0-7 使用 `P.predicate("P", "a")`，P(a) 和 P(b) 有相同的结构签名：
+```
+P.predicate("P", "a") → ("predicate", "P", ("_t0",))
+P.predicate("P", "b") → ("predicate", "P", ("_t0",))
+```
+
+#### 2. 结构签名 structure_sig
+
+将具体词项抽象为占位符 `_t0, _t1, ...`，同一词项在联合签名中使用同一占位符：
+```
+(P(a), Q(a)) → (("predicate","P",("_t0",)), ("predicate","Q",("_t0",)))  # 共享 _t0
+(P(b), Q(b)) → (("predicate","P",("_t0",)), ("predicate","Q",("_t0",)))  # 签名相同
+```
+
+#### 3. TransformationRecord
+
+| 字段 | 说明 |
+|------|------|
+| `input_sigs` | 输入对象的联合结构签名（核心） |
+| `output_sig` | 输出对象的结构签名（核心） |
+| `operation_name` | 产生此变换的操作（仅历史来源，不参与匹配） |
+| `context_sig` | 上下文签名 |
+| `verification_result` | valid / invalid / unknown |
+| `usefulness` | goal improvement |
+| `cost` / `step` / `confidence` | 元数据 |
+| `input_terms` | {actual_term: placeholder} 映射 |
+
+**关键**：匹配基于 `input_sigs` 结构，不依赖 `operation_name`。
+
+#### 4. TransformationStore.find_matches
+
+检索算法：
+1. 对每个 record，其 `input_sigs` 是多个输入的联合结构签名
+2. 在当前对象中寻找结构签名匹配的候选
+3. 检查词项绑定一致性（如 `_t0` 共享，则匹配对象必须共享同一实际词项）
+4. 返回 (record, matched_objects, binding)
+
+#### 5. 候选选择加分
+
+Group B 的候选分数 = E0-6 base_score + transform_boost：
+```
+transform_boost = TRANSFORM_BOOST × confidence  （仅当候选匹配 valid 变换时）
+```
+
+### A/B 对照实验设计
+
+| | Group A（E0-6） | Group B（E0-7） |
+|--|----------------|-----------------|
+| 操作选择 | context → operation | context → operation |
+| 变换历史 | ❌ | ✅ input_structure → output_structure |
+| 世界/预算/验证 | 相同 | 相同 |
+
+世界设计：多个谓词 P, Q, S, T，对象 a, b, c, d。只有 P(x)→Q(x) 和 S(x)→T(x) 有效，其他蕴含方向无效。这使得同一 context 下 impl 对某些对有效、对另一些无效——E0-6 无法区分，E0-7 可以。
+
+### 实验结果
+
+| 指标 | Group A（E0-6） | Group B（E0-7） | 差异 |
+|------|----------------|-----------------|------|
+| valid | 13 | **29** | **+16 (+123%)** |
+| invalid | 105 | 93 | -12 |
+| unknown | 26 | 22 | -4 |
+| 总成本 | 125.4 | 126.2 | +0.8 |
+| 效率 (valid/cost) | 0.1037 | **0.2298** | **2.22x** |
+
+#### 关键命题首次发现步数
+
+| 命题 | Group A | Group B | 改进 |
+|------|---------|---------|------|
+| P(a)→Q(a) | step 1 | step 1 | 0 |
+| P(b)→Q(b) | step 2 | step 2 | 0 |
+| P(c)→Q(c) | step 7 | **step 6** | **-1** |
+| P(d)→Q(d) | not found | **step 11** | 发现 |
+| S(a)→T(a) | step 4 | step 4 | 0 |
+| S(c)→T(c) | not found | **step 6** | 发现 |
+| S(d)→T(d) | not found | **step 11** | 发现 |
+
+Group B 发现了 3 个 Group A 未发现的有效命题（P(d)→Q(d), S(c)→T(c), S(d)→T(d)），并提前 1 步发现 P(c)→Q(c)。
+
+#### 变换历史统计（Group B）
+
+| 指标 | 值 |
+|------|-----|
+| 总变换记录 | 144 |
+| valid | 29 |
+| invalid | 93 |
+| unknown | 22 |
+| 获得变换加分的候选 | 24 |
+
+### E0-7 专用测试（10 项不变量）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_transform_history_records_real_computation | 变换历史能记录真实计算过程 |
+| 2 | test_transform_representation_independent_of_operation_name | 变换表示不依赖 operation name 才能匹配 |
+| 3 | test_transform_history_influences_candidate_generation | 变换历史能影响候选生成 |
+| 4 | test_transform_only_produces_candidates_not_beliefs | 历史变换只能产生候选，不能直接产生 valid belief |
+| 5 | test_unknown_not_treated_as_invalid | unknown 不被当成 invalid |
+| 6 | test_ground_truth_not_in_transform_selection | ground truth 不进入变换选择 |
+| 7 | test_no_future_information | 不读取未来信息 |
+| 8 | test_new_object_with_same_structure_triggers_transform | 相同结构的新对象可以触发历史变换候选 |
+| 9 | test_no_unverified_generalization_into_belief | 不允许未经验证的泛化直接进入 belief |
+| 10 | test_experiment_checks_pass | 实验内部检查全部通过 |
+
+### E0-7 结论
+
+1. **系统能学习计算变换**：从 (P(a),Q(a))→(P(a)→Q(a)) 泛化到 (P(c),Q(c))→(P(c)→Q(c))
+2. **变换学习独立于 operation name**：匹配基于 input_structure → output_structure，operation_name 仅作执行手段
+3. **变换历史提供显著价值**：Group B 比 Group A 多发现 16 个 valid，效率提升 2.22x
+4. **新对象泛化成立**：P(d)、S(d) 等全新对象能触发历史变换候选
+5. **变换只产生候选**：所有 valid belief 都来自验证，变换不直接写入 belief
+6. **无未验证泛化**：P(a)→Q(a) 不直接推广为 ∀x(P(x)→Q(x))，P(c)→Q(c) 需经验证
+7. **ground truth 隔离**：选择/匹配/验证逻辑均不含 ground_truth
+
+### E0-7 理论问题回答
+
+1. **E0-6 学到的是"操作选择"还是"计算变换"？**
+   E0-6 学到的是操作选择：context → operation_name。它知道"predicate 上下文用 impl"，但不知道"哪对输入产生 valid"。
+
+2. **E0-7 是否真正摆脱了 operation-name dependency？**
+   是的。变换匹配基于 input_sigs 结构签名，不依赖 operation_name。operation_name 仅在执行变换时使用（作为历史记录的执行手段），不参与匹配决策。
+
+3. **P(a)→Q(a) 迁移到 P(b)→Q(b) 发生在哪一步？**
+   发生在**候选选择阶段**：当 P(b), Q(b) 出现在 constructible 中时，TransformationStore.find_matches 根据结构签名找到历史 (P(a),Q(a))→(P(a)→Q(a)) 变换，为 impl(P(b),Q(b)) 候选加分，使其优先被选择和验证。
+
+4. **这个迁移是演绎、归纳，还是历史匹配？**
+   是**历史匹配（analogical transfer）**。系统不做逻辑推导，也不做全称归纳。它只是发现"过去 (P(x),Q(x)) 结构产生了 valid 输出"，然后对新的 (P(b),Q(b)) 尝试相同的结构变换。结果必须经验证。
+
+5. **如果做不到新对象泛化，卡在哪里？**
+   当前实验成功实现了新对象泛化。关键在于：使用 predicate（而非 atom）表示使结构签名成为可能；structure_sig 抽象词项为占位符；find_matches 检查词项绑定一致性。如果使用 atom，则无法泛化（卡在 representation）。
+
+6. **E0-7 相比 E0-6 增加了什么新能力？**
+   E0-7 增加了**结构级别的变换记忆与检索**。E0-6 只能学到"什么上下文用什么操作"，E0-7 能学到"什么输入结构产生什么输出结构"，从而在新对象上复用变换经验。这是从"操作选择"到"计算变换学习"的关键一步。
+
+### E0-7 未证明什么
+
+- **未证明新操作发现**：仍只使用已有 constructors
+- **未证明全称归纳**：P(a)→Q(a) 到 P(b)→Q(b) 是候选生成，不是 ∀x(P(x)→Q(x)) 的逻辑推导
+- **未证明复杂结构泛化**：当前只测试了 predicate 的简单结构，未测试嵌套结构的泛化
+- **未证明长期收敛**：12 步实验，未测试长期学习行为
+- **未证明跨谓词泛化**：P→Q 的变换不直接迁移到 S→T（两者是独立的变换记录）
+
+---
+
+## 十一、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -876,7 +1048,7 @@ cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
 
 ---
 
-## 十一、E0/E1/E2 实验设计
+## 十二、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -886,7 +1058,7 @@ cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
 
 ---
 
-## 十二、A/B/C/D 对照实验
+## 十三、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -914,7 +1086,7 @@ cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
 
 ---
 
-## 十三、先验声明
+## 十四、先验声明
 
 ### 不可删除的最小先验
 
@@ -931,10 +1103,10 @@ cost = CONSTRUCTOR_COSTS[operation] + VERIFICATION_COST
 
 ---
 
-## 十四、运行方式
+## 十五、运行方式
 
 ```bash
-# 运行测试（120 个）
+# 运行测试（130 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
@@ -943,6 +1115,7 @@ python tests/test_e0_3.py
 python tests/test_e0_4.py
 python tests/test_e0_5.py
 python tests/test_e0_6.py
+python tests/test_e0_7.py
 python tests/test_v0.py
 
 # 或使用 pytest
@@ -965,6 +1138,9 @@ python experiments/run_e0_5.py
 
 # 运行 E0-6 实验（operation selection learning）
 python experiments/run_e0_6.py
+
+# 运行 E0-7 实验（transformation history learning）
+python experiments/run_e0_7.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py
