@@ -63,9 +63,9 @@ ComputeEngine (编排)
 | test_core | 15 | 基础功能 |
 | test_audit | 10 | 审计修复 |
 | test_invariants | 41 | 架构不变量（feedback 语义 / 统计累计 / gated_out 不递归 / 知识边界等） |
-| test_e0_2 | 7 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长） |
+| test_e0_2 | 10 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长 / 状态分类） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **81** | **全部通过** |
+| **合计** | **84** | **全部通过** |
 
 ---
 
@@ -181,24 +181,25 @@ E0-1 只验证了"构造能力 + 验证 = 可以形成知识"，不验证"搜索
 
 ---
 
-## 五、E0-2 实验：时间展开穷举构造 + 验证闭环
+## 五、E0-2 实验：时间展开穷举构造 + 验证闭环（strictly time-causal）
 
 ### 核心变化（与 E0-1 的区别）
 
 - 不再把完整 world_history 一次性提供给系统
 - 逐时刻展开：每个时刻 t 只提供 `history[:t+1]` 作为 `ctx.world_history`
 - 验证时不能偷看未来 observation
-- 验证结果写入 BeliefStore 后，新的 valid 命题加入下一时刻的可计算对象空间
+- **constructible_objects = observed_objects**（不含 valid belief）
+- valid/invalid 跳过重复验证；unknown 允许重新验证
 
 ### 实验设计
 
 ```
 for t in world_history:
   1. 只向系统提供当前时刻 t 的 observation
-  2. 把 observation 中的新对象加入当前 knowledge/object space
-  3. 把之前构造的 valid 命题也加入可计算对象空间
-  4. 从"截至当前已知对象"进行单层穷举构造
-  5. 对候选进行验证（Verifier 只能看到 history[:t+1]）
+  2. 把 observation 中的新对象加入 observed_objects
+  3. 从 observed_objects 进行单层穷举构造（不含 valid belief）
+  4. 对候选进行验证（Verifier 只能看到 history[:t+1]）
+  5. valid/invalid 跳过；unknown 允许重新验证
   6. 将验证结果写入 BeliefStore
   7. 下一时刻继续
 ```
@@ -208,14 +209,15 @@ for t in world_history:
 | 指标 | 值 |
 |------|-----|
 | 时间步数 | 12 |
-| 总候选数 | 19909 |
-| 新增 belief 数 | 18196 |
+| 总候选数 | 2521 |
 | valid | 16 |
-| invalid | 216 |
-| unknown | 17964 |
-| 总成本 | 81428.7 |
-| Trace 步骤数 | 36392 |
-| 证据数 | 109176 |
+| invalid | 56 |
+| unknown | 1913 |
+| duplicates_skipped | 536 |
+| re_verified_unknown | 1688 |
+| 总成本 | 8445.0 |
+| Trace 步骤数 | 3970 |
+| 证据数 | 11910 |
 
 ### 关键命题时间线
 
@@ -231,39 +233,50 @@ for t in world_history:
 
 | 检查项 | 结果 |
 |--------|------|
-| P(a)→Q(a) 不能在 P(a) 和 Q(a) 都出现之前构造 | PASS |
-| P(c)→Q(c) 不能在 P(c) 和 Q(c) 都出现之前构造 | PASS |
-| P(c)→Q(c) 在反例到来后被 re-evaluate | PASS |
+| P(a)→Q(a) 不在 P(a) 或 Q(a) 出现之前构造 | PASS |
+| P(c)→Q(c) 不在 P(c) 或 Q(c) 出现之前构造 | PASS |
+| P(c)→Q(c) 反例到来后状态改变 | PASS |
+| future_information_leak_check | PASS |
 | P(a)→Q(a) 最终被验证为 valid | PASS |
 | P(c)→Q(c) 最终被验证为 invalid | PASS |
 | 验证结果进入 BeliefStore | PASS |
 | Trace 完整记录 | PASS |
 
+### 关键时间点
+
+- P(a) first seen: step 0
+- Q(a) first seen: step 0
+- P(c) first seen: step 6
+- Q(c) first seen: step 7
+
 ### E0-2 结论
 
-1. **核心闭环验证**：新观察进入知识空间 → 改变下一轮可计算对象 → 构造新对象 → 验证 → 新知识再次进入知识空间——这一闭环在时间展开下成立
-2. **时序正确性**：候选不能提前出现（P(a)→Q(a) 在 P(a) 和 Q(a) 都可见后才能构造）；验证不偷看未来
-3. **反例响应**：P(c)→Q(c) 在反例出现的同一步被验证为 invalid
-4. **知识空间增长**：从 step 0 的 3 个对象增长到 step 11 的 25 个对象（含 valid 构造命题）
-5. **组合爆炸加剧**：时间展开导致每步重新穷举，总候选 19909（vs E0-1 的 297），因为每步都重新枚举所有已知对象
+1. **核心闭环验证**：新观察进入 observed_objects → 改变下一轮可构造对象 → 构造新对象 → 验证 → 知识进入 BeliefStore
+2. **时序正确性**：候选不能提前出现；验证不偷看未来；future_information_leak_check 通过
+3. **状态分类处理**：valid/invalid 跳过重复验证（536 次）；unknown 重新验证（1688 次）
+4. **构造空间受限**：constructible_objects = observed_objects（不含 valid belief），避免了知识递归构造
+5. **组合爆炸缓解**：总候选 2521（vs E0-1 的 297 单步，vs 旧 E0-2 的 19909 含 valid recycling）
 
-### E0-2 专用测试（7 项）
+### E0-2 专用测试（10 项）
 
 | # | 测试 | 验证点 |
 |---|------|--------|
-| 1 | test_future_observation_not_visible | future observation 不可见 |
-| 2 | test_current_observation_enters_object_space | 当前 observation 才能进入 object space |
-| 3 | test_new_objects_affect_next_step_candidates | 新对象影响下一时间步候选空间 |
-| 4 | test_candidate_cannot_appear_early | 候选不能提前出现 |
-| 5 | test_status_changes_after_counterexample | 反例到来后状态可以改变 |
-| 6 | test_belief_store_not_polluted_by_future | BeliefStore 历史没有被未来信息污染 |
-| 7 | test_trace_preserves_temporal_order | Trace 能还原时间顺序 |
+| 1 | test_step_t_cannot_see_t1_objects | t 时刻看不到 t+1 的对象 |
+| 2 | test_candidates_only_from_observed_objects | t 时刻候选只能来自 observed_objects |
+| 3 | test_valid_belief_not_in_constructor_input | valid belief 不会自动进入 constructor 输入 |
+| 4 | test_observation_expands_observed_objects | 新 observation 会扩大下一时间步 observed_objects |
+| 5 | test_pa_qa_not_early | P(a)→Q(a) 不会提前出现 |
+| 6 | test_unknown_can_be_reverified | unknown 候选可以在后续 observation 后重新验证 |
+| 7 | test_valid_invalid_not_reverified | 已经 valid/invalid 的候选不会被无意义重复验证 |
+| 8 | test_ground_truth_not_in_verifier | ground truth 不进入 Verifier |
+| 9 | test_full_history_not_smuggled | 完整历史不会通过 Context 偷渡给验证器 |
+| 10 | test_trace_temporal_order | trace 的时间顺序正确 |
 
 ### 重要区分
 
 - **"系统在当前构造空间中生成了候选，并根据截至当前时刻的观察证据进行了评价"** — E0-2 验证了这一点
 - **"系统发现了规律"** — E0-2 **没有**验证这一点；system valid 不等于 ground truth
-- **Q(a)→P(a) 被 system 判为 valid 但 ground truth 为 False** — 这说明 Verifier 的 `action_compare` 方法只看共现率，不能区分方向性；这不是系统"发现了规律"，而是验证器的局限
+- **Q(a)→P(a) 被 system 判为 valid 但 ground truth 为 False** — Verifier 的 `action_compare` 只看共现率，不能区分方向性
 
 ---
 
@@ -281,7 +294,7 @@ for t in world_history:
 
 ---
 
-## 六、E0/E1/E2 实验设计
+## 七、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -291,7 +304,7 @@ for t in world_history:
 
 ---
 
-## 七、A/B/C/D 对照实验
+## 八、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -319,7 +332,7 @@ for t in world_history:
 
 ---
 
-## 八、先验声明
+## 九、先验声明
 
 ### 不可删除的最小先验
 
@@ -336,10 +349,10 @@ for t in world_history:
 
 ---
 
-## 九、运行方式
+## 十、运行方式
 
 ```bash
-# 运行测试（81 个）
+# 运行测试（84 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py

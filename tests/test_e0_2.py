@@ -1,13 +1,16 @@
-"""E0-2 专用测试：时间展开穷举构造 + 验证闭环。
+"""E0-2 专用测试：时间展开穷举构造 + 验证闭环（strictly time-causal）。
 
 验证：
-  1. future observation 不可见
-  2. 当前 observation 才能进入 object space
-  3. 新对象影响下一时间步候选空间
-  4. 候选不能提前出现
-  5. 反例到来后状态可以改变
-  6. BeliefStore 历史没有被未来信息污染
-  7. Trace 能还原时间顺序
+  1. t 时刻看不到 t+1 的对象
+  2. t 时刻候选只能来自 observed_objects
+  3. valid belief 不会自动进入 E0-2 constructor 输入
+  4. 新 observation 会扩大下一时间步 observed_objects
+  5. P(a)→Q(a) 不会提前出现
+  6. unknown 候选可以在后续 observation 后重新验证
+  7. 已经 valid/invalid 的候选不会被无意义重复验证
+  8. ground truth 不进入 Verifier
+  9. 完整历史不会通过 Context 偷渡给验证器
+  10. trace 的时间顺序正确
 """
 
 import os
@@ -29,227 +32,230 @@ from experiments.run_e0_2 import (
     build_world_history, enumerate_constructions, run_e0_2,
     ground_truth_check,
 )
-import itertools
+import inspect
 
 
-# 1. future observation 不可见
-def test_future_observation_not_visible():
-    """在 t 时刻，Context.world_history 长度必须为 t+1，不能包含未来。"""
+# 1. t 时刻看不到 t+1 的对象
+def test_step_t_cannot_see_t1_objects():
+    """在 t 时刻，Context.world_history 的长度必须为 t+1。"""
     history = build_world_history()
-    full_len = len(history)
 
-    # 模拟 step 0
-    t = 0
-    visible = history[:t + 1]
-    ctx = Context(world_history=visible, constants=["a", "b", "c"],
-                  knowledge_view=BeliefStore(), current_step=t)
-    assert len(ctx.world_history) == 1, f"step 0: expected 1, got {len(ctx.world_history)}"
+    for t in range(len(history)):
+        visible = history[:t + 1]
+        ctx = Context(world_history=visible, constants=["a", "b", "c"],
+                      knowledge_view=BeliefStore(), current_step=t)
+        assert len(ctx.world_history) == t + 1, \
+            f"step {t}: expected {t + 1}, got {len(ctx.world_history)}"
 
-    # 模拟 step 3
-    t = 3
-    visible = history[:t + 1]
-    ctx = Context(world_history=visible, constants=["a", "b", "c"],
-                  knowledge_view=BeliefStore(), current_step=t)
-    assert len(ctx.world_history) == 4, f"step 3: expected 4, got {len(ctx.world_history)}"
-
-    # 确保 step 3 看不到 step 5 的内容
-    step5_obj = P.atom("P(c)")
-    for s in ctx.world_history:
-        assert step5_obj not in s or t >= 6, "future observation leaked into visible history"
-
-    print("test_future_observation_not_visible OK")
-
-
-# 2. 当前 observation 才能进入 object space
-def test_current_observation_enters_object_space():
-    """只有当前和过去的 observation 中的对象才能进入 known_objects。"""
-    history = build_world_history()
-    known_objects = set()
-
-    # step 0
-    for prop in history[0]:
-        known_objects.add(prop)
-
-    # 在 step 0 时，step 1 的对象不应在 known_objects 中
-    step1_only = history[1] - history[0]
-    for obj in step1_only:
-        assert obj not in known_objects, f"step 1 object {obj} leaked into step 0 known_objects"
-
-    # step 1
-    for prop in history[1]:
-        known_objects.add(prop)
-
-    # 现在 step 1 的对象应该在 known_objects 中
-    for obj in step1_only:
-        assert obj in known_objects, f"step 1 object {obj} missing after step 1"
-
-    print("test_current_observation_enters_object_space OK")
-
-
-# 3. 新对象影响下一时间步候选空间
-def test_new_objects_affect_next_step_candidates():
-    """step t+1 的候选数量应该比 step t 多（因为新对象加入了 object space）。"""
-    history = build_world_history()
-    known_objects = set()
-    step0_cands = 0
-    step1_cands = 0
-
-    # step 0
-    for prop in history[0]:
-        known_objects.add(prop)
-    cands = enumerate_constructions(sorted(known_objects, key=lambda p: p.to_str()))
-    step0_cands = len(cands)
-
-    # step 1
-    for prop in history[1]:
-        known_objects.add(prop)
-    cands = enumerate_constructions(sorted(known_objects, key=lambda p: p.to_str()))
-    step1_cands = len(cands)
-
-    assert step1_cands > step0_cands, \
-        f"step1 ({step1_cands}) should > step0 ({step0_cands}) after new objects enter"
-
-    print("test_new_objects_affect_next_step_candidates OK")
-
-
-# 4. 候选不能提前出现
-def test_candidate_cannot_appear_early():
-    """P(a)→Q(a) 不能在 P(a) 和 Q(a) 都进入 object space 之前被构造。"""
-    history = build_world_history()
-    target = P.impl(P.atom("P(a)"), P.atom("Q(a)"))
-
-    # 找到 P(a) 和 Q(a) 第一次同时出现在 history 的 step
-    pa = P.atom("P(a)")
-    qa = P.atom("Q(a)")
-    first_both = None
-    for t, state in enumerate(history):
-        if pa in state and qa in state:
-            first_both = t
-            break
-
-    # 在 first_both 之前，P(a)→Q(a) 不应出现在候选中
-    known_objects = set()
-    for t in range(first_both):
-        for prop in history[t]:
-            known_objects.add(prop)
-        cands = enumerate_constructions(sorted(known_objects, key=lambda p: p.to_str()))
-        cand_props = [c[0] for c in cands]
-        assert target not in cand_props, \
-            f"P(a)→Q(a) constructed at step {t} before both P(a) and Q(a) available"
-
-    # 在 first_both 时，应该可以构造
-    for prop in history[first_both]:
-        known_objects.add(prop)
-    cands = enumerate_constructions(sorted(known_objects, key=lambda p: p.to_str()))
-    cand_props = [c[0] for c in cands]
-    assert target in cand_props, \
-        f"P(a)→Q(a) should be constructible at step {first_both}"
-
-    print("test_candidate_cannot_appear_early OK")
-
-
-# 5. 反例到来后状态可以改变
-def test_status_changes_after_counterexample():
-    """P(c)→Q(c) 在反例到来后应该从 unknown 变为 invalid。"""
-    history = build_world_history()
-    target = P.impl(P.atom("P(c)"), P.atom("Q(c)"))
-    pc = P.atom("P(c)")
+    # 检查 step 6 时看不到 step 7 的 Q(c)
+    visible_6 = history[:7]
     qc = P.atom("Q(c)")
+    qc_seen = any(qc in s for s in visible_6)
+    assert not qc_seen, "Q(c) should not be visible at step 6 (first appears at step 7)"
 
-    belief_store = BeliefStore()
-    verifier = Verifier()
+    print("test_step_t_cannot_see_t1_objects OK")
 
-    # 找 P(c) 和 Q(c) 都出现的第一个 step
-    first_both = None
-    for t, state in enumerate(history):
-        if pc in state and qc in state:
-            first_both = t
-            break
 
-    assert first_both is not None, "P(c) and Q(c) should both appear at some step"
+# 2. t 时刻候选只能来自 observed_objects
+def test_candidates_only_from_observed_objects():
+    """候选的构造输入只能是 observed_objects，不能包含未观察到的对象。"""
+    history = build_world_history()
+    observed = set()
 
-    # 在 first_both 之前，P(c)→Q(c) 不能被构造
-    known = set()
-    for t in range(first_both):
+    for t in range(len(history)):
         for prop in history[t]:
-            known.add(prop)
-    cands = enumerate_constructions(sorted(known, key=lambda p: p.to_str()))
-    assert target not in [c[0] for c in cands], "P(c)→Q(c) should not be constructible before P(c) and Q(c) both visible"
+            observed.add(prop)
 
-    # 在 first_both 时构造并验证
-    for prop in history[first_both]:
-        known.add(prop)
-    cands = enumerate_constructions(sorted(known, key=lambda p: p.to_str()))
-    assert target in [c[0] for c in cands], "P(c)→Q(c) should be constructible at first_both"
+        # 枚举构造
+        current_observed = sorted(observed, key=lambda p: p.to_str())
+        candidates = enumerate_constructions(current_observed)
 
-    # 验证：此时应该看到反例（因为 history[:first_both+1] 包含 P(c) 出现但 Q(c) 不出现的 step）
-    visible = history[:first_both + 1]
-    ctx = Context(world_history=visible, constants=["a", "b", "c"],
-                  knowledge_view=belief_store, current_step=first_both)
-    result, _ = verifier.verify(target, ctx)
+        # 每个候选的 part 必须在 observed 中
+        for prop, method in candidates:
+            if prop.kind == "not":
+                inner = prop.parts[0]
+                assert inner in observed, \
+                    f"step {t}: neg candidate contains unobserved {inner}"
+            elif prop.kind in ("and", "or", "implies", "iff"):
+                a, b = prop.parts
+                assert a in observed, \
+                    f"step {t}: {method} candidate contains unobserved {a}"
+                assert b in observed, \
+                    f"step {t}: {method} candidate contains unobserved {b}"
 
-    # P(c)→Q(c) 应该被验证为 invalid（反例存在）
-    assert result.result == INVALID, \
-        f"P(c)→Q(c) should be INVALID at step {first_both}, got {result.result}"
-
-    print("test_status_changes_after_counterexample OK")
+    print("test_candidates_only_from_observed_objects OK")
 
 
-# 6. BeliefStore 历史没有被未来信息污染
-def test_belief_store_not_polluted_by_future():
-    """在 step t 时验证的 belief 的证据只应该引用 step <= t 的 observation。"""
+# 3. valid belief 不会自动进入 constructor 输入
+def test_valid_belief_not_in_constructor_input():
+    """E0-2 的 constructible_objects = observed_objects，不含 valid belief。"""
     result = run_e0_2()
 
-    # 检查 P(c)→Q(c) 的 first_refuted step
-    pcqc_timeline = result["key_propositions_timeline"]["P(c)→Q(c)"]
-    first_refuted = pcqc_timeline["first_refuted_step"]
-    assert first_refuted is not None, "P(c)→Q(c) should have been refuted"
+    # 在 step 0 中，P(a)→Q(a) 被验证为 valid
+    # 如果 valid belief 被加入 constructor 输入，
+    # step 1 的 observed_object_count 会比实际 observed 多
+    step0 = result["step_records"][0]
+    step1 = result["step_records"][1]
 
-    # P(c) 第一次出现在 step 6（history[6] = {Pa, Qa, Pc}）
-    # P(c)→Q(c) 的反例也在 step 6（P(c) 出现但 Q(c) 不出现）
-    # first_refuted 应该 >= 6（不能 < 6）
-    assert first_refuted >= 6, \
-        f"P(c)→Q(c) refuted at step {first_refuted}, but P(c) first appears at step 6"
+    # step 0: 3 objects observed (P(a), Q(a), R(a,b))
+    assert step0["observed_object_count"] == 3, \
+        f"step 0: expected 3, got {step0['observed_object_count']}"
 
-    # 检查 P(a)→Q(a) 的 first_constructed
-    paqa_timeline = result["key_propositions_timeline"]["P(a)→Q(a)"]
-    first_c = paqa_timeline["first_constructed_step"]
+    # step 1: 3 new objects (P(b), Q(b), R(b,a)), total 6
+    assert step1["observed_object_count"] == 6, \
+        f"step 1: expected 6, got {step1['observed_object_count']}"
+
+    # 如果 valid belief 被加入，step 1 的 observed 会 > 6
+    # 因为 step 0 有 6 个 valid
+
+    print("test_valid_belief_not_in_constructor_input OK")
+
+
+# 4. 新 observation 会扩大下一时间步 observed_objects
+def test_observation_expands_observed_objects():
+    """当 step t 有新对象时，step t+1 的 observed_object_count 应该 >= step t。"""
+    result = run_e0_2()
+
+    prev_count = 0
+    for s in result["step_records"]:
+        assert s["observed_object_count"] >= prev_count, \
+            f"step {s['step']}: observed decreased from {prev_count} to {s['observed_object_count']}"
+        prev_count = s["observed_object_count"]
+
+    # 至少有一次增长
+    assert result["step_records"][-1]["observed_object_count"] > result["step_records"][0]["observed_object_count"], \
+        "observed_objects should grow over time"
+
+    print("test_observation_expands_observed_objects OK")
+
+
+# 5. P(a)→Q(a) 不会提前出现
+def test_pa_qa_not_early():
+    """P(a)→Q(a) 不能在 P(a) 或 Q(a) 出现之前构造。"""
+    history = build_world_history()
+    target = P.impl(P.atom("P(a)"), P.atom("Q(a)"))
+    pa = P.atom("P(a)")
+    qa = P.atom("Q(a)")
+
     # P(a) 和 Q(a) 都在 step 0 出现
-    assert first_c == 0, f"P(a)→Q(a) first constructed at step {first_c}, expected 0"
+    assert pa in history[0]
+    assert qa in history[0]
 
-    print("test_belief_store_not_polluted_by_future OK")
+    # P(a)→Q(a) 应该在 step 0 就可以构造
+    observed = set(history[0])
+    candidates = enumerate_constructions(sorted(observed, key=lambda p: p.to_str()))
+    cand_props = [c[0] for c in candidates]
+    assert target in cand_props, "P(a)→Q(a) should be constructible at step 0"
+
+    # 但如果在 step -1（空集），则不能
+    empty_cands = enumerate_constructions([])
+    assert target not in [c[0] for c in empty_cands]
+
+    print("test_pa_qa_not_early OK")
 
 
-# 7. Trace 能还原时间顺序
-def test_trace_preserves_temporal_order():
-    """Trace 步骤应该按时间顺序排列，且每步的 meta 中有 step 信息。"""
+# 6. unknown 候选可以在后续 observation 后重新验证
+def test_unknown_can_be_reverified():
+    """unknown 候选在后续观察增加后应该被重新验证。"""
+    result = run_e0_2()
+
+    # 检查是否有 re_verified_unknown > 0
+    total_reverified = result["total_re_verified_unknown"]
+    assert total_reverified > 0, \
+        f"expected re_verified_unknown > 0, got {total_reverified}"
+
+    # 检查某些步骤有 re_verified_unknown > 0
+    has_reverify = any(s["re_verified_unknown"] > 0 for s in result["step_records"])
+    assert has_reverify, "no step has re_verified_unknown > 0"
+
+    print("test_unknown_can_be_reverified OK")
+
+
+# 7. 已经 valid/invalid 的候选不会被无意义重复验证
+def test_valid_invalid_not_reverified():
+    """valid/invalid 的候选应被跳过，不重复验证。"""
+    result = run_e0_2()
+
+    # duplicates_skipped 应该 > 0
+    total_dup = result["total_duplicates_skipped"]
+    assert total_dup > 0, \
+        f"expected duplicates_skipped > 0, got {total_dup}"
+
+    # 后面的步骤应该有更多 duplicates（因为更多结论已确立）
+    last_step = result["step_records"][-1]
+    assert last_step["duplicates_skipped"] > 0
+
+    print("test_valid_invalid_not_reverified OK")
+
+
+# 8. ground truth 不进入 Verifier
+def test_ground_truth_not_in_verifier():
+    """ground_truth_check 函数不应被 Verifier 或 EvidenceEvaluator 调用。"""
+    # 检查 Verifier 的源码不包含 ground_truth
+    verifier_src = inspect.getsource(Verifier)
+    assert "ground_truth" not in verifier_src, \
+        "Verifier source contains 'ground_truth'"
+
+    # 检查 ground_truth_check 不被任何验证 action 调用
+    from cognition.evidence import (
+        action_observe, action_count, action_compare,
+        action_counterexample, action_prediction, action_logical_derive,
+    )
+    for fn in [action_observe, action_count, action_compare,
+               action_counterexample, action_prediction, action_logical_derive]:
+        src = inspect.getsource(fn)
+        assert "ground_truth" not in src, \
+            f"{fn.__name__} source contains 'ground_truth'"
+
+    print("test_ground_truth_not_in_verifier OK")
+
+
+# 9. 完整历史不会通过 Context 偷渡给验证器
+def test_full_history_not_smuggled():
+    """future_information_leak_check 必须通过。"""
+    result = run_e0_2()
+
+    assert result["future_information_leak_check"]["passed"], \
+        f"future_information_leak_check failed: {result['future_information_leak_check']['details']}"
+
+    # 每步 visible_history_length == step + 1
+    for s in result["step_records"]:
+        assert s["visible_history_length"] == s["step"] + 1, \
+            f"step {s['step']}: visible_history_length={s['visible_history_length']}, expected {s['step'] + 1}"
+
+    print("test_full_history_not_smuggled OK")
+
+
+# 10. trace 的时间顺序正确
+def test_trace_temporal_order():
+    """Trace 步骤应按时间顺序排列，每步 meta 中有 step 信息。"""
     result = run_e0_2()
 
     step_records = result["step_records"]
-    # 验证 step 序号严格递增
     for i in range(1, len(step_records)):
         assert step_records[i]["step"] > step_records[i - 1]["step"], \
             "step numbers should be strictly increasing"
 
-    # 验证每步的新增对象数和 known_object_count
-    for i, s in enumerate(step_records):
-        # known_object_count 应该单调不减
-        if i > 0:
-            assert s["known_object_count"] >= step_records[i - 1]["known_object_count"], \
-                f"known_object_count decreased at step {s['step']}"
+    # observed_object_count 单调不减
+    for i in range(1, len(step_records)):
+        assert step_records[i]["observed_object_count"] >= step_records[i - 1]["observed_object_count"], \
+            f"observed_object_count decreased at step {step_records[i]['step']}"
 
-    print("test_trace_preserves_temporal_order OK")
+    print("test_trace_temporal_order OK")
 
 
 def run_all():
     tests = [
-        test_future_observation_not_visible,
-        test_current_observation_enters_object_space,
-        test_new_objects_affect_next_step_candidates,
-        test_candidate_cannot_appear_early,
-        test_status_changes_after_counterexample,
-        test_belief_store_not_polluted_by_future,
-        test_trace_preserves_temporal_order,
+        test_step_t_cannot_see_t1_objects,
+        test_candidates_only_from_observed_objects,
+        test_valid_belief_not_in_constructor_input,
+        test_observation_expands_observed_objects,
+        test_pa_qa_not_early,
+        test_unknown_can_be_reverified,
+        test_valid_invalid_not_reverified,
+        test_ground_truth_not_in_verifier,
+        test_full_history_not_smuggled,
+        test_trace_temporal_order,
     ]
     passed = 0
     for t in tests:

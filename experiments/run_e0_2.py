@@ -171,8 +171,9 @@ def run_e0_2() -> dict:
     trace = TraceRecorder()
     verifier = Verifier()
 
-    # 知识空间：所有"已知对象"（包括观察到的 + 构造出的 valid 命题）
-    known_objects: Set[P] = set()
+    # observed_objects：只包含截至当前时间实际观察到的原始对象
+    # 不把 valid belief 自动加入 constructor 输入
+    observed_objects: Set[P] = set()
 
     # 追踪关键命题的时间线
     key_props = {
@@ -197,28 +198,26 @@ def run_e0_2() -> dict:
 
     compute_id = trace.new_compute_id()
 
+    # 追踪每个时间步的 visible_history 长度（用于 future_leak_check）
+    visible_history_lengths: List[int] = []
+
     for t in range(n_steps):
         # --- 1. 当前时刻的 observation ---
         current_obs = full_history[t]
         visible_history = full_history[:t + 1]  # 只能看到过去 + 当前
+        visible_history_lengths.append(len(visible_history))
 
-        # --- 2. 新对象进入知识空间 ---
+        # --- 2. 新对象进入 observed_objects ---
         new_objects: List[P] = []
         for prop in sorted(current_obs, key=lambda p: p.to_str()):
-            if prop not in known_objects:
-                known_objects.add(prop)
+            if prop not in observed_objects:
+                observed_objects.add(prop)
                 new_objects.append(prop)
 
-        # 同时：把之前构造的 valid 命题也加入可计算对象空间
-        # （E0-2 的核心：新知识影响下一轮可计算对象）
-        valid_beliefs = [b for b in belief_store.all_beliefs() if b.status == STATUS_VALID]
-        for b in valid_beliefs:
-            if b.proposition not in known_objects:
-                known_objects.add(b.proposition)
-
-        # --- 3. 从"截至当前已知的对象"穷举构造 ---
-        current_object_list = sorted(known_objects, key=lambda p: p.to_str())
-        candidates = enumerate_constructions(current_object_list)
+        # --- 3. 从 observed_objects 穷举构造 ---
+        # E0-2: constructible_objects = observed_objects（不含 valid belief）
+        constructible_objects = sorted(observed_objects, key=lambda p: p.to_str())
+        candidates = enumerate_constructions(constructible_objects)
 
         # --- 4. 构建 Context（只给 visible_history） ---
         ctx = Context(
@@ -236,43 +235,52 @@ def run_e0_2() -> dict:
         # --- 5. 逐个验证 ---
         step_stats = {
             "step": t,
+            "observed_objects": [o.to_str() for o in constructible_objects],
+            "observed_object_count": len(constructible_objects),
+            "constructible_object_count": len(constructible_objects),
             "new_objects": [o.to_str() for o in new_objects],
             "new_object_count": len(new_objects),
-            "known_object_count": len(known_objects),
             "candidates_generated": len(candidates),
             "by_constructor": {},
             "valid": 0,
             "invalid": 0,
             "unknown": 0,
-            "new_beliefs": 0,
+            "re_verified_unknown": 0,
+            "duplicates_skipped": 0,
             "verification_cost": 0.0,
             "cumulative_cost": 0.0,
-            "duplicates_skipped": 0,
+            "visible_history_length": len(visible_history),
         }
 
         for prop, constructor_name in candidates:
             step_stats["by_constructor"][constructor_name] = \
                 step_stats["by_constructor"].get(constructor_name, 0) + 1
 
-            # 如果已有 valid/invalid 结论，跳过
             existing = belief_store.get(prop)
+
+            # 状态分类处理：
+            # 1. valid / invalid：跳过重复验证
+            # 2. unknown：允许重新验证（新观察可能产生新证据）
+            # 3. 从未出现过：正常构造 + 验证
             if existing and existing.status in (STATUS_VALID, STATUS_INVALID):
                 step_stats["duplicates_skipped"] += 1
-                # 但仍检查关键命题时间线
                 _update_key_timeline(key_props, key_timeline, prop, existing, t)
                 continue
+
+            is_reverify = existing is not None  # 已有 unknown 记录
 
             # Trace: 构造
             construct_step = trace.record(
                 compute_id=compute_id,
                 depth=0,
-                object_in="(known_objects)",
+                object_in="(observed_objects)",
                 operation=f"construct_{constructor_name}",
                 object_out=prop,
                 parent_step=None,
                 cost=0.2,
                 decision="expand",
-                meta={"constructor": constructor_name, "step": t},
+                meta={"constructor": constructor_name, "step": t,
+                      "reverify": is_reverify},
             )
             cost_tracker.add("construct", 0.2, f"construct_{constructor_name}")
             cumulative_cost += 0.2
@@ -307,7 +315,11 @@ def run_e0_2() -> dict:
             cost_tracker.add("verify", result.cost, f"verify_t{t}_{constructor_name}")
             cumulative_cost += result.cost
             step_stats["verification_cost"] += result.cost
-            step_stats["new_beliefs"] += 1
+
+            if is_reverify:
+                step_stats["re_verified_unknown"] += 1
+            else:
+                step_stats["new_beliefs"] = step_stats.get("new_beliefs", 0) + 1
 
             if status == STATUS_VALID:
                 step_stats["valid"] += 1
@@ -329,7 +341,8 @@ def run_e0_2() -> dict:
                 confidence=result.confidence,
                 cost=result.cost,
                 decision="retain" if status != STATUS_INVALID else "stop",
-                meta={"constructor": constructor_name, "step": t},
+                meta={"constructor": constructor_name, "step": t,
+                      "reverify": is_reverify},
             )
 
             # 更新关键命题时间线
@@ -339,7 +352,7 @@ def run_e0_2() -> dict:
         step_records.append(step_stats)
 
     # --- 最终检查 ---
-    # 对所有关键命题做 ground-truth 外部评价
+    # 对所有关键命题做 ground-truth 外部评价（只在实验结束后，不进入计算路径）
     key_final: Dict[str, dict] = {}
     for label, prop in key_props.items():
         b = belief_store.get(prop)
@@ -356,32 +369,60 @@ def run_e0_2() -> dict:
         }
 
     # 时序完整性检查
-    pq_a = P.atom("P(a)")
-    q_a = P.atom("Q(a)")
-    pq_constructed = key_timeline["P(a)→Q(a)"]["first_constructed"]
+    pa = P.atom("P(a)")
+    qa = P.atom("Q(a)")
+    pc = P.atom("P(c)")
+    qc = P.atom("Q(c)")
     pa_first_seen = None
     qa_first_seen = None
+    pc_first_seen = None
+    qc_first_seen = None
     for t, state in enumerate(full_history):
-        if pq_a in state and pa_first_seen is None:
+        if pa in state and pa_first_seen is None:
             pa_first_seen = t
-        if q_a in state and qa_first_seen is None:
+        if qa in state and qa_first_seen is None:
             qa_first_seen = t
+        if pc in state and pc_first_seen is None:
+            pc_first_seen = t
+        if qc in state and qc_first_seen is None:
+            qc_first_seen = t
+
+    pq_constructed = key_timeline["P(a)→Q(a)"]["first_constructed"]
+    pcqc_constructed = key_timeline["P(c)→Q(c)"]["first_constructed"]
+    pcqc_refuted = key_timeline["P(c)→Q(c)"]["first_refuted"]
 
     timing_checks = {
-        "P(a)→Q(a) 不能在 P(a) 和 Q(a) 都出现之前构造": (
+        "P(a)→Q(a) 不在 P(a) 或 Q(a) 出现之前构造": (
             pq_constructed is not None and
             pa_first_seen is not None and
             qa_first_seen is not None and
             pq_constructed >= min(pa_first_seen, qa_first_seen)
         ),
-        "P(c)→Q(c) 不能在 P(c) 和 Q(c) 都出现之前构造": (
-            key_timeline["P(c)→Q(c)"]["first_constructed"] is not None and
-            key_timeline["P(c)→Q(c)"]["first_constructed"] >= 6  # P(c) first at step 6
+        "P(c)→Q(c) 不在 P(c) 或 Q(c) 出现之前构造": (
+            pcqc_constructed is not None and
+            pc_first_seen is not None and
+            qc_first_seen is not None and
+            pcqc_constructed >= min(pc_first_seen, qc_first_seen)
         ),
-        "P(c)→Q(c) 在反例到来后被 re-evaluate": (
-            key_timeline["P(c)→Q(c)"]["first_refuted"] is not None and
-            key_timeline["P(c)→Q(c)"]["first_refuted"] >= 6  # 反例从 step 6 开始
+        "P(c)→Q(c) 反例到来后状态改变": (
+            pcqc_refuted is not None and
+            pcqc_refuted >= pc_first_seen
         ),
+    }
+
+    # Future information leak check：真正的程序检查
+    # 验证每个 step 的 visible_history_length == t+1
+    future_leak_check = True
+    leak_details = []
+    for t in range(n_steps):
+        expected = t + 1
+        actual = visible_history_lengths[t]
+        if actual != expected:
+            future_leak_check = False
+            leak_details.append(f"step {t}: expected {expected}, got {actual}")
+    future_information_leak_check = {
+        "passed": future_leak_check,
+        "details": leak_details if leak_details else "all steps have correct visible_history length",
     }
 
     # 汇总
@@ -390,22 +431,27 @@ def run_e0_2() -> dict:
     total_invalid = sum(s["invalid"] for s in step_records)
     total_unknown = sum(s["unknown"] for s in step_records)
     total_candidates = sum(s["candidates_generated"] for s in step_records)
-    total_new_beliefs = sum(s["new_beliefs"] for s in step_records)
+    total_duplicates = sum(s["duplicates_skipped"] for s in step_records)
+    total_reverified = sum(s["re_verified_unknown"] for s in step_records)
 
     return {
         "experiment": "E0-2",
-        "description": "时间展开穷举构造 + 验证闭环（无候选生成策略）",
+        "description": "时间展开穷举构造 + 验证闭环（无候选生成策略，strictly time-causal）",
         "n_steps": n_steps,
         "step_records": step_records,
         "key_propositions_timeline": key_final,
         "timing_checks": timing_checks,
+        "future_information_leak_check": future_information_leak_check,
         "pa_first_seen": pa_first_seen,
         "qa_first_seen": qa_first_seen,
+        "pc_first_seen": pc_first_seen,
+        "qc_first_seen": qc_first_seen,
         "total_candidates": total_candidates,
         "total_valid": total_valid,
         "total_invalid": total_invalid,
         "total_unknown": total_unknown,
-        "total_new_beliefs": total_new_beliefs,
+        "total_duplicates_skipped": total_duplicates,
+        "total_re_verified_unknown": total_reverified,
         "total_cost": round(cumulative_cost, 2),
         "belief_store_stats": bs_stats,
         "trace_steps": len(trace),
@@ -429,8 +475,9 @@ def _update_key_timeline(key_props, key_timeline, prop, belief, t):
 
 def main():
     print("\n" + "=" * 80)
-    print("E0-2：时间展开穷举构造 + 验证闭环")
+    print("E0-2：时间展开穷举构造 + 验证闭环（strictly time-causal）")
     print("逐时刻展开，验证时不能偷看未来 observation")
+    print("constructible_objects = observed_objects（不含 valid belief）")
     print("=" * 80)
 
     result = run_e0_2()
@@ -438,22 +485,26 @@ def main():
     print(f"\n--- 总体统计 ---")
     print(f"  时间步数: {result['n_steps']}")
     print(f"  总候选数: {result['total_candidates']}")
-    print(f"  新增 belief 数: {result['total_new_beliefs']}")
     print(f"  valid: {result['total_valid']}")
     print(f"  invalid: {result['total_invalid']}")
     print(f"  unknown: {result['total_unknown']}")
+    print(f"  duplicates_skipped: {result['total_duplicates_skipped']}")
+    print(f"  re_verified_unknown: {result['total_re_verified_unknown']}")
     print(f"  总成本: {result['total_cost']}")
     print(f"  Trace 步骤数: {result['trace_steps']}")
     print(f"  证据数: {result['evidence_count']}")
 
     print(f"\n--- 每步统计 ---")
-    print(f"  {'step':>4}  {'new_obj':>7}  {'known':>5}  {'cand':>5}  "
+    print(f"  {'step':>4}  {'new_obj':>7}  {'observed':>8}  {'cand':>5}  "
           f"{'valid':>5}  {'invalid':>7}  {'unknown':>7}  "
-          f"{'new_bl':>7}  {'cost':>8}  {'cumul':>8}")
+          f"{'re_ver':>6}  {'dup_skip':>8}  "
+          f"{'vis_hist':>8}  {'cost':>8}  {'cumul':>8}")
     for s in result["step_records"]:
-        print(f"  {s['step']:4d}  {s['new_object_count']:7d}  {s['known_object_count']:5d}  "
+        print(f"  {s['step']:4d}  {s['new_object_count']:7d}  {s['observed_object_count']:8d}  "
               f"{s['candidates_generated']:5d}  {s['valid']:5d}  {s['invalid']:7d}  "
-              f"{s['unknown']:7d}  {s['new_beliefs']:7d}  "
+              f"{s['unknown']:7d}  {s['re_verified_unknown']:6d}  "
+              f"{s['duplicates_skipped']:8d}  "
+              f"{s['visible_history_length']:8d}  "
               f"{s['verification_cost']:8.1f}  {s['cumulative_cost']:8.1f}")
 
     print(f"\n--- 关键命题时间线 ---")
@@ -469,11 +520,23 @@ def main():
     for name, passed in result["timing_checks"].items():
         print(f"  [{'PASS' if passed else 'FAIL'}] {name}")
 
+    print(f"\n--- Future Information Leak Check ---")
+    fic = result["future_information_leak_check"]
+    print(f"  passed: {fic['passed']}")
+    print(f"  details: {fic['details']}")
+
+    print(f"\n--- 关键时间点 ---")
+    print(f"  P(a) first seen: step {result['pa_first_seen']}")
+    print(f"  Q(a) first seen: step {result['qa_first_seen']}")
+    print(f"  P(c) first seen: step {result['pc_first_seen']}")
+    print(f"  Q(c) first seen: step {result['qc_first_seen']}")
+
     print(f"\n--- BeliefStore ---")
     print(f"  {result['belief_store_stats']}")
 
     # 综合结论
     checks = dict(result["timing_checks"])
+    checks["future_information_leak_check"] = result["future_information_leak_check"]["passed"]
     checks["P(a)→Q(a) 最终被验证为 valid"] = (
         result["key_propositions_timeline"]["P(a)→Q(a)"]["final_status"] == "valid"
     )
