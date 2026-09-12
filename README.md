@@ -65,8 +65,9 @@ ComputeEngine (编排)
 | test_invariants | 37 | 架构不变量（feedback 语义 / 统计累计 / gated_out 不递归 / 知识边界等） |
 | test_e0_2 | 10 | E0-2 时间展开闭环（时序 / 反例 / 知识空间增长 / 状态分类） |
 | test_e0_3 | 8 | E0-3 derived knowledge 闭环（valid 进入 derived / invalid 排除 / 同轮禁用 / 下轮可用） |
+| test_e0_4 | 10 | E0-4 知识修正与回滚（VALID 可被推翻 / derived 反映当前状态 / 退出后不再使用） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **88** | **全部通过** |
+| **合计** | **98** | **全部通过** |
 
 ---
 
@@ -408,7 +409,175 @@ for t in world_history:
 
 ---
 
-## 七、历史反哺的四种方式
+## 七、E0-4 实验：knowledge revision and rollback
+
+### 核心变化（与 E0-3 的区别）
+
+E0-2：
+```
+observation → construction → verification
+```
+
+E0-3：
+```
+observation → construction → verification → valid knowledge → new computation input
+```
+
+E0-4：
+```
+observation → construction → verification → knowledge
+    → new observation → re-verification → knowledge revision → computation input update
+```
+
+E0-3 的致命缺陷：
+- proposition 一旦 STATUS_VALID，就永久跳过后续验证
+- 等价于把"当前证据下被支持"锁死为"永远正确"
+
+E0-4 的修正：
+- 每个时间步都对已有 belief 重新验证
+- 新证据可推翻旧结论
+- derived_objects = 当前 BeliefStore 中 STATUS_VALID（非历史曾经 valid）
+
+### 核心结论
+
+不是"知识永久保存"。
+而是：
+**"知识是当前计算结果；新的计算可以修改旧的计算结果。"**
+
+### 实验设计
+
+```
+for t in world_history:
+  1. 只提供 history[:t+1]
+  2. 新 observation 加入 observed_objects
+  3. 重新验证所有已有 belief（使用 history[:t+1]）
+  4. 根据当前 BeliefStore 重新计算 derived_objects
+  5. constructible_objects = observed_objects ∪ derived_objects
+  6. 从 constructible_objects 做单层构造
+  7. 验证新候选（已存在的在 step 3 已重新验证）
+  8. 本轮新 VALID 不得在本轮继续作为输入
+  9. 下一轮才能使用
+```
+
+### 状态转换规则
+
+| 转换 | 行为 |
+|------|------|
+| VALID → INVALID | 更新状态；从 derived_objects 删除；下一轮不再作为输入 |
+| VALID → UNKNOWN | 更新状态；从 derived_objects 删除 |
+| INVALID → VALID | 更新状态；重新进入 derived_objects；下一轮可作为输入 |
+| UNKNOWN → VALID | 更新状态；进入 derived_objects |
+| 任意 → 任意 | 每步重新验证；derived_objects 反映当前状态 |
+
+### 实验结果
+
+| 指标 | 值 |
+|------|-----|
+| 时间步数 | 12 |
+| 总候选数 | 8124 |
+| 新候选 valid | 16 |
+| 新候选 invalid | 163 |
+| 新候选 unknown | 1274 |
+| duplicates_skipped | 6671 |
+| 重新验证总数 | 11634 |
+| 状态改变总数 | 18 |
+| 总成本 | 57468.6 |
+| Trace 步骤数 | 2906 |
+| 证据数 | 78522 |
+| derived_objects 最终数量 | 5 |
+
+### 状态转换统计
+
+| 转换类型 | 次数 |
+|---------|------|
+| valid_to_invalid | 11 |
+| invalid_to_unknown | 7 |
+| stayed_valid | 67 |
+| stayed_invalid | 1275 |
+| stayed_unknown | 10274 |
+
+### 关键命题 belief_status_timeline
+
+#### P(a)→Q(a)（始终 VALID）
+
+| step | status | confidence | in_derived | used_as_input |
+|------|--------|-----------|-----------|-------------|
+| 0 | valid | 0.4 | False | False |
+| 1 | valid | 0.8 | True | True |
+| 2-11 | valid | 0.8 | True | True |
+
+无反例出现，始终保持 VALID。
+
+#### Q(a)→P(a)（VALID → INVALID）
+
+| step | status | confidence | in_derived | used_as_input |
+|------|--------|-----------|-----------|-------------|
+| 0 | valid | 0.4 | False | False |
+| 1 | valid | 0.8 | True | True |
+| 2 | valid | 0.8 | True | True |
+| 3 | **invalid** | **0.95** | **False** | **False** |
+| 4-11 | invalid | 0.95 | False | False |
+
+step 3：{Q(a), S(a)} → Q(a) 出现但 P(a) 不出现 → 反例 → INVALID
+退出 derived_objects，后续不再作为计算输入。
+
+#### P(c)→Q(c)（始终 INVALID）
+
+| step | status | confidence | in_derived | used_as_input |
+|------|--------|-----------|-----------|-------------|
+| 0-6 | not_in_store | 0.0 | False | False |
+| 7 | invalid | 0.95 | False | False |
+| 8-11 | invalid | 0.95 | False | False |
+
+step 7 首次构造，立即 INVALID（反例：step 6 中 P(c) 出现但 Q(c) 不出现）。
+
+### derived_object_timeline（部分）
+
+| proposition | entered | exited | times_used | history |
+|-------------|---------|--------|-----------|--------|
+| (P(a) → Q(a)) | step 1 | — | 11 | enter@1 |
+| (Q(a) → P(a)) | step 1 | step 3 | 2 | enter@1, exit@3 |
+| (P(a) → R(a,b)) | step 1 | step 2 | 1 | enter@1, exit@2 |
+| (Q(b) → P(b)) | step 2 | step 9 | 7 | enter@2, exit@9 |
+| (S(a) → Q(a)) | step 4 | — | 8 | enter@4 |
+| (Q(c) → P(c)) | step 8 | step 9 | 1 | enter@8, exit@9 |
+
+### 每步统计
+
+| step | obs | der | cbl | rever | changed | new_v | new_i | new_u | ent | exit |
+|------|-----|-----|-----|-------|---------|-------|-------|-------|-----|------|
+| 0 | 3 | 0 | 3 | 0 | 0 | 6 | 0 | 21 | 0 | 0 |
+| 1 | 6 | 6 | 12 | 27 | 0 | 6 | 60 | 447 | 6 | 0 |
+| 2 | 6 | 8 | 14 | 540 | 6 | 0 | 28 | 344 | 4 | 2 |
+| 3 | 7 | 7 | 14 | 912 | 2 | 1 | 18 | 86 | 0 | 1 |
+| 9 | 9 | 5 | 14 | 1453 | 4 | 0 | 0 | 0 | 0 | 2 |
+
+### E0-4 专用测试（10 项不变量）
+
+| # | 测试 | 验证点 |
+|---|------|--------|
+| 1 | test_valid_belief_can_be_refuted_later | VALID 可被新证据推翻为 INVALID |
+| 2 | test_refuted_belief_exits_derived_objects | 被推翻的 belief 从 derived_objects 退出 |
+| 3 | test_refuted_belief_not_used_after_exit | 退出后不再作为计算输入 |
+| 4 | test_invalid_belief_can_become_valid_later | INVALID→VALID 可重新进入 derived_objects |
+| 5 | test_derived_objects_reflect_current_status | derived_objects 反映当前状态（非历史） |
+| 6 | test_valid_is_not_permanent_truth | VALID 不等于永远正确 |
+| 7 | test_reverification_uses_only_visible_history | 重新验证只使用 visible history |
+| 8 | test_newly_refuted_belief_cannot_continue_computation | 被推翻后本轮立即停止使用 |
+| 9 | test_newly_valid_belief_enters_next_round | 新 VALID 在下一轮进入 derived |
+| 10 | test_no_future_information | 禁止未来信息 |
+
+### E0-4 结论
+
+1. **知识修正闭环验证**：Q(a)→P(a) 在 step 0 被验证为 VALID，step 3 出现反例后变为 INVALID
+2. **derived_objects 反映当前状态**：不是历史曾经 valid 的知识，而是当前证据下 valid 的知识
+3. **退出即停止使用**：Q(a)→P(a) 在 step 3 退出 derived_objects 后，后续步骤不再作为构造输入
+4. **重新验证机制**：每步重新验证所有已有 belief（11634 次），18 次状态改变
+5. **VALID 非永久真值**：11 次 valid_to_invalid 转变证明 VALID 可被推翻
+
+---
+
+## 八、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |
 |------|---------|--------|--------|-------------|
@@ -422,7 +591,7 @@ for t in world_history:
 
 ---
 
-## 八、E0/E1/E2 实验设计
+## 九、E0/E1/E2 实验设计
 
 | 层级 | 候选集合 | 历史的作用 | 证明了什么 |
 |------|---------|-----------|-----------|
@@ -432,7 +601,7 @@ for t in world_history:
 
 ---
 
-## 九、A/B/C/D 对照实验
+## 十、A/B/C/D 对照实验
 
 | 组 | 生成 | 验证 | 价值评价 | 元评价 |
 |----|------|------|---------|--------|
@@ -460,7 +629,7 @@ for t in world_history:
 
 ---
 
-## 十、先验声明
+## 十一、先验声明
 
 ### 不可删除的最小先验
 
@@ -477,15 +646,16 @@ for t in world_history:
 
 ---
 
-## 十一、运行方式
+## 十二、运行方式
 
 ```bash
-# 运行测试（88 个）
+# 运行测试（98 个）
 python tests/test_core.py
 python tests/test_audit.py
 python tests/test_invariants.py
 python tests/test_e0_2.py
 python tests/test_e0_3.py
+python tests/test_e0_4.py
 python tests/test_v0.py
 
 # 或使用 pytest
@@ -499,6 +669,9 @@ python experiments/run_e0_2.py
 
 # 运行 E0-3 实验（derived knowledge as computation input）
 python experiments/run_e0_3.py
+
+# 运行 E0-4 实验（knowledge revision and rollback）
+python experiments/run_e0_4.py
 
 # 运行 A/B/C/D 对照实验
 python experiments/run_abcd.py

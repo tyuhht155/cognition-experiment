@@ -1,0 +1,1451 @@
+{
+  "experiment": "E0-4",
+  "description": "knowledge revision and rollback (re-verify all beliefs each step)",
+  "n_steps": 12,
+  "step_records": [
+    {
+      "step": 0,
+      "observed_object_count": 3,
+      "derived_object_count": 0,
+      "constructible_object_count": 3,
+      "new_objects": [
+        "P(a)",
+        "Q(a)",
+        "R(a,b)"
+      ],
+      "new_object_count": 3,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 0,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 0,
+        "stayed_invalid": 0,
+        "stayed_unknown": 0
+      },
+      "candidates_generated": 27,
+      "candidates_from_observed": 27,
+      "candidates_from_derived": 0,
+      "by_constructor": {
+        "neg": 3,
+        "conj": 6,
+        "disj": 6,
+        "impl": 6,
+        "iff": 6
+      },
+      "valid": 6,
+      "invalid": 0,
+      "unknown": 21,
+      "new_candidates_verified": 27,
+      "duplicates_skipped": 0,
+      "verification_cost": 117.0,
+      "cumulative_cost": 122.4,
+      "visible_history_length": 1
+    },
+    {
+      "step": 1,
+      "observed_object_count": 6,
+      "derived_object_count": 6,
+      "constructible_object_count": 12,
+      "new_objects": [
+        "P(b)",
+        "Q(b)",
+        "R(b,a)"
+      ],
+      "new_object_count": 3,
+      "entered_derived": [
+        "(P(a) → Q(a))",
+        "(P(a) → R(a,b))",
+        "(Q(a) → P(a))",
+        "(Q(a) → R(a,b))",
+        "(R(a,b) → P(a))",
+        "(R(a,b) → Q(a))"
+      ],
+      "exited_derived": [],
+      "reverified_beliefs": 27,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 6,
+        "stayed_invalid": 0,
+        "stayed_unknown": 21
+      },
+      "candidates_generated": 540,
+      "candidates_from_observed": 126,
+      "candidates_from_derived": 414,
+      "by_constructor": {
+        "neg": 12,
+        "conj": 132,
+        "disj": 132,
+        "impl": 132,
+        "iff": 132
+      },
+      "valid": 6,
+      "invalid": 60,
+      "unknown": 447,
+      "new_candidates_verified": 513,
+      "duplicates_skipped": 27,
+      "verification_cost": 2241.0,
+      "cumulative_cost": 2583.0,
+      "visible_history_length": 2
+    },
+    {
+      "step": 2,
+      "observed_object_count": 6,
+      "derived_object_count": 8,
+      "constructible_object_count": 14,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [
+        "(P(b) → Q(b))",
+        "(Q(b) → P(b))",
+        "(R(b,a) → P(b))",
+        "(R(b,a) → Q(b))"
+      ],
+      "exited_derived": [
+        "(P(a) → R(a,b))",
+        "(Q(a) → R(a,b))"
+      ],
+      "reverified_beliefs": 540,
+      "status_changed": 6,
+      "transitions": {
+        "valid_to_invalid": 4,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 2,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 8,
+        "stayed_invalid": 58,
+        "stayed_unknown": 468
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 126,
+      "candidates_from_derived": 616,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 0,
+      "invalid": 28,
+      "unknown": 344,
+      "new_candidates_verified": 372,
+      "duplicates_skipped": 370,
+      "verification_cost": 1626.0,
+      "cumulative_cost": 6641.4,
+      "visible_history_length": 3
+    },
+    {
+      "step": 3,
+      "observed_object_count": 7,
+      "derived_object_count": 7,
+      "constructible_object_count": 14,
+      "new_objects": [
+        "S(a)"
+      ],
+      "new_object_count": 1,
+      "entered_derived": [],
+      "exited_derived": [
+        "(Q(a) → P(a))"
+      ],
+      "reverified_beliefs": 912,
+      "status_changed": 2,
+      "transitions": {
+        "valid_to_invalid": 1,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 1,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 7,
+        "stayed_invalid": 89,
+        "stayed_unknown": 814
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 567,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 1,
+      "invalid": 18,
+      "unknown": 86,
+      "new_candidates_verified": 105,
+      "duplicates_skipped": 637,
+      "verification_cost": 459.0,
+      "cumulative_cost": 11105.4,
+      "visible_history_length": 4
+    },
+    {
+      "step": 4,
+      "observed_object_count": 7,
+      "derived_object_count": 6,
+      "constructible_object_count": 13,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [
+        "(S(a) → Q(a))"
+      ],
+      "exited_derived": [
+        "(R(b,a) → P(b))",
+        "(R(b,a) → Q(b))"
+      ],
+      "reverified_beliefs": 1017,
+      "status_changed": 4,
+      "transitions": {
+        "valid_to_invalid": 2,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 2,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 6,
+        "stayed_invalid": 106,
+        "stayed_unknown": 901
+      },
+      "candidates_generated": 637,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 462,
+      "by_constructor": {
+        "neg": 13,
+        "conj": 156,
+        "disj": 156,
+        "impl": 156,
+        "iff": 156
+      },
+      "valid": 0,
+      "invalid": 8,
+      "unknown": 89,
+      "new_candidates_verified": 97,
+      "duplicates_skipped": 540,
+      "verification_cost": 424.0,
+      "cumulative_cost": 15991.8,
+      "visible_history_length": 5
+    },
+    {
+      "step": 5,
+      "observed_object_count": 7,
+      "derived_object_count": 6,
+      "constructible_object_count": 13,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 1114,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 6,
+        "stayed_invalid": 116,
+        "stayed_unknown": 992
+      },
+      "candidates_generated": 637,
+      "candidates_from_observed": 175,
+      "candidates_from_derived": 462,
+      "by_constructor": {
+        "neg": 13,
+        "conj": 156,
+        "disj": 156,
+        "impl": 156,
+        "iff": 156
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 0,
+      "new_candidates_verified": 0,
+      "duplicates_skipped": 637,
+      "verification_cost": 0.0,
+      "cumulative_cost": 20858.8,
+      "visible_history_length": 6
+    },
+    {
+      "step": 6,
+      "observed_object_count": 8,
+      "derived_object_count": 6,
+      "constructible_object_count": 14,
+      "new_objects": [
+        "P(c)"
+      ],
+      "new_object_count": 1,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 1114,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 6,
+        "stayed_invalid": 116,
+        "stayed_unknown": 992
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 232,
+      "candidates_from_derived": 510,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 2,
+      "invalid": 18,
+      "unknown": 85,
+      "new_candidates_verified": 105,
+      "duplicates_skipped": 637,
+      "verification_cost": 459.0,
+      "cumulative_cost": 26205.8,
+      "visible_history_length": 7
+    },
+    {
+      "step": 7,
+      "observed_object_count": 9,
+      "derived_object_count": 6,
+      "constructible_object_count": 15,
+      "new_objects": [
+        "Q(c)"
+      ],
+      "new_object_count": 1,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 1219,
+      "status_changed": 2,
+      "transitions": {
+        "valid_to_invalid": 2,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 6,
+        "stayed_invalid": 134,
+        "stayed_unknown": 1077
+      },
+      "candidates_generated": 855,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 558,
+      "by_constructor": {
+        "neg": 15,
+        "conj": 210,
+        "disj": 210,
+        "impl": 210,
+        "iff": 210
+      },
+      "valid": 1,
+      "invalid": 21,
+      "unknown": 91,
+      "new_candidates_verified": 113,
+      "duplicates_skipped": 742,
+      "verification_cost": 494.0,
+      "cumulative_cost": 32048.4,
+      "visible_history_length": 8
+    },
+    {
+      "step": 8,
+      "observed_object_count": 9,
+      "derived_object_count": 7,
+      "constructible_object_count": 16,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [
+        "(Q(c) → P(c))"
+      ],
+      "exited_derived": [],
+      "reverified_beliefs": 1332,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 7,
+        "stayed_invalid": 157,
+        "stayed_unknown": 1168
+      },
+      "candidates_generated": 976,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 679,
+      "by_constructor": {
+        "neg": 16,
+        "conj": 240,
+        "disj": 240,
+        "impl": 240,
+        "iff": 240
+      },
+      "valid": 0,
+      "invalid": 10,
+      "unknown": 111,
+      "new_candidates_verified": 121,
+      "duplicates_skipped": 855,
+      "verification_cost": 529.0,
+      "cumulative_cost": 38421.6,
+      "visible_history_length": 9
+    },
+    {
+      "step": 9,
+      "observed_object_count": 9,
+      "derived_object_count": 5,
+      "constructible_object_count": 14,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [],
+      "exited_derived": [
+        "(Q(b) → P(b))",
+        "(Q(c) → P(c))"
+      ],
+      "reverified_beliefs": 1453,
+      "status_changed": 4,
+      "transitions": {
+        "valid_to_invalid": 2,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 2,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 5,
+        "stayed_invalid": 165,
+        "stayed_unknown": 1279
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 445,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 0,
+      "new_candidates_verified": 0,
+      "duplicates_skipped": 742,
+      "verification_cost": 0.0,
+      "cumulative_cost": 44770.6,
+      "visible_history_length": 10
+    },
+    {
+      "step": 10,
+      "observed_object_count": 9,
+      "derived_object_count": 5,
+      "constructible_object_count": 14,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 1453,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 5,
+        "stayed_invalid": 167,
+        "stayed_unknown": 1281
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 445,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 0,
+      "new_candidates_verified": 0,
+      "duplicates_skipped": 742,
+      "verification_cost": 0.0,
+      "cumulative_cost": 51119.6,
+      "visible_history_length": 11
+    },
+    {
+      "step": 11,
+      "observed_object_count": 9,
+      "derived_object_count": 5,
+      "constructible_object_count": 14,
+      "new_objects": [],
+      "new_object_count": 0,
+      "entered_derived": [],
+      "exited_derived": [],
+      "reverified_beliefs": 1453,
+      "status_changed": 0,
+      "transitions": {
+        "valid_to_invalid": 0,
+        "valid_to_unknown": 0,
+        "invalid_to_valid": 0,
+        "invalid_to_unknown": 0,
+        "unknown_to_valid": 0,
+        "unknown_to_invalid": 0,
+        "stayed_valid": 5,
+        "stayed_invalid": 167,
+        "stayed_unknown": 1281
+      },
+      "candidates_generated": 742,
+      "candidates_from_observed": 297,
+      "candidates_from_derived": 445,
+      "by_constructor": {
+        "neg": 14,
+        "conj": 182,
+        "disj": 182,
+        "impl": 182,
+        "iff": 182
+      },
+      "valid": 0,
+      "invalid": 0,
+      "unknown": 0,
+      "new_candidates_verified": 0,
+      "duplicates_skipped": 742,
+      "verification_cost": 0.0,
+      "cumulative_cost": 57468.6,
+      "visible_history_length": 12
+    }
+  ],
+  "belief_status_timeline": {
+    "P(a)→Q(a)": [
+      {
+        "step": 0,
+        "status": "valid",
+        "confidence": 0.4,
+        "evidence_count": 6,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 1,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 12,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 2,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 18,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 3,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 24,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 4,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 30,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 5,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 36,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 6,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 42,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 7,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 48,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 8,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 54,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 9,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 60,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 10,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 66,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 11,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 72,
+        "in_derived_objects": true,
+        "used_as_input": true
+      }
+    ],
+    "Q(a)→P(a)": [
+      {
+        "step": 0,
+        "status": "valid",
+        "confidence": 0.4,
+        "evidence_count": 6,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 1,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 12,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 2,
+        "status": "valid",
+        "confidence": 0.8,
+        "evidence_count": 18,
+        "in_derived_objects": true,
+        "used_as_input": true
+      },
+      {
+        "step": 3,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 24,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 4,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 30,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 5,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 36,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 6,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 42,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 7,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 48,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 8,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 54,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 9,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 60,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 10,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 66,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 11,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 72,
+        "in_derived_objects": false,
+        "used_as_input": false
+      }
+    ],
+    "P(c)→Q(c)": [
+      {
+        "step": 0,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 1,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 2,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 3,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 4,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 5,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 6,
+        "status": "not_in_store",
+        "confidence": 0,
+        "evidence_count": 0,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 7,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 6,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 8,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 12,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 9,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 18,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 10,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 24,
+        "in_derived_objects": false,
+        "used_as_input": false
+      },
+      {
+        "step": 11,
+        "status": "invalid",
+        "confidence": 0.95,
+        "evidence_count": 30,
+        "in_derived_objects": false,
+        "used_as_input": false
+      }
+    ]
+  },
+  "key_propositions": {
+    "P(a)→Q(a)": {
+      "final_status": "valid",
+      "final_confidence": 0.8,
+      "evidence_count": 72,
+      "in_derived_objects": true,
+      "gt_holds": true,
+      "gt_reason": "supported: 6",
+      "status_changes": [
+        {
+          "step": 0,
+          "from": null,
+          "to": "valid"
+        }
+      ],
+      "timeline": [
+        {
+          "step": 0,
+          "status": "valid",
+          "confidence": 0.4,
+          "evidence_count": 6,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 1,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 12,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 2,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 18,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 3,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 24,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 4,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 30,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 5,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 36,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 6,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 42,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 7,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 48,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 8,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 54,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 9,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 60,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 10,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 66,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 11,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 72,
+          "in_derived_objects": true,
+          "used_as_input": true
+        }
+      ]
+    },
+    "Q(a)→P(a)": {
+      "final_status": "invalid",
+      "final_confidence": 0.95,
+      "evidence_count": 72,
+      "in_derived_objects": false,
+      "gt_holds": false,
+      "gt_reason": "refuted: 2 counterexamples",
+      "status_changes": [
+        {
+          "step": 0,
+          "from": null,
+          "to": "valid"
+        },
+        {
+          "step": 3,
+          "from": "valid",
+          "to": "invalid"
+        }
+      ],
+      "timeline": [
+        {
+          "step": 0,
+          "status": "valid",
+          "confidence": 0.4,
+          "evidence_count": 6,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 1,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 12,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 2,
+          "status": "valid",
+          "confidence": 0.8,
+          "evidence_count": 18,
+          "in_derived_objects": true,
+          "used_as_input": true
+        },
+        {
+          "step": 3,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 24,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 4,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 30,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 5,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 36,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 6,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 42,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 7,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 48,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 8,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 54,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 9,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 60,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 10,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 66,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 11,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 72,
+          "in_derived_objects": false,
+          "used_as_input": false
+        }
+      ]
+    },
+    "P(c)→Q(c)": {
+      "final_status": "invalid",
+      "final_confidence": 0.95,
+      "evidence_count": 30,
+      "in_derived_objects": false,
+      "gt_holds": false,
+      "gt_reason": "refuted: 1 counterexamples",
+      "status_changes": [
+        {
+          "step": 0,
+          "from": null,
+          "to": "not_in_store"
+        },
+        {
+          "step": 7,
+          "from": "not_in_store",
+          "to": "invalid"
+        }
+      ],
+      "timeline": [
+        {
+          "step": 0,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 1,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 2,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 3,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 4,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 5,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 6,
+          "status": "not_in_store",
+          "confidence": 0,
+          "evidence_count": 0,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 7,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 6,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 8,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 12,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 9,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 18,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 10,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 24,
+          "in_derived_objects": false,
+          "used_as_input": false
+        },
+        {
+          "step": 11,
+          "status": "invalid",
+          "confidence": 0.95,
+          "evidence_count": 30,
+          "in_derived_objects": false,
+          "used_as_input": false
+        }
+      ]
+    }
+  },
+  "future_information_leak_check": {
+    "passed": true,
+    "details": "all steps correct"
+  },
+  "derived_object_timeline": [
+    {
+      "proposition": "(P(a) → R(a,b))",
+      "entered_derived_step": 1,
+      "exited_derived_step": 2,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 1,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        },
+        {
+          "action": "exit",
+          "step": 2
+        }
+      ]
+    },
+    {
+      "proposition": "(Q(a) → P(a))",
+      "entered_derived_step": 1,
+      "exited_derived_step": 3,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 2,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        },
+        {
+          "action": "exit",
+          "step": 3
+        }
+      ]
+    },
+    {
+      "proposition": "(R(a,b) → Q(a))",
+      "entered_derived_step": 1,
+      "exited_derived_step": null,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 0,
+      "times_used_as_input": 11,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        }
+      ]
+    },
+    {
+      "proposition": "(P(a) → Q(a))",
+      "entered_derived_step": 1,
+      "exited_derived_step": null,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 0,
+      "times_used_as_input": 11,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        }
+      ]
+    },
+    {
+      "proposition": "(Q(a) → R(a,b))",
+      "entered_derived_step": 1,
+      "exited_derived_step": 2,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 1,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        },
+        {
+          "action": "exit",
+          "step": 2
+        }
+      ]
+    },
+    {
+      "proposition": "(R(a,b) → P(a))",
+      "entered_derived_step": 1,
+      "exited_derived_step": null,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 0,
+      "times_used_as_input": 11,
+      "history": [
+        {
+          "action": "enter",
+          "step": 1
+        }
+      ]
+    },
+    {
+      "proposition": "(R(b,a) → P(b))",
+      "entered_derived_step": 2,
+      "exited_derived_step": 4,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 2,
+      "history": [
+        {
+          "action": "enter",
+          "step": 2
+        },
+        {
+          "action": "exit",
+          "step": 4
+        }
+      ]
+    },
+    {
+      "proposition": "(R(b,a) → Q(b))",
+      "entered_derived_step": 2,
+      "exited_derived_step": 4,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 2,
+      "history": [
+        {
+          "action": "enter",
+          "step": 2
+        },
+        {
+          "action": "exit",
+          "step": 4
+        }
+      ]
+    },
+    {
+      "proposition": "(Q(b) → P(b))",
+      "entered_derived_step": 2,
+      "exited_derived_step": 9,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 7,
+      "history": [
+        {
+          "action": "enter",
+          "step": 2
+        },
+        {
+          "action": "exit",
+          "step": 9
+        }
+      ]
+    },
+    {
+      "proposition": "(P(b) → Q(b))",
+      "entered_derived_step": 2,
+      "exited_derived_step": null,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 0,
+      "times_used_as_input": 10,
+      "history": [
+        {
+          "action": "enter",
+          "step": 2
+        }
+      ]
+    },
+    {
+      "proposition": "(S(a) → Q(a))",
+      "entered_derived_step": 4,
+      "exited_derived_step": null,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 0,
+      "times_used_as_input": 8,
+      "history": [
+        {
+          "action": "enter",
+          "step": 4
+        }
+      ]
+    },
+    {
+      "proposition": "(Q(c) → P(c))",
+      "entered_derived_step": 8,
+      "exited_derived_step": 9,
+      "reentered_derived_step": null,
+      "times_entered": 1,
+      "times_exited": 1,
+      "times_used_as_input": 1,
+      "history": [
+        {
+          "action": "enter",
+          "step": 8
+        },
+        {
+          "action": "exit",
+          "step": 9
+        }
+      ]
+    }
+  ],
+  "pa_qa_in_derived_objects": true,
+  "qa_pa_in_derived_objects": false,
+  "pc_qc_not_in_derived_objects": true,
+  "qa_pa_refuted_after_being_valid": true,
+  "pa_qa_always_valid": true,
+  "total_candidates": 8124,
+  "total_valid": 16,
+  "total_invalid": 163,
+  "total_unknown": 1274,
+  "total_duplicates_skipped": 6671,
+  "total_reverified": 11634,
+  "total_status_changed": 18,
+  "all_transitions": {
+    "valid_to_invalid": 11,
+    "valid_to_unknown": 0,
+    "invalid_to_valid": 0,
+    "invalid_to_unknown": 7,
+    "unknown_to_valid": 0,
+    "unknown_to_invalid": 0,
+    "stayed_valid": 67,
+    "stayed_invalid": 1275,
+    "stayed_unknown": 10274
+  },
+  "total_cost": 57468.6,
+  "belief_store_stats": {
+    "total": 1453,
+    "valid": 5,
+    "invalid": 167,
+    "unknown": 1281
+  },
+  "trace_steps": 2906,
+  "evidence_count": 78522,
+  "final_derived_objects": [
+    "(P(a) → Q(a))",
+    "(P(b) → Q(b))",
+    "(R(a,b) → P(a))",
+    "(R(a,b) → Q(a))",
+    "(S(a) → Q(a))"
+  ],
+  "final_observed_objects": [
+    "P(a)",
+    "P(b)",
+    "P(c)",
+    "Q(a)",
+    "Q(b)",
+    "Q(c)",
+    "R(a,b)",
+    "R(b,a)",
+    "S(a)"
+  ]
+}
