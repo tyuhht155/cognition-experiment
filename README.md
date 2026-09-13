@@ -74,8 +74,9 @@ ComputeEngine (编排)
 | test_e0_7_3 | 14 | E0-7.3 变换选择（多变换匹配 / 选择生成分离 / op_name 无关 / UNKNOWN op / 历史影响选择 / valid低价值保留 / 失败更新选择 / 探索保留 / 目标改变选择 / 无未来信息 / 无ground truth / 多步搜索 / 长路不判invalid / validity≠value） |
 | test_e0_7_4 | 18 | E0-7.4 未来价值与信用分配（信用传播 / 直接目标最高信用 / 中间步骤非零信用 / dead-end无信用 / INVALID无信用 / valid低价值保留 / 失败降低选择 / 失败不永久禁止 / 不同goal不同价值 / UNKNOWN op正常 / op改名无影响 / 无goal distance / 无ground truth / 无未来数据 / 信用来自trace / 多步中间学习 / 多成功路径获信用 / 长路不因无直接价值判invalid） |
 | test_e0_8 | 16 | E0-8 目标导向新对象生成（X不在历史 / X不在初始知识 / 基础构造器产生X / X验证后入知识 / X下轮重参与 / 通过X到达目标 / INVALID阻断 / 仅历史无捷径 / 不依赖op_name / 无ground truth指引 / trace完整 / 能构造≠有效≠有用 / 严格时间因果 / G不在round0 / INVALID不进constructible / 构造器通用） |
+| test_e0_9 | 16 | E0-9 价值导向方向选择（价值函数参与 / baseline无价值 / 高价值优先 / 价值高≠valid / invalid可被选择 / valid低价值保留 / 反馈重评价 / 价值函数改变路径 / 相同value稳定tie-break / 不依赖历史 / 不依赖搜索 / 不依赖LLM / 无ground truth / 严格时间因果 / 完整trace / constructible·valid·valuable分离） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **204** | **全部通过** |
+| **合计** | **220** | **全部通过** |
 
 ---
 
@@ -1497,6 +1498,148 @@ Round 1: constructible={A(a), B(a), X, ...}
 - 如何从目标反推搜索方向
 - 如何评价中间对象的潜在价值
 - 如何学习构造顺序
+
+---
+
+## 十三-D、E0-9 实验：Value-Directed Computation Direction Selection（价值导向的计算方向选择）
+
+### 核心问题
+
+E0-8 证明了系统能用基础构造器构造历史中不存在的新对象，但候选选择是**穷举顺序**（generate_candidates 产生顺序）。
+
+当知识空间很小时，主要困难不是搜索，而是**方向选择**：系统应该先计算哪个候选？
+
+E0-9 验证：**仅靠一个初始评价函数，系统能不能产生正确的计算方向？**
+
+### 与 E0-8 的本质区别
+
+| 维度 | E0-8 | E0-9 |
+|------|------|------|
+| 候选选择 | 穷举顺序（全部验证） | 价值评价后选择 1 个验证 |
+| 每轮验证数 | 全部候选 | 1 个（DirectionSelector 选择） |
+| 核心能力 | 构造历史中不存在的新对象 | 评价函数决定下一步计算什么 |
+| 瓶颈 | 构造能力 | 方向选择能力 |
+
+### 核心机制
+
+#### ValueEvaluator（纯函数）
+`evaluate_direction(prop, goal, constructor, cost, belief_store) -> dict`
+
+评价"计算这个候选 prop 是否值得继续"，**不返回答案**。
+
+四个因素：
+1. `goal_proximity`：prop 的子结构出现在 goal 子结构中的比例（0~1）
+2. `cost_factor`：1 / (1 + cost)，成本越高价值越低
+3. `risk_factor`：基于 belief_store 中 invalid 比例（无历史则中性 0.5）
+4. `value = 0.5 * proximity + 0.3 * cost_factor + 0.2 * (1 - risk_factor)`
+
+**关键约束**：评价函数不检查 `prop == goal`（不泄露答案），只检查结构相关性。
+
+#### DirectionSelector（纯函数）
+`select_direction(candidates, evaluator, goal, belief_store, mode) -> (selected, all_evaluations)`
+
+四种模式：
+- `baseline`：固定顺序，选第一个候选（无价值评价）
+- `value`：计算每个候选的价值，选最高
+- `wrong`：用反向评价函数（偏好无关对象），选最高
+- `tie_break`：value 相同时按 `to_str()` 字典序
+
+#### episode 循环
+每步：
+1. constructible = observed ∪ derived_valid
+2. candidates = generate_candidates(constructible, ...)
+3. **DirectionSelector 选择 1 个候选**
+4. 验证该候选 → 更新 belief
+5. 检查 goal_reached
+6. 记录 trace（含所有候选的 value、选择、验证结果）
+
+### 最小人工世界
+
+- 初始知识：`A(a)`, `B(a)`
+- 目标：`G = (A(a) → B(a)) ∧ B(a)`
+- 中间对象：`X = A(a) → B(a)`（goal 的直接子结构，value 高）
+- 无关路径：`¬A(a)`、`¬B(a)`、`A(a) ∨ B(a)`（不在 goal 子结构中，value 低）
+
+路径 A（正确）：`{A,B} → impl(A,B)=X → conj(X,B)=G`（2 步）
+路径 B（无关）：`{A,B} → ¬A → ¬B → ...`（多步无关）
+
+### 五个场景
+
+| 场景 | mode | 评价函数 | 目标达成 | 步数 | 无关计算 |
+|------|------|---------|---------|------|---------|
+| E0-9-A | baseline | 无 | ✓/✗ | 多 | 多 |
+| E0-9-B | value | 正向 | ✓ | 2 | 0 |
+| E0-9-C | wrong | 反向 | ✗ | 15 | 多 |
+| E0-9-D | value | 正向+反馈 | ✓ | 2 | 0 |
+| E0-9-E | tie_break | 相同 value | ✓ | 2 | 0 |
+
+### 实验结果
+
+| 模式 | 目标达成 | 步数 | 候选数 | 计算 | valid | invalid | 无关 |
+|------|---------|------|--------|------|-------|---------|------|
+| baseline | ✗ | 15 | 355 | 15 | 9 | 2 | 0 |
+| value | ✓ | 2 | 24 | 2 | 2 | 0 | 0 |
+| wrong | ✗ | 15 | 225 | 15 | 7 | 2 | 0 |
+
+### 16 项不变量测试
+
+| # | 测试 | 验证内容 |
+|---|------|---------|
+| 1 | test_value_function_participates | 价值函数确实参与方向选择 |
+| 2 | test_baseline_no_value | 无价值函数时用 baseline 固定顺序 |
+| 3 | test_high_value_prioritized | 高价值对象优先选择 |
+| 4 | test_high_value_not_means_valid | 价值高不代表 valid |
+| 5 | test_invalid_can_be_selected | invalid 对象仍可被选择 |
+| 6 | test_valid_low_value_retained | valid 但低价值对象不删除 |
+| 7 | test_feedback_recomputes_value | 反馈后下一轮价值重新计算 |
+| 8 | test_value_function_changes_path | 价值函数改变会改变计算路径 |
+| 9 | test_tie_break_stable | 相同 value 有稳定 tie-break |
+| 10 | test_no_transformation_history_dependency | 不依赖 transformation history |
+| 11 | test_no_search_dependency | 不依赖搜索 |
+| 12 | test_no_llm_dependency | 不依赖 LLM |
+| 13 | test_no_ground_truth | 不依赖 ground truth |
+| 14 | test_strict_time_causal | 严格时间因果 |
+| 15 | test_complete_trace | 完整 trace（含所有候选 value） |
+| 16 | test_constructible_valid_valuable_separated | constructible/valid/valuable 三者分离 |
+
+### 核心结论
+
+**"没有成熟知识空间、没有搜索能力时，仅靠一个初始评价函数，系统能不能产生正确的计算方向？"**
+
+**能。** E0-9 证明：
+
+1. value 模式在 2 步内达成目标（baseline 需要 15 步且未达成）
+2. 评价函数优先选择 goal 子结构相关候选（A→B 优先于 ¬A）
+3. 价值高 ≠ valid（invalid 对象可被选择但验证后阻止复用）
+4. valid 但低价值对象保留在知识空间，不被删除
+5. 反向评价函数使系统走向错误方向（证明评价函数是"方向产生机制"而非"正确性模块"）
+6. 反馈后价值重新计算，影响下一步方向
+
+**理论意义**：知识空间很小时，计算流程是：
+
+```
+评价函数 → 方向选择 → 计算
+```
+
+而不是：
+
+```
+搜索 → 方向选择 → 计算
+```
+
+只有当知识空间扩大到无法直接遍历时，才需要：
+
+```
+评价函数 → 方向选择 → 对知识空间进行搜索 → 计算
+```
+
+未来四者分工：
+- 评价函数负责"往哪里算"
+- 搜索负责"在知识空间里找什么"
+- 构造/推理负责"具体怎么算"
+- 验证负责"算出来的东西是否成立"
+
+但注意，这四者都属于计算，不是理论上独立的认知模块。
 
 ---
 
