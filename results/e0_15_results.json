@@ -1,0 +1,546 @@
+{
+  "experiment": "E0-15",
+  "description": "Goal Semantic Discovery / 目标语义发现",
+  "results": {
+    "A": {
+      "world_id": "A",
+      "description": "Goal(G_A) maps to energy; system must discover this via observation+verification",
+      "expected_mode": "goal_semantic_discovery",
+      "true_goal_dimension": "energy",
+      "metrics": {
+        "initial_goal": "Goal(G_A)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.5,
+        "final_eval_reason": "mapped",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 4,
+        "candidates_generated": 4,
+        "candidates_verified": 4,
+        "candidates_valid": 1,
+        "candidates_invalid": 3,
+        "relations_entered_ks": [
+          "(Goal(G_A) → Dim(energy,low))"
+        ],
+        "relations_rejected": [
+          "(Goal(G_A) → Dim(temperature,high))",
+          "(Goal(G_A) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+          "(Goal(G_A) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 1,
+        "stop_reason": "evaluation_positive",
+        "state_before": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "state_after": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "observable_before": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "observable_after": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "goal_semantic_discovered": true,
+        "discovered_relations": [
+          "(Goal(G_A) → Dim(energy,low))"
+        ]
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 4,
+          "new_relations": [
+            "(Goal(G_A) → Dim(energy,low))"
+          ],
+          "rejected": [
+            "(Goal(G_A) → Dim(temperature,high))",
+            "(Goal(G_A) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+            "(Goal(G_A) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+          ],
+          "ks_size": 1
+        }
+      ],
+      "final_state": {
+        "energy": 1.0,
+        "temperature": 5.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 1,
+        "invalid": 3,
+        "unknown": 0
+      }
+    },
+    "B": {
+      "world_id": "B",
+      "description": "Goal(G_B) maps to fuel; different variable names, same mechanism",
+      "expected_mode": "goal_semantic_discovery",
+      "true_goal_dimension": "fuel",
+      "metrics": {
+        "initial_goal": "Goal(G_B)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.5,
+        "final_eval_reason": "mapped",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 4,
+        "candidates_generated": 4,
+        "candidates_verified": 4,
+        "candidates_valid": 1,
+        "candidates_invalid": 3,
+        "relations_entered_ks": [
+          "(Goal(G_B) → Dim(fuel,low))"
+        ],
+        "relations_rejected": [
+          "(Goal(G_B) → Dim(pressure,high))",
+          "(Goal(G_B) → (Dim(fuel,low) ∧ Dim(pressure,high)))",
+          "(Goal(G_B) → (Dim(pressure,high) ∧ Dim(fuel,low)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 1,
+        "stop_reason": "evaluation_positive",
+        "state_before": {
+          "fuel": 1.0,
+          "pressure": 5.0
+        },
+        "state_after": {
+          "fuel": 1.0,
+          "pressure": 5.0
+        },
+        "observable_before": [
+          "Dim(pressure,high)",
+          "Dim(fuel,low)"
+        ],
+        "observable_after": [
+          "Dim(pressure,high)",
+          "Dim(fuel,low)"
+        ],
+        "goal_semantic_discovered": true,
+        "discovered_relations": [
+          "(Goal(G_B) → Dim(fuel,low))"
+        ]
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 4,
+          "new_relations": [
+            "(Goal(G_B) → Dim(fuel,low))"
+          ],
+          "rejected": [
+            "(Goal(G_B) → Dim(pressure,high))",
+            "(Goal(G_B) → (Dim(fuel,low) ∧ Dim(pressure,high)))",
+            "(Goal(G_B) → (Dim(pressure,high) ∧ Dim(fuel,low)))"
+          ],
+          "ks_size": 1
+        }
+      ],
+      "final_state": {
+        "fuel": 1.0,
+        "pressure": 5.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 1,
+        "invalid": 3,
+        "unknown": 0
+      }
+    },
+    "C": {
+      "world_id": "C",
+      "description": "Goal(G_C) maps to composite condition (energy_ok ∧ temp_ok)",
+      "expected_mode": "goal_semantic_discovery_composite",
+      "true_goal_dimension": "composite",
+      "metrics": {
+        "initial_goal": "Goal(G_C)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.0,
+        "final_eval_reason": "insufficient_knowledge",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 4,
+        "candidates_generated": 4,
+        "candidates_verified": 4,
+        "candidates_valid": 1,
+        "candidates_invalid": 3,
+        "relations_entered_ks": [
+          "(Goal(G_C) → (Dim(energy,ok) ∧ Dim(temperature,ok)))"
+        ],
+        "relations_rejected": [
+          "(Goal(G_C) → Dim(energy,ok))",
+          "(Goal(G_C) → Dim(temperature,ok))",
+          "(Goal(G_C) → (Dim(temperature,ok) ∧ Dim(energy,ok)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "energy": 5.0,
+          "temperature": 5.0
+        },
+        "state_after": {
+          "energy": 5.0,
+          "temperature": 5.0
+        },
+        "observable_before": [
+          "Dim(energy,ok)",
+          "Dim(temperature,ok)"
+        ],
+        "observable_after": [
+          "Dim(energy,ok)",
+          "Dim(temperature,ok)"
+        ],
+        "goal_semantic_discovered": true,
+        "discovered_relations": [
+          "(Goal(G_C) → (Dim(energy,ok) ∧ Dim(temperature,ok)))"
+        ]
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 4,
+          "new_relations": [
+            "(Goal(G_C) → (Dim(energy,ok) ∧ Dim(temperature,ok)))"
+          ],
+          "rejected": [
+            "(Goal(G_C) → Dim(energy,ok))",
+            "(Goal(G_C) → Dim(temperature,ok))",
+            "(Goal(G_C) → (Dim(temperature,ok) ∧ Dim(energy,ok)))"
+          ],
+          "ks_size": 1
+        },
+        {
+          "step": 1,
+          "mode": "goal_semantic_discovery",
+          "candidates": 0,
+          "new_relations": [],
+          "rejected": [],
+          "ks_size": 1
+        }
+      ],
+      "final_state": {
+        "energy": 5.0,
+        "temperature": 5.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 1,
+        "invalid": 3,
+        "unknown": 0
+      }
+    },
+    "NC1": {
+      "world_id": "NC1",
+      "description": "No valid Goal→Dim relationship; must admit insufficient",
+      "expected_mode": "insufficient",
+      "true_goal_dimension": null,
+      "metrics": {
+        "initial_goal": "Goal(G_A)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.0,
+        "final_eval_reason": "insufficient_knowledge",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 0,
+        "total_beliefs_after": 4,
+        "candidates_generated": 4,
+        "candidates_verified": 4,
+        "candidates_valid": 0,
+        "candidates_invalid": 4,
+        "relations_entered_ks": [],
+        "relations_rejected": [
+          "(Goal(G_A) → Dim(energy,low))",
+          "(Goal(G_A) → Dim(temperature,high))",
+          "(Goal(G_A) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+          "(Goal(G_A) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 1,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "state_after": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "observable_before": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "observable_after": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "goal_semantic_discovered": false,
+        "discovered_relations": []
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 4,
+          "new_relations": [],
+          "rejected": [
+            "(Goal(G_A) → Dim(energy,low))",
+            "(Goal(G_A) → Dim(temperature,high))",
+            "(Goal(G_A) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+            "(Goal(G_A) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+          ],
+          "ks_size": 0
+        }
+      ],
+      "final_state": {
+        "energy": 1.0,
+        "temperature": 5.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 0,
+        "invalid": 4,
+        "unknown": 0
+      }
+    },
+    "NC2": {
+      "world_id": "NC2",
+      "description": "Similar but wrong: Dim(other,low) and Dim(wrong,low) rejected",
+      "expected_mode": "goal_semantic_discovery",
+      "true_goal_dimension": "energy",
+      "metrics": {
+        "initial_goal": "Goal(G_A)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.5,
+        "final_eval_reason": "mapped",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 8,
+        "candidates_generated": 8,
+        "candidates_verified": 8,
+        "candidates_valid": 1,
+        "candidates_invalid": 7,
+        "relations_entered_ks": [
+          "(Goal(G_A) → Dim(energy,low))"
+        ],
+        "relations_rejected": [
+          "(Goal(G_A) → Dim(other,low))",
+          "(Goal(G_A) → Dim(wrong,low))",
+          "(Goal(G_A) → (Dim(energy,low) ∧ Dim(other,low)))",
+          "(Goal(G_A) → (Dim(other,low) ∧ Dim(energy,low)))",
+          "(Goal(G_A) → (Dim(energy,low) ∧ Dim(wrong,low)))",
+          "(Goal(G_A) → (Dim(wrong,low) ∧ Dim(energy,low)))",
+          "(Goal(G_A) → (Dim(other,low) ∧ Dim(wrong,low)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 1,
+        "stop_reason": "evaluation_positive",
+        "state_before": {
+          "energy": 1.0,
+          "other": 1.0,
+          "wrong": 1.0
+        },
+        "state_after": {
+          "energy": 1.0,
+          "other": 1.0,
+          "wrong": 1.0
+        },
+        "observable_before": [
+          "Dim(other,low)",
+          "Dim(wrong,low)",
+          "Dim(energy,low)"
+        ],
+        "observable_after": [
+          "Dim(other,low)",
+          "Dim(wrong,low)",
+          "Dim(energy,low)"
+        ],
+        "goal_semantic_discovered": true,
+        "discovered_relations": [
+          "(Goal(G_A) → Dim(energy,low))"
+        ]
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 8,
+          "new_relations": [
+            "(Goal(G_A) → Dim(energy,low))"
+          ],
+          "rejected": [
+            "(Goal(G_A) → Dim(other,low))",
+            "(Goal(G_A) → Dim(wrong,low))",
+            "(Goal(G_A) → (Dim(energy,low) ∧ Dim(other,low)))",
+            "(Goal(G_A) → (Dim(other,low) ∧ Dim(energy,low)))",
+            "(Goal(G_A) → (Dim(energy,low) ∧ Dim(wrong,low)))",
+            "(Goal(G_A) → (Dim(wrong,low) ∧ Dim(energy,low)))",
+            "(Goal(G_A) → (Dim(other,low) ∧ Dim(wrong,low)))"
+          ],
+          "ks_size": 1
+        }
+      ],
+      "final_state": {
+        "energy": 1.0,
+        "other": 1.0,
+        "wrong": 1.0
+      },
+      "belief_stats": {
+        "total": 8,
+        "valid": 1,
+        "invalid": 7,
+        "unknown": 0
+      }
+    },
+    "NC4": {
+      "world_id": "NC4",
+      "description": "Goal renamed to X7; mechanism must work identically",
+      "expected_mode": "goal_semantic_discovery",
+      "true_goal_dimension": "energy",
+      "metrics": {
+        "initial_goal": "Goal(X7)",
+        "initial_evaluation": 0.0,
+        "initial_eval_reason": "insufficient_knowledge",
+        "final_evaluation": 0.5,
+        "final_eval_reason": "mapped",
+        "knowledge_space_size_before": 0,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 4,
+        "candidates_generated": 4,
+        "candidates_verified": 4,
+        "candidates_valid": 1,
+        "candidates_invalid": 3,
+        "relations_entered_ks": [
+          "(Goal(X7) → Dim(energy,low))"
+        ],
+        "relations_rejected": [
+          "(Goal(X7) → Dim(temperature,high))",
+          "(Goal(X7) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+          "(Goal(X7) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+        ],
+        "mp_derivations": [],
+        "search_steps": 0,
+        "action_executed": false,
+        "actions_taken": [],
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 1,
+        "stop_reason": "evaluation_positive",
+        "state_before": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "state_after": {
+          "energy": 1.0,
+          "temperature": 5.0
+        },
+        "observable_before": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "observable_after": [
+          "Dim(temperature,high)",
+          "Dim(energy,low)"
+        ],
+        "goal_semantic_discovered": true,
+        "discovered_relations": [
+          "(Goal(X7) → Dim(energy,low))"
+        ]
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "goal_semantic_discovery",
+          "candidates": 4,
+          "new_relations": [
+            "(Goal(X7) → Dim(energy,low))"
+          ],
+          "rejected": [
+            "(Goal(X7) → Dim(temperature,high))",
+            "(Goal(X7) → (Dim(energy,low) ∧ Dim(temperature,high)))",
+            "(Goal(X7) → (Dim(temperature,high) ∧ Dim(energy,low)))"
+          ],
+          "ks_size": 1
+        }
+      ],
+      "final_state": {
+        "energy": 1.0,
+        "temperature": 5.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 1,
+        "invalid": 3,
+        "unknown": 0
+      }
+    }
+  },
+  "analysis": {
+    "A_initial_eval_insufficient": true,
+    "B_initial_eval_insufficient": true,
+    "no_ground_truth_access": true,
+    "A_candidates_generated": true,
+    "B_candidates_generated": true,
+    "A_candidates_verified": true,
+    "NC2_rejected_wrong": true,
+    "NC2_wrong_not_in_ks": true,
+    "A_relations_entered_ks": true,
+    "A_final_eval_mapped": true,
+    "NC4_works_same": true,
+    "NC4_discovered_same_dimension": true,
+    "B_works_same": true,
+    "B_discovered_fuel": true,
+    "C_discovered_composite": true,
+    "C_discovered_conjunction": true,
+    "NC1_admitted_insufficiency": true,
+    "NC1_no_discovered_relations": true,
+    "NC2_correct_relation_found": true,
+    "no_hardcoded_mapping": true,
+    "no_ground_truth_leakage": true,
+    "strict_temporal_causality": true,
+    "complete_trace": true
+  }
+}

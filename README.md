@@ -2301,6 +2301,94 @@ E0-14 证明的是 **Goal 在知识表示和命题级推导层面可以作为普
 
 ---
 
+## 十三-J、E0-15 实验：Goal Semantic Discovery / 目标语义发现
+
+### 理论推进
+
+E0-14 证明 Goal 在知识表示和命题级推导层面可以作为普通 Proposition 参与计算。但 E0-14 仍存在一个关键先验：评价函数中直接映射 `Goal(wealth)` → `state["wealth"]`，这是人工写死的 goal→dimension 映射。
+
+E0-15 的唯一目标：**验证 Goal 的具体语义是否可以通过普通计算产生，而不是由评价器预先知道 Goal 对应哪个 state dimension。**
+
+### 核心设计
+
+1. **评价函数不再直接映射 Goal→dimension**：`evaluate_state_no_goal_mapping()` 不检查 `goal.name == "wealth"` 等具体值，而是搜索 BeliefStore 中是否有 VALID 的 `implies(Goal, Dim(dim, val))` 关系。如果没有，返回 `insufficient_knowledge`。
+
+2. **候选关系生成是普通 Proposition 构造**：`generate_goal_dim_candidates()` 使用与 E0-12 相同的 `impl` 构造器，从可观察的 Dim 命题构造 `implies(Goal, Dim(...))` 候选。
+
+3. **验证使用现有 `verify_against_world`**：不引入新的验证机制。
+
+4. **World Simulator 知道真实映射**（`true_goal_dimension` 字段），但 Cognitive System 不能读取它。
+
+### 世界设计
+
+| World | Goal | State Dimensions | 真实映射 | 预期结果 |
+|-------|------|-----------------|---------|---------|
+| A | Goal(G_A) | energy, temperature | energy | 系统发现 `implies(Goal(G_A), Dim(energy,low))` |
+| B | Goal(G_B) | fuel, pressure | fuel | 完全不同变量名，机制不变 |
+| C | Goal(G_C) | energy, temperature | composite | 系统发现复合条件 `implies(Goal, conj(Dim1, Dim2))` |
+| NC1 | Goal(G_A) | energy, temperature | (none) | 无关系 → computation_insufficient |
+| NC2 | Goal(G_A) | energy, other, wrong | energy | 相似错误关系被验证淘汰 |
+| NC4 | Goal(X7) | energy, temperature | energy | 改变 Goal 名称，机制不变 |
+
+### 实验结果
+
+| World | 初始评价 | 最终评价 | 发现关系 | KS 增长 |
+|-------|---------|---------|---------|---------|
+| A | 0.0 (insufficient) | 0.5 (mapped) | `(Goal(G_A) → Dim(energy,low))` | 0→1 |
+| B | 0.0 (insufficient) | 0.5 (mapped) | `(Goal(G_B) → Dim(fuel,low))` | 0→1 |
+| C | 0.0 (insufficient) | 0.0 (insufficient*) | `(Goal(G_C) → (Dim(energy,ok) ∧ Dim(temperature,ok)))` | 0→1 |
+| NC1 | 0.0 (insufficient) | 0.0 (insufficient) | (none) | 0→0 |
+| NC2 | 0.0 (insufficient) | 0.5 (mapped) | `(Goal(G_A) → Dim(energy,low))` | 0→1 |
+| NC4 | 0.0 (insufficient) | 0.5 (mapped) | `(Goal(X7) → Dim(energy,low))` | 0→1 |
+
+*World C 成功发现了复合关系并进入 KS，但当前评价函数尚未实现复合条件的 evaluation 逻辑（只处理单个 Dim），因此最终评价仍为 insufficient。这是评价函数的实现限制，不是 Goal 语义发现机制的失败。
+
+### 理论结论
+
+**E0-15 证明了什么：**
+
+1. **Goal 的具体语义可以由普通计算产生**：系统不知道 `Goal(G_A)` 对应哪个 state dimension，但通过观察 Dim 命题、构造候选 `implies(Goal, Dim(...))`、验证、进入 KS，成功建立了 Goal 与 state dimension 的对应关系。
+
+2. **不依赖 Goal 名称**：改变 Goal 名称（NC4: G_A → X7），机制完全不变，发现同样的 energy 维度。
+
+3. **不依赖 state dimension 名称**：改变 dimension 名称（World B: energy → fuel），机制完全不变。
+
+4. **Goal 可以对应复合条件**：World C 成功发现了 `implies(Goal, conj(Dim1, Dim2))`，不是单一 dimension 映射。
+
+5. **无关系时承认计算不足**：NC1 中没有任何合法 Goal→Dim 关系，系统返回 computation_insufficient，不强行评价。
+
+6. **错误相似关系被验证淘汰**：NC2 中 Dim(other,low) 和 Dim(wrong,low) 被拒绝，只有正确的 Dim(energy,low) 进入 KS。
+
+**E0-15 没有证明什么：**
+
+1. **候选生成机制仍是人工设计的**：`generate_goal_dim_candidates` 只构造 `implies(Goal, Dim(...))` 和 `implies(Goal, conj(Dim1, Dim2))` 两种形式。系统能否自主发现需要其他形式的候选（如 `implies(Goal, ∃x Dim(x,low))`）尚未验证。
+
+2. **评价函数仍有人工先验**：`evaluate_state_no_goal_mapping` 中 val_label 的评价逻辑（low/ok/high 的数值区间）仍是人工指定。
+
+3. **World Simulator 的验证是弱 oracle**：`verify_against_world` 直接检查 world_rules["implications"]，是环境提供的验证，不是系统自主验证。
+
+4. **复合条件的评价逻辑未完全实现**：World C 发现了复合关系，但评价函数不能处理 conj 形式的 consequent。
+
+### 与 E0-14 的关系
+
+E0-14 证明 Goal 是普通 Proposition。E0-15 进一步证明：**Goal 的语义（对应哪个 state dimension）也可以通过普通计算产生**，不需要评价器预先知道映射。这使 Goal 在系统中的所有语义都由计算产生，而非人工指定。
+
+### 承认的局限
+
+1. 候选生成机制是人工设计的（只构造 impl 和 conj+impl 两种形式）
+2. 评价函数中 val_label 的数值区间是人工先验
+3. 验证器仍是弱 oracle（直接读取 world_rules）
+4. 复合条件的评价逻辑未完全实现
+5. 系统不能自主发现需要其他形式的候选（如 ∃x 形式）
+
+### 未解决问题
+
+- 系统如何自主发现需要哪些形式的候选关系？
+- 评价函数如何从反馈中学习 val_label 的数值区间？
+- 验证器如何从弱 oracle 进化为自主验证？
+
+---
+
 ## 十四、历史反哺的四种方式
 
 | 方式 | 先验强度 | 灵活度 | 复杂度 | 小样本可靠性 |

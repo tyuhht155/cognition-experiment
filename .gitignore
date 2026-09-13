@@ -20,3 +20,9 @@ env/
 .idea/
 *.swp
 .DS_Store
+.trae/
+
+# 临时调试输出
+e0_14_out.txt
+results/e0_14_run_log.txt
+
