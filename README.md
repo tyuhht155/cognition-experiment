@@ -78,8 +78,9 @@ ComputeEngine (编排)
 | test_e0_10 | 16 | E0-10 评价导向计算（评价有边界 / H低负评价 / H过高评价下降 / 合理区间正评价 / 评价缺口产生Problem / 无缺口无Problem / Problem不指定答案 / 候选评价不依赖Goal / 行动改变内部状态 / 状态变化重评价 / 进入区间停止 / reward hacking可观测 / hacking不算成功 / 严格时间因果 / 完整trace / Evaluation·Problem·Value·Goal四者分离） |
 | test_e0_11 | 25 | E0-11 问题构造消融与负对照（评价只接收state / 评价不引用Problem / Problem由持续负评价产生 / Problem无answer字段 / 三世界产生不同Problem / 评价器不检查H / 评价器不检查implies / H候选与非H候选同分 / 行动携带来源命题 / 行动源码无字符串匹配 / 行动来源于BeliefStore / NC1承认计算能力不足 / NC2检测false opportunity / NC2不假装成功） |
 | test_e0_12 | 38 | E0-12 基于搜索的计算与认知空间扩展（无ProblemGenerator / GapSignal无答案字段 / 搜索相似度只用共享项谓词 / 认知空间边界 / 行动来自已验证implies / WorldA直接匹配 / WorldB多步链式 / WorldC承认不足不伪造答案） |
+| test_e0_13 | 43 | E0-13 命题级推导与新对象生成（无ProblemGenerator / MP要求known-true前件 / INVALID不推导 / 已知不重复推导 / VALID可作前件 / 无字符串匹配 / 无谓词特权 / A·B·H_MID不在初始KS / MP推导链顺序正确 / 新对象复用 / 行动基于derived object / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰错误候选） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **299** | **全部通过** |
+| **合计** | **342** | **全部通过** |
 
 ---
 
@@ -2053,6 +2054,124 @@ World C 的关键：系统尝试推导，但所有新 implies 都验证为 INVAL
 - 相似度度量如何从反馈中学习（而非人工指定共享项权重）？
 - 系统如何发现"评价函数本身需要修正"（meta-evaluation）？
 - 推导产生的新知识如何被后续搜索有效利用（当前 World B 用行动链而非命题推导扩展知识）？
+
+---
+
+## 十三-H、E0-13 实验：Proposition-Level Derivation via Modus Ponens（命题级推导与新对象生成）
+
+### 审计动机
+
+E0-12 的 World B 所谓"最近节点 + 推导"实际上主要依赖已有的 F→G→H_MID **行动链**——G 是环境行动产生的，不是系统自己计算的。
+
+**行动链 ≠ 知识推导。**
+
+E0-13 的唯一核心：当当前认知空间没有直接答案时，系统能否从已有节点出发，通过合法计算（modus ponens）自己产生一个**以前不存在的中间对象**，然后利用这个新对象继续搜索。
+
+### 核心机制：Modus Ponens（肯定前件）
+
+```python
+def derive_via_modus_ponens(belief_store, known_true) -> List[dict]:
+    """对于每个 VALID implies(X, Y)：
+    如果 X 是 known-true（observable 或 VALID），
+    且 Y 尚不在 BeliefStore 中，
+    则推导 Y 为新命题。"""
+```
+
+**known_true = observable ∪ VALID 命题**
+
+这允许推导链递归：第一轮推导出的 VALID 命题，在下一轮成为 known_true 的一部分，从而启用新的 MP 推导。
+
+### 关键区分
+
+| 方式 | 描述 | 是否算成功 |
+|------|------|-----------|
+| 环境直接告诉系统 A | 行动效果把 A 加入 observable | ❌ 不是系统计算的 |
+| 系统从 F 和 F→A 计算 A | MP 推导：F + implies(F,A) → A | ✅ 命题级推导 |
+
+### 三个世界
+
+| 世界 | 初始 KS | 初始 observable | 期望行为 |
+|------|---------|----------------|---------|
+| A | implies(F, H_MID) | F | 直接匹配 → 行动 → 评价改善 |
+| B | implies(F,A), implies(A,B), implies(B,H_MID) | F | MP 推导链：F→A→B→H_MID → 行动 → 评价改善 |
+| C | implies(P,Q), implies(R,S) | F | 无合法连接 → 承认不足 |
+
+### World B 推导链
+
+**初始状态**：A、B、H_MID 都不在 observable 中，不在 VALID beliefs 中。
+
+| 步骤 | known_true 新增 | MP 推导 | 验证结果 | 新对象入 KS |
+|------|----------------|---------|---------|------------|
+| 0 | F | F + F→A → A | VALID | A(x) |
+| 1 | A | A + A→B → B | VALID | B(x) |
+| 2 | B | B + B→H_MID → H_MID | VALID | H(mid) |
+| 3 | H_MID | 无新 MP → direct match | — | — |
+| 3 | — | 行动: B→H_MID, effect=H_MID | H=5.0 | — |
+| 4 | — | 评价=0.600 > 0 | 停止 | — |
+
+**行动基于 derived object**：行动的 action_object 是 B，而 B 是通过 MP 推导进入 KS 的。
+
+### 三个负对照
+
+| NC | 设计 | 期望行为 |
+|----|------|---------|
+| NC1 | F 无合法 implies | 不能凭空产生 A → 承认不足 |
+| NC2 | implies(C,A) valid 但 C 不是 known-true | 相似不能代替推导 → 承认不足 |
+| NC3 | F→A, F→Cw, F→Dw 都可推导 | 验证淘汰 Cw/Dw，只保留 A → 推导链继续 |
+
+**NC2 是关键**：C 与 F 结构相似（都是谓词），但 MP 要求精确匹配（F ≠ C），所以不能推导 A。相似度不能代替合法推导。
+
+**NC3 是关键**：系统不因为 A 是"正确答案"而选择它——它同时推导 A、Cw、Dw，通过验证淘汰错误候选。
+
+### 43 项不变量测试
+
+| 类别 | 测试数 | 验证内容 |
+|------|-------|---------|
+| 无 ProblemGenerator | 3 | 不存在各种生成器/planner/LLM |
+| Modus Ponens 机制 | 7 | 要求 known-true 前件；INVALID implies 不推导；已知的 consequent 不重复推导；VALID 命题可作为前件；无字符串匹配；无谓词特权 |
+| World B 新对象 | 8 | A/B/H_MID 不在初始 KS；通过 MP 进入 KS；推导链顺序正确；KS 扩展；评价改善；不伪造答案 |
+| 新对象复用 | 3 | 行动基于 derived object；A 被后续 MP 用于推导 B；B 被后续搜索使用 |
+| 无答案泄漏 | 4 | 无 target/goal/answer 变量；不硬编码正确对象；A 不在搜索目标；world_rules.facts 是验证用不是答案 |
+| World A | 2 | 直接匹配；评价改善 |
+| World C | 3 | 承认不足；无推导对象；评价未改善 |
+| NC1 | 3 | 承认不足；无推导对象；评价未改善 |
+| NC2 | 4 | 无推导对象；承认不足；评价未改善；C 不在 observable |
+| NC3 | 4 | 错误候选被拒绝；正确对象通过验证；错误对象不在 KS；评价改善 |
+| 完整实验 | 2 | 返回所有世界结果；分析全部通过 |
+
+### 核心结论
+
+**理论意义**：E0-13 证明系统可以从已有认知空间出发，通过合法计算（modus ponens）产生原本不存在的新中间对象（A、B、H_MID），这些对象进入认知空间后又成为下一轮搜索和推导的节点。
+
+**推导链验证**：
+- F + F→A → A（A 在计算前不存在于 KS）
+- A + A→B → B（A 被后续 MP 利用）
+- B + B→H_MID → H_MID（B 被后续 MP 利用）
+- 行动基于 B（derived object 启用行动）
+
+**负对照验证**：
+- NC1：F 无合法 implies → 不能凭空产生任何对象
+- NC2：相似结构不能代替精确匹配 → MP 要求 antecedent 精确等于 known-true
+- NC3：多错误候选通过验证淘汰 → 系统不是因为"知道 A 是对的"而选择 A
+
+### 与 E0-12 的关系
+
+E0-12 建立了搜索机制（直接匹配 + 最近节点），E0-13 在此基础上增加了**命题级推导**（modus ponens）。两者同时保留：
+- E0-12 显示搜索可以找到已有知识
+- E0-13 显示系统可以通过合法计算产生新知识，新知识又成为后续搜索的节点
+
+### 承认的局限
+
+1. MP 是唯一的推理规则；尚未实现其他推理规则（如 modus tollens、析取三段论等）
+2. 推导链的"方向"仍由知识空间中 implies 的结构决定，不是系统自己选择推导方向
+3. 多个可推导候选之间的选择依赖验证（而非价值评估）
+4. 评价函数本身仍是先验
+
+### 未解决问题
+
+- 系统如何选择"值得推导的方向"（当多条 MP 路径并存时）？
+- 推导规则如何从反馈中学习（而非只有 MP）？
+- 如何发现"认知空间中缺少某个推理规则"？
 
 ---
 

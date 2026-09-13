@@ -1,0 +1,452 @@
+{
+  "experiment": "E0-13",
+  "description": "Proposition-Level Derivation via Modus Ponens",
+  "results": {
+    "A": {
+      "world_id": "A",
+      "description": "Direct match: implies(F, H_MID) already valid",
+      "expected_search_mode": "direct_match",
+      "metrics": {
+        "knowledge_space_size_before": 1,
+        "knowledge_space_size_after": 2,
+        "total_beliefs_after": 2,
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "F(x)",
+            "implies": "(F(x) → H(mid))",
+            "consequent": "H(mid)",
+            "verification": "valid"
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "H(mid)"
+        ],
+        "objects_rejected_by_verification": [],
+        "derivation_chain_length": 1,
+        "search_steps": 2,
+        "direct_matches_per_step": [
+          1,
+          1
+        ],
+        "action_executed": true,
+        "action_based_on_derived": false,
+        "action_detail": "F(x) -> H(mid)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "final_evaluation": 0.6,
+        "initial_evaluation": -0.3333,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap"
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "H(mid)"
+          ],
+          "rejected": [],
+          "ks_size": 2
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "F(x)",
+          "effect": "H(mid)",
+          "new_H": 5.0,
+          "based_on_derived": false
+        }
+      ],
+      "final_state": {
+        "H": 5.0
+      },
+      "belief_stats": {
+        "total": 2,
+        "valid": 2,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "B": {
+      "world_id": "B",
+      "description": "MP derivation chain: F->A->B->H_MID; A,B,H_MID NOT in initial observable or beliefs",
+      "expected_search_mode": "mp_derivation_chain",
+      "metrics": {
+        "knowledge_space_size_before": 3,
+        "knowledge_space_size_after": 6,
+        "total_beliefs_after": 6,
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "F(x)",
+            "implies": "(F(x) → A(x))",
+            "consequent": "A(x)",
+            "verification": "valid"
+          },
+          {
+            "step": 1,
+            "antecedent": "A(x)",
+            "implies": "(A(x) → B(x))",
+            "consequent": "B(x)",
+            "verification": "valid"
+          },
+          {
+            "step": 2,
+            "antecedent": "B(x)",
+            "implies": "(B(x) → H(mid))",
+            "consequent": "H(mid)",
+            "verification": "valid"
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "A(x)",
+          "B(x)",
+          "H(mid)"
+        ],
+        "objects_rejected_by_verification": [],
+        "derivation_chain_length": 3,
+        "search_steps": 5,
+        "direct_matches_per_step": [
+          1,
+          2,
+          3,
+          3,
+          3
+        ],
+        "action_executed": true,
+        "action_based_on_derived": true,
+        "action_detail": "B(x) -> H(mid)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "final_evaluation": 0.6,
+        "initial_evaluation": -0.3333,
+        "steps_run": 5,
+        "stop_reason": "evaluation_positive_no_gap"
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "A(x)"
+          ],
+          "rejected": [],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "modus_ponens",
+          "derived": [
+            "B(x)"
+          ],
+          "rejected": [],
+          "ks_size": 5
+        },
+        {
+          "step": 2,
+          "mode": "modus_ponens",
+          "derived": [
+            "H(mid)"
+          ],
+          "rejected": [],
+          "ks_size": 6
+        },
+        {
+          "step": 3,
+          "mode": "action",
+          "action": "A(x)",
+          "effect": "B(x)",
+          "new_H": 1.0,
+          "based_on_derived": true
+        },
+        {
+          "step": 4,
+          "mode": "action",
+          "action": "B(x)",
+          "effect": "H(mid)",
+          "new_H": 5.0,
+          "based_on_derived": true
+        }
+      ],
+      "final_state": {
+        "H": 5.0
+      },
+      "belief_stats": {
+        "total": 6,
+        "valid": 6,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "C": {
+      "world_id": "C",
+      "description": "No legal connection: only unrelated implies(P,Q) and implies(R,S)",
+      "expected_search_mode": "insufficient",
+      "metrics": {
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 6,
+        "mp_derivations": [],
+        "objects_entered_ks_via_mp": [],
+        "objects_rejected_by_verification": [],
+        "derivation_chain_length": 0,
+        "search_steps": 1,
+        "direct_matches_per_step": [
+          0
+        ],
+        "action_executed": false,
+        "action_based_on_derived": false,
+        "action_detail": "",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "final_evaluation": -0.3333,
+        "initial_evaluation": -0.3333,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient"
+      },
+      "trace": [],
+      "final_state": {
+        "H": 1.0
+      },
+      "belief_stats": {
+        "total": 6,
+        "valid": 4,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "NC1": {
+      "world_id": "NC1",
+      "description": "No valid implications involving F; cannot derive anything from F",
+      "expected_search_mode": "insufficient",
+      "metrics": {
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 6,
+        "mp_derivations": [],
+        "objects_entered_ks_via_mp": [],
+        "objects_rejected_by_verification": [],
+        "derivation_chain_length": 0,
+        "search_steps": 1,
+        "direct_matches_per_step": [
+          0
+        ],
+        "action_executed": false,
+        "action_based_on_derived": false,
+        "action_detail": "",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "final_evaluation": -0.3333,
+        "initial_evaluation": -0.3333,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient"
+      },
+      "trace": [],
+      "final_state": {
+        "H": 1.0
+      },
+      "belief_stats": {
+        "total": 6,
+        "valid": 4,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "NC2": {
+      "world_id": "NC2",
+      "description": "Similar but illegal: implies(C,A) valid but C not known-true; similarity cannot replace derivation",
+      "expected_search_mode": "insufficient",
+      "metrics": {
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 6,
+        "mp_derivations": [],
+        "objects_entered_ks_via_mp": [],
+        "objects_rejected_by_verification": [],
+        "derivation_chain_length": 0,
+        "search_steps": 1,
+        "direct_matches_per_step": [
+          0
+        ],
+        "action_executed": false,
+        "action_based_on_derived": false,
+        "action_detail": "",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "final_evaluation": -0.3333,
+        "initial_evaluation": -0.3333,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient"
+      },
+      "trace": [],
+      "final_state": {
+        "H": 1.0
+      },
+      "belief_stats": {
+        "total": 6,
+        "valid": 4,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "NC3": {
+      "world_id": "NC3",
+      "description": "Multiple wrong candidates: F->A, F->Cw, F->Dw all derivable via MP; only A passes verification",
+      "expected_search_mode": "mp_derivation_chain",
+      "metrics": {
+        "knowledge_space_size_before": 5,
+        "knowledge_space_size_after": 8,
+        "total_beliefs_after": 10,
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "F(x)",
+            "implies": "(F(x) → A(x))",
+            "consequent": "A(x)",
+            "verification": "valid"
+          },
+          {
+            "step": 0,
+            "antecedent": "F(x)",
+            "implies": "(F(x) → Cw(x))",
+            "consequent": "Cw(x)",
+            "verification": "invalid"
+          },
+          {
+            "step": 0,
+            "antecedent": "F(x)",
+            "implies": "(F(x) → Dw(x))",
+            "consequent": "Dw(x)",
+            "verification": "invalid"
+          },
+          {
+            "step": 1,
+            "antecedent": "A(x)",
+            "implies": "(A(x) → B(x))",
+            "consequent": "B(x)",
+            "verification": "valid"
+          },
+          {
+            "step": 2,
+            "antecedent": "B(x)",
+            "implies": "(B(x) → H(mid))",
+            "consequent": "H(mid)",
+            "verification": "valid"
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "A(x)",
+          "B(x)",
+          "H(mid)"
+        ],
+        "objects_rejected_by_verification": [
+          "Cw(x)",
+          "Dw(x)"
+        ],
+        "derivation_chain_length": 3,
+        "search_steps": 5,
+        "direct_matches_per_step": [
+          3,
+          4,
+          5,
+          5,
+          5
+        ],
+        "action_executed": true,
+        "action_based_on_derived": true,
+        "action_detail": "B(x) -> H(mid)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "final_evaluation": 0.6,
+        "initial_evaluation": -0.3333,
+        "steps_run": 5,
+        "stop_reason": "evaluation_positive_no_gap"
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "A(x)"
+          ],
+          "rejected": [
+            "Cw(x)",
+            "Dw(x)"
+          ],
+          "ks_size": 6
+        },
+        {
+          "step": 1,
+          "mode": "modus_ponens",
+          "derived": [
+            "B(x)"
+          ],
+          "rejected": [],
+          "ks_size": 7
+        },
+        {
+          "step": 2,
+          "mode": "modus_ponens",
+          "derived": [
+            "H(mid)"
+          ],
+          "rejected": [],
+          "ks_size": 8
+        },
+        {
+          "step": 3,
+          "mode": "action",
+          "action": "A(x)",
+          "effect": "B(x)",
+          "new_H": 1.0,
+          "based_on_derived": true
+        },
+        {
+          "step": 4,
+          "mode": "action",
+          "action": "B(x)",
+          "effect": "H(mid)",
+          "new_H": 5.0,
+          "based_on_derived": true
+        }
+      ],
+      "final_state": {
+        "H": 5.0
+      },
+      "belief_stats": {
+        "total": 10,
+        "valid": 8,
+        "invalid": 2,
+        "unknown": 0
+      }
+    }
+  },
+  "analysis": {
+    "B_derived_objects_via_mp": true,
+    "B_objects_entered_ks": true,
+    "B_derivation_chain_length": 3,
+    "B_eval_improved": true,
+    "B_action_based_on_derived": true,
+    "B_no_forced_answer": true,
+    "A_direct_match": true,
+    "A_eval_improved": true,
+    "C_admitted_insufficiency": true,
+    "C_no_derived_objects": true,
+    "NC1_admitted_insufficiency": true,
+    "NC1_no_derived_objects": true,
+    "NC2_no_derived_objects": true,
+    "NC2_admitted_insufficiency": true,
+    "NC3_rejected_wrong_candidates": true,
+    "NC3_derived_correct_object": true,
+    "NC3_eval_improved": true,
+    "no_problem_generator": true,
+    "no_answer_leakage": true
+  }
+}
