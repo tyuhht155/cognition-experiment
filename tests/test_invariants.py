@@ -721,13 +721,13 @@ def test_candidate_valid_and_goal_improvement_independent():
 
 # 32. valid feedback 会进入 meta evaluation
 def test_valid_feedback_enters_meta_evaluation():
-    """candidate_status=valid 的 feedback 必须被 evaluate_evaluation 计入学习样本。"""
+    """candidate_status=valid 的 feedback 必须被 adjust_weights_from_feedback 计入学习样本。"""
     from cognition.evaluation import ValueEvaluator
     ve = ValueEvaluator()
     before = dict(ve.weights)
     feedback = [{"tag": "relevance", "predicted": 0.6, "actual": 1.0,
                  "candidate_status": "valid"}]
-    res = ve.evaluate_evaluation(feedback)
+    res = ve.adjust_weights_from_feedback(feedback)
     # valid feedback 被计入 n：adjustments 中应包含该 tag（error 可能为 0）
     assert "relevance" in res["adjustments"], "valid feedback 必须被计入学习样本"
     print("test_valid_feedback_enters_meta_evaluation OK")
@@ -742,7 +742,7 @@ def test_invalid_feedback_enters_meta_evaluation():
     # predicted 高但 actual=0.0（invalid），应有较大 error，权重被调低
     feedback = [{"tag": "novelty", "predicted": 0.9, "actual": 0.0,
                  "candidate_status": "invalid"}]
-    res = ve.evaluate_evaluation(feedback)
+    res = ve.adjust_weights_from_feedback(feedback)
     assert res["adjusted"] is True
     assert ve.weights["novelty"] < before["novelty"]
     print("test_invalid_feedback_enters_meta_evaluation OK")
@@ -756,7 +756,7 @@ def test_unknown_feedback_skipped_in_meta_evaluation():
     before = dict(ve.weights)
     feedback = [{"tag": "generality", "predicted": 0.8, "actual": None,
                  "candidate_status": "unknown"}]
-    res = ve.evaluate_evaluation(feedback)
+    res = ve.adjust_weights_from_feedback(feedback)
     # 没有可学习样本，不应调整
     assert res["adjusted"] is False
     assert ve.weights == before
@@ -771,7 +771,7 @@ def test_gated_out_feedback_skipped_in_meta_evaluation():
     before = dict(ve.weights)
     feedback = [{"tag": "relevance", "predicted": 0.7, "actual": None,
                  "candidate_status": "gated_out"}]
-    res = ve.evaluate_evaluation(feedback)
+    res = ve.adjust_weights_from_feedback(feedback)
     assert res["adjusted"] is False
     assert ve.weights == before
     print("test_gated_out_feedback_skipped_in_meta_evaluation OK")
@@ -789,7 +789,7 @@ def test_mixed_feedback_only_valid_invalid_counted():
         {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "unknown"},
         {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "gated_out"},
     ]
-    res = ve.evaluate_evaluation(feedback)
+    res = ve.adjust_weights_from_feedback(feedback)
     # n 应为 2（只有 valid+invalid），不是 4
     # adjustments 中应包含 relevance（被计入），且 n 只来自 valid+invalid
     assert "relevance" in res["adjustments"], "valid/invalid 必须被计入 n"
@@ -802,11 +802,11 @@ def test_unknown_gated_out_do_not_change_weights():
     from cognition.evaluation import ValueEvaluator
     # 组 A：只有 1 条 valid
     ve_a = ValueEvaluator()
-    ve_a.evaluate_evaluation([{"tag": "relevance", "predicted": 0.4, "actual": 1.0,
+    ve_a.adjust_weights_from_feedback([{"tag": "relevance", "predicted": 0.4, "actual": 1.0,
                                "candidate_status": "valid"}])
     # 组 B：1 条 valid + 多条 unknown/gated_out
     ve_b = ValueEvaluator()
-    ve_b.evaluate_evaluation([
+    ve_b.adjust_weights_from_feedback([
         {"tag": "relevance", "predicted": 0.4, "actual": 1.0, "candidate_status": "valid"},
         {"tag": "relevance", "predicted": 0.9, "actual": None, "candidate_status": "unknown"},
         {"tag": "relevance", "predicted": 0.8, "actual": None, "candidate_status": "gated_out"},

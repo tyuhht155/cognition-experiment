@@ -230,9 +230,9 @@ class CandidateProcessor:
                    "descendant_valid": descendant_valid,
                    "goal_improvement": goal_improvement})
 
-    def meta_evaluate(self) -> dict:
-        """根据累积反馈调整评价风格权重。"""
-        return self.evaluator.evaluate_evaluation(self._eval_feedback)
+    def adjust_eval_weights(self) -> dict:
+        """根据累积反馈调整评价权重（普通反馈学习，非元认知）。"""
+        return self.evaluator.adjust_weights_from_feedback(self._eval_feedback)
 
     def _estimate_verification_cost(self, prop: Proposition) -> float:
         if prop.kind == "forall":

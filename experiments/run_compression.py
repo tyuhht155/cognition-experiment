@@ -51,7 +51,7 @@ def run_phase(world, registry, store, step_budget=STEP_BUDGET):
                 break
             engine.recursive_compute(obj, ctx.goal, ctx, depth=0)
         if t % 5 == 0:
-            evaluation.evaluate_evaluation(ctx)
+            evaluation.adjust_weights_from_feedback(engine.processor.eval_feedback)
     return engine, trace, ctx
 
 

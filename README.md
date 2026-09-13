@@ -40,7 +40,7 @@ ComputeEngine (编排)
 | `evidence.py` | Evidence（含 evidence_id/proposition/source_event_id/observation_step 事件溯源）+ EvidenceLog（append-only + 去重）+ EvidenceEvaluator |
 | `operations.py` | Context（收缩为单次计算上下文）+ OperationRegistry + 13 个 PRIOR_OPERATIONS |
 | `verification.py` | Verifier（observe/compare/counterexample/prediction/logical_derive）|
-| `evaluation.py` | ValueEvaluator（relevance/generality/novelty）+ evaluate_evaluation 元评价 |
+| `evaluation.py` | ValueEvaluator（relevance/generality/novelty）+ adjust_weights_from_feedback 反馈权重调整 |
 | `prediction.py` | TemporalPrediction（内部使用 Proposition；created_at < resolved_at 强制约束） |
 | `candidate_processor.py` | CandidateProcessor：evaluate→gate→verify→evidence log→belief update→trace→cost |
 | `compute.py` | ComputeEngine：generate candidates → CandidateProcessor.process() → 递归 |
@@ -79,9 +79,10 @@ ComputeEngine (编排)
 | test_e0_11 | 25 | E0-11 问题构造消融与负对照（评价只接收state / 评价不引用Problem / Problem由持续负评价产生 / Problem无answer字段 / 三世界产生不同Problem / 评价器不检查H / 评价器不检查implies / H候选与非H候选同分 / 行动携带来源命题 / 行动源码无字符串匹配 / 行动来源于BeliefStore / NC1承认计算能力不足 / NC2检测false opportunity / NC2不假装成功） |
 | test_e0_12 | 38 | E0-12 基于搜索的计算与认知空间扩展（无ProblemGenerator / GapSignal无答案字段 / 搜索相似度只用共享项谓词 / 认知空间边界 / 行动来自已验证implies / WorldA直接匹配 / WorldB多步链式 / WorldC承认不足不伪造答案） |
 | test_e0_13 | 43 | E0-13 命题级推导与新对象生成（无ProblemGenerator / MP要求known-true前件 / INVALID不推导 / 已知不重复推导 / VALID可作前件 / 无字符串匹配 / 无谓词特权 / A·B·H_MID不在初始KS / MP推导链顺序正确 / 新对象复用 / 行动基于derived object / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰错误候选） |
-| test_e0_14 | 51 | E0-14 目标作为计算对象与目标-评价分离（评价接收goal参数 / 不同goal不同评价 / goal是普通Proposition / goal使用相同MP机制 / 无GoalManager / WorldA推导新goal / G2不在初始KS / WorldC递归目标链G1→G2→G3 / B1·B2不同行动 / D_A·D_B状态分叉 / 无答案泄漏 / 无硬编码目标变换 / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰 / goal可被neg/conj/impl操作） |
+| test_e0_14 | 56 | E0-14 目标作为计算对象与目标-评价分离（评价接收goal参数 / 不同goal不同评价 / goal是普通Proposition / goal使用相同MP机制 / 无GoalManager / WorldA推导新goal / G2不在初始KS / WorldC递归目标链G1→G2→G3 / B1·B2不同行动 / D_A·D_B状态分叉 / 无答案泄漏 / 无硬编码目标变换 / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰 / goal可被neg/conj/impl操作 / 新Goal谓词行为测试 / 评价层goal→dimension映射是world先验） |
+| test_arch_fixes | 21 | 架构修复不变量（ReadOnlyKnowledgeView只读 / 不暴露update_belief/get_or_create/record_reuse/record_verification/tick / 调用mutation方法直接失败 / Context包装BeliefStore / ctx.knowledge_view不可写 / MP通过只读视图工作 / recursive_compute共享stats / root→child→grandchild统计完整 / child统计不被root覆盖 / 三层递归统计验证 / stats dict是同一对象） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **393** | **全部通过** |
+| **合计** | **414** | **全部通过** |
 
 ---
 
@@ -1925,7 +1926,7 @@ NC2 是关键负对照：行动确实发生了（F 使 H 从 5 上升到 9），
 
 - 评价变化经过什么计算，才能变成一个可计算的问题？当 Problem 真正不包含任何方向时，候选生成如何避免穷举？
 - 多个 valid 行动之间的选择问题（E0-7.4 遗留）
-- 系统如何发现"评价函数本身需要修正"（meta-evaluation）
+- 系统如何发现"评价函数本身需要修正"（基于反馈的评价权重调整）
 
 ---
 
@@ -2053,7 +2054,7 @@ World C 的关键：系统尝试推导，但所有新 implies 都验证为 INVAL
 
 - 当认知空间很大时，如何高效搜索最近节点？当前是线性扫描。
 - 相似度度量如何从反馈中学习（而非人工指定共享项权重）？
-- 系统如何发现"评价函数本身需要修正"（meta-evaluation）？
+- 系统如何发现"评价函数本身需要修正"（基于反馈的评价权重调整）？
 - 推导产生的新知识如何被后续搜索有效利用（当前 World B 用行动链而非命题推导扩展知识）？
 
 ---
@@ -2274,12 +2275,22 @@ E0-13 证明命题级 MP 可以产生新对象并进入 KS。E0-14 在此基础�
 - **不同目标导致不同评价**，进而导致不同搜索方向和行动选择
 - **目标可以递归变化**（G1→G2→G3），与普通对象递归计算一致
 
+### 理论结论（收窄后）
+
+E0-14 证明的是 **Goal 在知识表示和命题级推导层面可以作为普通 Proposition 参与计算**：
+- Goal 可以被合法操作（neg/conj/impl）处理，与普通对象无区别
+- Goal 可以通过 MP 推导产生新 Goal，进入 Knowledge Space
+- 不同 Goal 导致不同 Evaluation，进而导致不同搜索方向和行动选择
+
+**但当前实验的世界模拟与评价层仍存在显式的 goal→state-dimension 映射**（如 `Goal(wealth)` → `state["wealth"]`），因此尚不能据此证明 Goal 在整个系统中的全部语义都是由普通计算自然产生的。世界模拟层和评价层的目标语义仍是人工设定的先验。
+
 ### 承认的局限
 
-1. 评价函数仍是先验（goal→dimension 映射是结构先验）
+1. 评价函数仍是先验（goal→dimension 映射是结构先验，不是计算产生的）
 2. 知识空间级分叉尚未实现（需多步状态依赖的知识增长）
 3. 目标"切换"机制未实现（当前 goal 是初始设定的，不是系统自己选择切换）
 4. 行动选择基于结构相似度，未考虑目标的时序变化
+5. 世界模拟层和评价层的目标语义是人工设定的先验，不是由计算产生的
 
 ### 未解决问题
 
@@ -2316,7 +2327,7 @@ E0-13 证明命题级 MP 可以产生新对象并进入 KS。E0-14 在此基础�
 
 ## 十四、A/B/C/D 对照实验
 
-| 组 | 生成 | 验证 | 价值评价 | 元评价 |
+| 组 | 生成 | 验证 | 价值评价 | 权重调整 |
 |----|------|------|---------|--------|
 | A | ✅ | ❌ | ❌ | ❌ |
 | B | ✅ | ✅ | ❌ | ❌ |
@@ -2336,7 +2347,7 @@ E0-13 证明命题级 MP 可以产生新对象并进入 KS。E0-14 在此基础�
 ### 审计发现的实验漏洞
 
 1. 验证器仍是"弱 oracle"——直接读取已观察历史判断命题
-2. 元评价效果不显著——D 与 C 无显著差异
+2. 权重调整效果不显著——D 与 C 无显著差异
 3. 复合操作质量低——挖掘出的是长序列噪声
 4. 统计样本偏小
 

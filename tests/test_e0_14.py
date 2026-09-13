@@ -611,3 +611,93 @@ class TestGoalOperations:
         g2 = P.predicate(GOAL_PREDICATE_NAME, "wealth")
         s = {g1, g2}
         assert len(s) == 1  # Same proposition → same hash
+
+
+# ============================================================
+# 行为测试：不依赖具体 Goal 谓词名
+# ============================================================
+
+class TestGoalNameAgnosticBehavior:
+    """验证系统不因 Goal 谓词名变化而失效。
+
+    核心思想：不能因为 Goal 名字变化（如 wealth→knowledge），系统就失效。
+    如果系统因新 Goal 名而失败，原因是 world simulator 没有定义该 Goal 的
+    状态语义（world-model limitation），不是 Goal 计算机制本身的问题。
+    """
+
+    def test_new_goal_predicate_uses_same_mp_mechanism(self):
+        """新 Goal 谓词使用完全相同的 MP 推导机制。"""
+        from experiments.run_e0_13 import derive_via_modus_ponens
+        bs = BeliefStore()
+        # 使用一个原本不存在的 Goal 谓词
+        g_new = P.predicate(GOAL_PREDICATE_NAME, "knowledge")
+        k1 = P.predicate("Fact", "learning")
+        impl = P.impl(k1, g_new)
+        bs.update_belief(impl, STATUS_VALID, 0.8)
+
+        known_true = {k1}
+        results = derive_via_modus_ponens(bs, known_true)
+        assert len(results) == 1
+        assert results[0]["consequent"] == g_new
+        assert is_goal_proposition(results[0]["consequent"])
+
+    def test_new_goal_can_be_operated_on(self):
+        """新 Goal 谓词可被合法操作（与 wealth/present 一致）。"""
+        g_new = P.predicate(GOAL_PREDICATE_NAME, "knowledge")
+        g_other = P.predicate(GOAL_PREDICATE_NAME, "wisdom")
+
+        # neg
+        assert P.neg(g_new).kind == "not"
+        # conj
+        assert P.conj(g_new, g_other).kind == "and"
+        # impl
+        assert P.impl(g_new, g_other).kind == "implies"
+
+    def test_new_goal_enters_belief_store(self):
+        """新 Goal 谓词可进入 BeliefStore。"""
+        bs = BeliefStore()
+        g_new = P.predicate(GOAL_PREDICATE_NAME, "knowledge")
+        bs.update_belief(g_new, STATUS_VALID, 0.8)
+        assert bs.has(g_new)
+        assert bs.get(g_new).status == STATUS_VALID
+
+    def test_new_goal_derivation_requires_legal_mp(self):
+        """新 Goal 的推导也必须通过合法 MP，不能凭空产生。"""
+        from experiments.run_e0_13 import derive_via_modus_ponens
+        bs = BeliefStore()
+        g_new = P.predicate(GOAL_PREDICATE_NAME, "knowledge")
+        k1 = P.predicate("Fact", "learning")
+        # 没有 implies(K1, g_new) → 不能推导
+        impl_other = P.impl(k1, P.predicate("Goal", "wisdom"))
+        bs.update_belief(impl_other, STATUS_VALID, 0.8)
+
+        known_true = {k1}
+        results = derive_via_modus_ponens(bs, known_true)
+        # 不应该推导出 g_new
+        for r in results:
+            assert r["consequent"] != g_new
+
+    def test_evaluation_dimension_mapping_is_world_prior(self):
+        """评价层的 goal→dimension 映射是 world-model 先验，不是 Goal 计算机制。
+
+        这是一个限制标注测试：
+        - Goal(knowledge) 在 evaluate_with_goal 中会映射到 state["knowledge"]
+        - 如果 state 中没有 "knowledge" 键，会使用默认值 5.0
+        - 这说明评价层的目标语义是人工设定的先验
+        """
+        # Goal(wealth) → state["wealth"]
+        g_wealth = P.predicate(GOAL_PREDICATE_NAME, "wealth")
+        assert extract_goal_dimension(g_wealth) == "wealth"
+
+        # Goal(knowledge) → state["knowledge"]
+        g_knowledge = P.predicate(GOAL_PREDICATE_NAME, "knowledge")
+        assert extract_goal_dimension(g_knowledge) == "knowledge"
+
+        # 但 state 中没有 "knowledge" 键时，使用默认值
+        state = {"wealth": 2.0}  # 没有 knowledge
+        eval_result = evaluate_with_goal(state, g_knowledge)
+        # 默认值 5.0 → 正评价区间
+        assert eval_result > 0  # 因为 5.0 在 [3,7] 区间内
+
+        # 这证明：评价层的目标语义是 world-model 先验
+        # Goal 计算机制本身不依赖具体谓词名

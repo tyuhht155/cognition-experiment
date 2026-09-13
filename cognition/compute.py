@@ -111,8 +111,13 @@ class ComputeEngine:
                           goal: Any,
                           ctx: Context,
                           depth: int = 0,
-                          parent_step: Optional[str] = None) -> tuple:
-        """返回 (compute_id, subtree_valid_props)。"""
+                          parent_step: Optional[str] = None,
+                          stats: Optional[dict] = None) -> tuple:
+        """返回 (compute_id, subtree_valid_props)。
+
+        stats 共享：整棵递归树使用同一个 stats dict。
+        root 创建 stats，递归调用传递同一个 stats。
+        """
         if ctx.budget_exhausted():
             self.budget_exhausted = True
             return "", set()
@@ -121,7 +126,10 @@ class ComputeEngine:
 
         compute_id = self.trace.new_compute_id()
         subtree_valid: Set[Proposition] = set()
-        stats = self._stats_dict()
+        # 共享 stats：只有 root（stats is None）创建新的 stats dict
+        is_root = (stats is None)
+        if stats is None:
+            stats = self._stats_dict()
 
         # 步骤1：识别
         self.trace.record(compute_id, depth, obj, "identify", obj,
@@ -133,6 +141,8 @@ class ComputeEngine:
 
         if ctx.budget_exhausted():
             self.budget_exhausted = True
+            if is_root:
+                self._sync_stats(stats)
             return compute_id, subtree_valid
 
         # 步骤2：产生候选
@@ -175,11 +185,12 @@ class ComputeEngine:
 
             # 递归：parent_step 绑定到本 candidate 的 apply_step_id
             # invalid candidate 不递归（已 stop）
+            # 关键：传递同一个 stats dict，不创建新的
             descendant_valid = False
             if status != "invalid" and obj != candidate.new_object and apply_step_id is not None:
                 _, child_valid = self.recursive_compute(
                     candidate.new_object, goal, ctx, depth + 1,
-                    parent_step=apply_step_id)
+                    parent_step=apply_step_id, stats=stats)
                 subtree_valid.update(child_valid)
                 descendant_valid = len(child_valid) > 0
 
@@ -188,7 +199,9 @@ class ComputeEngine:
                 self.processor.record_feedback(
                     ev, status, candidate_valid, descendant_valid, goal_improvement)
 
-        self._sync_stats(stats)
+        # 只有 root 把共享 stats 同步回 engine
+        if is_root:
+            self._sync_stats(stats)
         return compute_id, subtree_valid
 
     def _pre_evaluate(self, candidates, goal, ctx, compute_id, depth, parent_step, stats):

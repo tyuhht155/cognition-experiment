@@ -68,13 +68,33 @@ class Context:
                  op_store=None,
                  trace=None,
                  eval_feedback=None):
+        from .belief import BeliefStore, ReadOnlyKnowledgeView, KnowledgeView
         self.world_history = world_history if world_history is not None else []
         self.goal = goal
         self._step = current_step
         self.step_budget = step_budget
         self.constants = constants if constants is not None else ["ball", "box", "table", "wall"]
-        # knowledge_view 是只读接口；如果传入 belief_store/store，将其作为只读视图使用
-        self.knowledge_view = knowledge_view or belief_store or store
+        # 架构约束：knowledge_view 必须是只读接口。
+        # 如果传入 BeliefStore（可写），必须包装成 ReadOnlyKnowledgeView。
+        if knowledge_view is not None:
+            if isinstance(knowledge_view, BeliefStore):
+                self.knowledge_view = ReadOnlyKnowledgeView(knowledge_view)
+            elif isinstance(knowledge_view, KnowledgeView):
+                self.knowledge_view = knowledge_view
+            else:
+                self.knowledge_view = knowledge_view
+        elif belief_store is not None:
+            if isinstance(belief_store, BeliefStore):
+                self.knowledge_view = ReadOnlyKnowledgeView(belief_store)
+            else:
+                self.knowledge_view = belief_store
+        elif store is not None:
+            if isinstance(store, BeliefStore):
+                self.knowledge_view = ReadOnlyKnowledgeView(store)
+            else:
+                self.knowledge_view = store
+        else:
+            self.knowledge_view = None
         self.verify_enabled = verify_enabled
         self.evaluate_enabled = evaluate_enabled
         self.meta_evaluate_enabled = meta_evaluate_enabled

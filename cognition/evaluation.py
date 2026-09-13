@@ -7,9 +7,7 @@
   - 评估候选命题的目标相关性、泛化性、新颖性、成本、风险
   - 返回 EvaluationResult（用于排序候选）
   - 不修改 BeliefStore（只读取）
-
-理论第 8 条：evaluate 不只返回 true/false，至少返回多维分数。
-理论第 9 条：评价本身也可被评价（元评价），但不建独立模块。
+  - 根据验证反馈调整权重（普通反馈学习，非元认知）
 """
 
 from __future__ import annotations
@@ -149,9 +147,10 @@ class ValueEvaluator:
             return 0.8
         return 0.2
 
-    def evaluate_evaluation(self, feedback: List[dict]) -> dict:
-        """根据历史反馈调整评价风格权重。feedback 由编排层（CandidateProcessor）持有。
+    def adjust_weights_from_feedback(self, feedback: List[dict]) -> dict:
+        """根据历史反馈调整评价权重（普通反馈学习）。
 
+        feedback 由编排层（CandidateProcessor）持有。
         只有 actual 不为 None 的条目（candidate_status 为 valid/invalid）才参与学习。
         unknown / gated_out 的 actual 为 None，只记录历史，不影响权重。
         """

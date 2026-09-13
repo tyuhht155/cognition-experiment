@@ -126,20 +126,20 @@ def test_c_d_only_meta_differs():
     print("test_c_d_only_meta_differs OK")
 
 
-# 5. meta-evaluation 不在两个地方同时触发
-def test_meta_evaluation_single_entry():
-    """compute.py 中不应调用 evaluate_evaluation；只在 run_abcd.py 触发。"""
+# 5. 评价权重调整不在两个地方同时触发
+def test_eval_weight_adjustment_single_entry():
+    """compute.py 中不应调用 adjust_weights_from_feedback；只在 run_abcd.py 触发。"""
     import inspect
     from cognition import compute as compute_mod
     src = inspect.getsource(compute_mod.ComputeEngine.recursive_compute)
-    assert "evaluate_evaluation" not in src, \
-        "ComputeEngine 不应调用 evaluate_evaluation（统一由 run_abcd.py 调度）"
+    assert "adjust_weights_from_feedback" not in src, \
+        "ComputeEngine 不应调用 adjust_weights_from_feedback（统一由 run_abcd.py 调度）"
     # run_abcd.py 中应有且仅有一处
     from experiments import run_abcd
     src2 = inspect.getsource(run_abcd)
-    assert src2.count("evaluate_evaluation") == 1, \
-        "run_abcd.py 中应仅有一处 evaluate_evaluation 调用"
-    print("test_meta_evaluation_single_entry OK")
+    assert src2.count("adjust_weights_from_feedback") == 1, \
+        "run_abcd.py 中应仅有一处 adjust_weights_from_feedback 调用"
+    print("test_eval_weight_adjustment_single_entry OK")
 
 
 # 6. usefulness=None 表示未评价

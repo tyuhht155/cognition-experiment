@@ -88,9 +88,9 @@ def run_group(label: str, world: World, verify: bool, evaluate: bool, meta: bool
             if ctx.budget_exhausted():
                 break
             engine.recursive_compute(obj, ctx.goal, ctx, depth=0)
-        # D 组周期性元评价（运行时反馈驱动，非 oracle）
+        # D 组周期性评价权重调整（运行时反馈驱动，非 oracle）
         if meta and evaluate and (t % 5 == 0):
-            evaluation.evaluate_evaluation(ctx)
+            evaluation.adjust_weights_from_feedback(engine.processor.eval_feedback)
 
     # 注意：不再有事后 ground-truth 修正。
     # ground_truth_check 仅用于外部统计（compute_metrics），不写回 store。
