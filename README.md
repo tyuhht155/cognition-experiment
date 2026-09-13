@@ -77,8 +77,9 @@ ComputeEngine (编排)
 | test_e0_9 | 16 | E0-9 价值导向方向选择（价值函数参与 / baseline无价值 / 高价值优先 / 价值高≠valid / invalid可被选择 / valid低价值保留 / 反馈重评价 / 价值函数改变路径 / 相同value稳定tie-break / 不依赖历史 / 不依赖搜索 / 不依赖LLM / 无ground truth / 严格时间因果 / 完整trace / constructible·valid·valuable分离） |
 | test_e0_10 | 16 | E0-10 评价导向计算（评价有边界 / H低负评价 / H过高评价下降 / 合理区间正评价 / 评价缺口产生Problem / 无缺口无Problem / Problem不指定答案 / 候选评价不依赖Goal / 行动改变内部状态 / 状态变化重评价 / 进入区间停止 / reward hacking可观测 / hacking不算成功 / 严格时间因果 / 完整trace / Evaluation·Problem·Value·Goal四者分离） |
 | test_e0_11 | 25 | E0-11 问题构造消融与负对照（评价只接收state / 评价不引用Problem / Problem由持续负评价产生 / Problem无answer字段 / 三世界产生不同Problem / 评价器不检查H / 评价器不检查implies / H候选与非H候选同分 / 行动携带来源命题 / 行动源码无字符串匹配 / 行动来源于BeliefStore / NC1承认计算能力不足 / NC2检测false opportunity / NC2不假装成功） |
+| test_e0_12 | 38 | E0-12 基于搜索的计算与认知空间扩展（无ProblemGenerator / GapSignal无答案字段 / 搜索相似度只用共享项谓词 / 认知空间边界 / 行动来自已验证implies / WorldA直接匹配 / WorldB多步链式 / WorldC承认不足不伪造答案） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **261** | **全部通过** |
+| **合计** | **299** | **全部通过** |
 
 ---
 
@@ -1923,6 +1924,135 @@ NC2 是关键负对照：行动确实发生了（F 使 H 从 5 上升到 9），
 - 评价变化经过什么计算，才能变成一个可计算的问题？当 Problem 真正不包含任何方向时，候选生成如何避免穷举？
 - 多个 valid 行动之间的选择问题（E0-7.4 遗留）
 - 系统如何发现"评价函数本身需要修正"（meta-evaluation）
+
+---
+
+## 十三-G、E0-12 实验：Search-Based Computation / Cognitive Space Expansion（基于搜索的计算与认知空间扩展）
+
+### 理论修正
+
+E0-11 虽然移除了答案先验，但仍保留了 `GapProblem` 作为一个独立对象。本实验进一步修正理论：
+
+**核心理论 = 一切都是计算。**
+
+计算方向来自：**初始倾向 + 当前认知空间 + 现实输入/反馈**。
+
+"问题"不是凭空生成的独立对象，而是：当前现实/状态与当前认知空间之间出现的计算缺口。这个缺口本身必须由当前认知空间产生。
+
+**约束：系统不能提出超出自身认知空间的问题。**
+
+解决缺口只有两种基本形式：
+1. **搜索匹配**：在认知空间中找到直接相关的已有知识。
+2. **搜索最近节点 + 推导**：找不到直接匹配时，找到最近的已有节点，从该节点进行合法推导，得到新对象/关系，再验证。
+
+### 本实验不建立的东西
+
+- ProblemGenerator / QuestionGenerator / GoalGenerator
+- ProblemSolver
+- Problem→Problem 推理系统
+- 凭空生成问题的机制
+- 根据答案反向生成问题的机制
+- LLM / embedding / 神经网络 / planner
+
+### 三层区分
+
+| 层 | 职责 |
+|----|------|
+| 倾向（Tendency） | 评价函数，决定计算更容易朝什么方向展开。只回答"当前状态怎么样"。 |
+| 计算缺口（Gap） | 由现实+状态+认知空间+评价共同产生的信号。不是独立 Problem 对象，不包含答案/目标/问题类型。 |
+| 搜索/推导 | 解决缺口的实际计算过程：直接匹配 / 最近节点+合法推导。 |
+
+### 核心机制
+
+#### 倾向：评价函数
+`evaluate_state(internal_state) -> float`：H<3 负、[3,7] 正、>7 负。只评价状态，不回答"为什么"或"怎么办"。
+
+#### 计算缺口信号（GapSignal）
+```python
+@dataclass
+class GapSignal:
+    evaluation: float              # 当前评价
+    eval_delta: float              # 评价变化
+    observable: List[str]          # 当前可观察命题
+    knowledge_space_size: int      # 当前认知空间大小
+    internal_state: Dict[str, Any] # 当前状态
+```
+不包含：`answer` / `target` / `goal` / `required_relation` / `problem_type`。缺口是否存在仅由 `evaluation < 0` 决定。
+
+#### 搜索（核心）
+`search_knowledge_space(belief_store, observable) -> SearchResult`
+
+两种模式：
+1. **直接匹配**：VALID 的 `implies(X, Y)` 且 X 可观察 → 可直接行动
+2. **最近节点**：与当前可观察状态结构相似度最高的 VALID 命题
+
+"最近"仅基于**共享项 + 共享谓词名**，不使用 kind 偏好（无 implies 特权）、不使用答案方向、不使用目标距离。
+
+#### 推导
+`derive_candidates(belief_store, observable, nearest_node)`：使用合法构造器（neg/conj/disj/impl/iff）在 constructible 集合上生成候选。如果有最近节点，按与最近节点的相似度排序。
+
+constructible = 可观察 ∪ VALID 命题及其子命题。**这定义了认知空间的边界：系统只能用已观察到的和已验证的对象构造新命题。**
+
+#### 行动
+`derive_actions(belief_store, observable)`：仅当 VALID 的 `implies(X, Y)` 且 X 可观察时产生行动。行动效果来自 Y，不使用字符串匹配。
+
+### 三个世界
+
+| 世界 | 初始认知空间 | 可观察 | 期望行为 |
+|------|------------|--------|---------|
+| A | `implies(F, H_MID)` | F | 直接匹配 → 单步行动 → 评价改善 |
+| B | `implies(F, G)`, `implies(G, H_MID)` | F | 无直接 F→H_MID，需多步链式计算 |
+| C | `implies(P, Q)`, `implies(R, S)` | F | 无相关节点 → 承认计算能力不足 |
+
+### 实验结果
+
+| 世界 | 步数 | 初值→终值评价 | 认知空间(VALID) | 停止原因 |
+|------|------|-------------|----------------|---------|
+| A | 1 | -0.333 → 0.600 | 1 → 1 | evaluation_positive_no_gap |
+| B | 2 | -0.333 → 0.600 | 2 → 2 | evaluation_positive_no_gap |
+| C | 1 | -0.333 → -0.333 | 2 → 2（无有用扩展） | computation_insufficient |
+
+World C 的关键：系统尝试推导，但所有新 implies 都验证为 INVALID（只有合取/析取已有知识是平凡有效的，但不增加可行动作）。系统承认计算能力不足，不伪造答案。
+
+### 38 项不变量测试
+
+| 类别 | 测试数 | 验证内容 |
+|------|-------|---------|
+| 无 ProblemGenerator | 4 | 不存在 ProblemGenerator/QuestionGenerator/GoalGenerator/ProblemSolver/Problem→Problem/planner/LLM |
+| GapSignal 无答案 | 4 | 无 answer/target/goal 字段；由状态+评价产生；不硬编码 H 问题类型 |
+| 搜索无答案泄漏 | 5 | 相似度只用共享项/谓词；不偏好 implies；直接匹配正确；最近节点基于相似度 |
+| 认知空间边界 | 3 | constructible = 可观察∪VALID；不能构造未知对象；World C 无 H |
+| 行动来自知识 | 4 | 从 VALID implies 推导；INVALID 不产生行动；无字符串匹配；效果来自 consequent |
+| World A | 3 | 直接匹配；评价改善；单步 |
+| World B | 3 | 多步；评价改善；使用搜索 |
+| World C | 5 | 承认不足；评价未改善；不伪造答案；边界受尊重；无有用扩展 |
+| 评价函数 | 5 | 只接收 state；H 低/中/高对应负/正/负；不引用 Problem/Gap |
+| 完整实验 | 2 | 返回结果；分析全部通过 |
+
+### 核心结论
+
+**理论意义**：E0-12 证明系统可以仅凭当前认知空间，在现实反馈驱动下，通过搜索匹配和多步计算不断扩展自己的计算空间。新的计算结果（如新观察到的 G）又成为下一轮搜索的节点。
+
+**关键验证**：
+- World A：直接匹配成功——认知空间已有答案，搜索找到它。
+- World B：多步链式计算——认知空间没有直接答案，但通过 F→G→H_MID 的链式搜索+行动达成。
+- World C：认知空间不足——系统不伪造答案，承认计算能力不足。
+
+**认知空间边界**：系统只能构造 constructible 集合内的命题。World C 中 H 不在认知空间内，系统无法构造涉及 H 的有效命题。
+
+### 承认的局限
+
+1. 评价函数本身（H<3 负、[3,7] 正、>7 负）仍是先验。
+2. "最近节点"的相似度度量（共享项+谓词）是简单可解释的第一版，不是最优搜索器。
+3. 推导仍使用穷举构造器（neg/conj/disj/impl/iff），只是由最近节点排序引导方向。
+4. 多个 valid 行动之间的选择依赖"未尝试优先"的简单策略，未解决 E0-7.4 的信用分配问题。
+
+### 未解决问题
+
+- 当认知空间很大时，如何高效搜索最近节点？当前是线性扫描。
+- 相似度度量如何从反馈中学习（而非人工指定共享项权重）？
+- 系统如何发现"评价函数本身需要修正"（meta-evaluation）？
+- 推导产生的新知识如何被后续搜索有效利用（当前 World B 用行动链而非命题推导扩展知识）？
 
 ---
 

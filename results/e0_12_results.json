@@ -1,0 +1,208 @@
+{
+  "experiment": "E0-12",
+  "description": "Search-Based Computation / Cognitive Space Expansion",
+  "results": {
+    "A": {
+      "world_id": "A",
+      "description": "Direct match: implies(F, H_MID) already valid in cognitive space",
+      "expected_search_mode": "direct_match",
+      "metrics": {
+        "knowledge_space_size_before": 1,
+        "knowledge_space_size_after": 1,
+        "total_beliefs_after": 1,
+        "search_visited_nodes": [
+          1
+        ],
+        "nearest_nodes_selected": [
+          "(F(x) → H(mid))"
+        ],
+        "nearest_scores": [
+          1.0
+        ],
+        "direct_matches_found": [
+          1
+        ],
+        "derivation_steps": 0,
+        "new_objects": [],
+        "new_relations": [],
+        "verification_results": {},
+        "feedback_improved": true,
+        "knowledge_space_expansion": 0,
+        "new_node_reused": false,
+        "cycles_detected": false,
+        "forced_answer": false,
+        "admitted_insufficiency": false,
+        "final_evaluation": 0.6,
+        "initial_evaluation": -0.3333,
+        "steps_run": 1,
+        "stop_reason": "evaluation_positive_no_gap",
+        "multi_step": false
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "direct_match_action",
+          "action": "F(x)",
+          "effect": "H(mid)",
+          "new_H": 5.0
+        }
+      ],
+      "final_state": {
+        "H": 5.0
+      },
+      "final_observable": [
+        "F(x)"
+      ],
+      "belief_stats": {
+        "total": 1,
+        "valid": 1,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "B": {
+      "world_id": "B",
+      "description": "Multi-step: implies(F,G) and implies(G,H_MID) valid; requires chaining through cognitive space (no single direct F→H_MID)",
+      "expected_search_mode": "multi_step",
+      "metrics": {
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 2,
+        "total_beliefs_after": 2,
+        "search_visited_nodes": [
+          2,
+          2
+        ],
+        "nearest_nodes_selected": [
+          "(F(x) → G(x))",
+          "(F(x) → G(x))"
+        ],
+        "nearest_scores": [
+          1.0,
+          1.0
+        ],
+        "direct_matches_found": [
+          1,
+          2
+        ],
+        "derivation_steps": 0,
+        "new_objects": [],
+        "new_relations": [],
+        "verification_results": {},
+        "feedback_improved": true,
+        "knowledge_space_expansion": 0,
+        "new_node_reused": false,
+        "cycles_detected": false,
+        "forced_answer": false,
+        "admitted_insufficiency": false,
+        "final_evaluation": 0.6,
+        "initial_evaluation": -0.3333,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap",
+        "multi_step": true
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "direct_match_action",
+          "action": "F(x)",
+          "effect": "G(x)",
+          "new_H": 1.0
+        },
+        {
+          "step": 1,
+          "mode": "direct_match_action",
+          "action": "G(x)",
+          "effect": "H(mid)",
+          "new_H": 5.0
+        }
+      ],
+      "final_state": {
+        "H": 5.0
+      },
+      "final_observable": [
+        "F(x)",
+        "G(x)"
+      ],
+      "belief_stats": {
+        "total": 2,
+        "valid": 2,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "C": {
+      "world_id": "C",
+      "description": "Insufficient: cognitive space has only unrelated implications (P→Q, R→S), nothing about F or H",
+      "expected_search_mode": "insufficient",
+      "metrics": {
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 6,
+        "total_beliefs_after": 10,
+        "search_visited_nodes": [
+          2
+        ],
+        "nearest_nodes_selected": [
+          "(P(x) → Q(x))"
+        ],
+        "nearest_scores": [
+          0.3333
+        ],
+        "direct_matches_found": [
+          0
+        ],
+        "derivation_steps": 8,
+        "new_objects": [
+          "((P(x) → Q(x)) ∧ (R(x) → S(x)))",
+          "((P(x) → Q(x)) ∨ (R(x) → S(x)))",
+          "((P(x) → Q(x)) ∧ F(x))",
+          "((P(x) → Q(x)) ∨ F(x))"
+        ],
+        "new_relations": [],
+        "verification_results": {
+          "invalid": 4,
+          "valid": 4
+        },
+        "feedback_improved": false,
+        "knowledge_space_expansion": 4,
+        "new_node_reused": false,
+        "cycles_detected": false,
+        "forced_answer": false,
+        "admitted_insufficiency": true,
+        "final_evaluation": -0.3333,
+        "initial_evaluation": -0.3333,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient",
+        "multi_step": false
+      },
+      "trace": [],
+      "final_state": {
+        "H": 1.0
+      },
+      "final_observable": [
+        "F(x)"
+      ],
+      "belief_stats": {
+        "total": 10,
+        "valid": 6,
+        "invalid": 4,
+        "unknown": 0
+      }
+    }
+  },
+  "analysis": {
+    "A_direct_match_found": true,
+    "A_eval_improved": true,
+    "A_single_step": true,
+    "B_multi_step": true,
+    "B_used_search": true,
+    "B_eval_improved": true,
+    "C_admitted_insufficiency": true,
+    "C_eval_not_improved": true,
+    "C_no_forced_answer": true,
+    "C_no_valid_expansion": false,
+    "cognitive_space_boundary_respected": true,
+    "no_problem_generator": true,
+    "search_is_core": true,
+    "gap_not_hardcoded": true
+  }
+}
