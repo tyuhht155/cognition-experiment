@@ -76,8 +76,9 @@ ComputeEngine (编排)
 | test_e0_8 | 16 | E0-8 目标导向新对象生成（X不在历史 / X不在初始知识 / 基础构造器产生X / X验证后入知识 / X下轮重参与 / 通过X到达目标 / INVALID阻断 / 仅历史无捷径 / 不依赖op_name / 无ground truth指引 / trace完整 / 能构造≠有效≠有用 / 严格时间因果 / G不在round0 / INVALID不进constructible / 构造器通用） |
 | test_e0_9 | 16 | E0-9 价值导向方向选择（价值函数参与 / baseline无价值 / 高价值优先 / 价值高≠valid / invalid可被选择 / valid低价值保留 / 反馈重评价 / 价值函数改变路径 / 相同value稳定tie-break / 不依赖历史 / 不依赖搜索 / 不依赖LLM / 无ground truth / 严格时间因果 / 完整trace / constructible·valid·valuable分离） |
 | test_e0_10 | 16 | E0-10 评价导向计算（评价有边界 / H低负评价 / H过高评价下降 / 合理区间正评价 / 评价缺口产生Problem / 无缺口无Problem / Problem不指定答案 / 候选评价不依赖Goal / 行动改变内部状态 / 状态变化重评价 / 进入区间停止 / reward hacking可观测 / hacking不算成功 / 严格时间因果 / 完整trace / Evaluation·Problem·Value·Goal四者分离） |
+| test_e0_11 | 25 | E0-11 问题构造消融与负对照（评价只接收state / 评价不引用Problem / Problem由持续负评价产生 / Problem无answer字段 / 三世界产生不同Problem / 评价器不检查H / 评价器不检查implies / H候选与非H候选同分 / 行动携带来源命题 / 行动源码无字符串匹配 / 行动来源于BeliefStore / NC1承认计算能力不足 / NC2检测false opportunity / NC2不假装成功） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **236** | **全部通过** |
+| **合计** | **261** | **全部通过** |
 
 ---
 
@@ -1779,6 +1780,149 @@ class EvaluationState:
 - E0-9 = Goal-directed computation（给定 Goal 后 Value 影响方向）
 - E0-10 = Evaluation-directed computation（评价变化本身产生方向）
 两者同时保留，明确看到 Goal-directed 与 Evaluation-directed 的差异。
+
+---
+
+## 十三-F、E0-11 实验：Problem Construction Ablation / Negative Controls（问题构造消融与负对照）
+
+### 审计动机
+
+E0-10 表面上移除了显式 Goal，但仍潜藏三条人工先验：
+
+| 先验 | E0-10 中的位置 | 问题 |
+|------|---------------|------|
+| P1 | `construct_problem_from_gap` 写死 "find object that affects internal state" | 答案伪装成问题描述 |
+| P2 | `evaluate_candidate_no_goal` 检查 "H(" 和 implies | 变量/结构特权（实验者告诉系统哪些重要） |
+| P3 | `apply_action` 用 `"F(" in prop_str` 触发行动 | 字符串匹配的人工捷径 |
+
+这只能证明"人已经把问题定义好了，评价可以触发这个问题"，不能证明"评价本身产生了问题"。
+
+E0-11 不堆新功能，而是做 ablation + negative control，回答：**移除这三条先验后，系统能否仍从 Evaluation 产生 Problem？如果失败，失败本身就是结果。**
+
+### 三层重新区分
+
+| 层 | 职责 | 禁止 |
+|----|------|------|
+| Evaluation | 只回答"当前状态怎么样？" | 回答"为什么"或"怎么办" |
+| Problem | 表示"当前计算还缺少什么？" | 预先写"寻找影响 H 的对象""寻找 F→H" |
+| Candidate | "系统尝试构造的一个新对象/命题/操作结果" | 评价读取实验者知道的正确方向 |
+
+正确顺序：状态 → Evaluation → Evaluation change → Computational gap → Problem → Candidate → Verification → Feedback → Re-evaluation。
+
+### 核心机制
+
+#### GapProblem（不包含答案）
+```python
+@dataclass
+class GapProblem:
+    evaluation: float                          # 当前评价
+    eval_delta: float                          # 评价变化
+    persistent_negative_count: int             # 连续负评价步数
+    internal_state_snapshot: Dict[str, Any]    # 内部状态原始快照
+    observable_present: List[str]              # 当前可观察命题名
+    budget: float                              # 剩余计算预算
+```
+不保存：`answer` / `target` / `goal` / `required_relation` / `required_operator` / "find object that affects H"。
+
+#### 盲候选评价器（无变量/结构特权）
+`evaluate_candidate_blind(prop, constructor, cost, belief_store, constructor_stats, last_feedback)`
+
+只使用：
+1. novelty（信念库中是否已存在）
+2. cost（构造/验证代价）
+3. constructor 历史成功率
+4. 上一轮反馈（验证为 valid 时 +0.2，invalid 时 -0.1）
+
+不检查：候选是否涉及 H、是否包含 implies、是否涉及因果结构。
+
+#### 知识推导行动（无字符串匹配）
+`derive_permitted_actions(belief_store, observable_objects)`
+
+仅当 BeliefStore 中已验证 `implies(X, Y)` 且 X 在当前可观察对象集合中时，才允许行动。行动的 expected_effect 来自已验证的命题，不是字符串模式匹配。
+
+### 五个世界
+
+| 世界 | 缺口类型 | 可解路径 |
+|------|---------|---------|
+| A1 | H 过低（H=1） | F 能使 H 上升 |
+| A2 | H 过高（H=9） | G 能使 H 下降 |
+| A3 | 关系 P-Q 断裂（非单数值问题） | R 能修复关系 |
+| NC1 | H 过低，但环境里没有任何对象能改变 H | 无（negative control） |
+| NC2 | 真实缺口是 P-Q 关系，但存在 F 能改变 H（false opportunity） | 表面有，实际无 |
+
+关键：三个世界不能都通过"find object that affects internal state"描述。
+
+### 实验结果
+
+| 世界 | 步数 | 初值 | 终值 | 评价改善 | 行动 | 停止原因 |
+|------|------|------|------|---------|------|---------|
+| A1 | 18 | -0.333 | 0.1 (H=3) | ✅ | ✅ | evaluation_positive_no_gap |
+| A2 | 18 | -0.20 | 0.1 (H=7) | ✅ | ✅ | evaluation_positive_no_gap |
+| A3 | 21 | -0.5 | 0.6 (P_Q 修复) | ✅ | ✅ | evaluation_positive_no_gap |
+| NC1 | 25 | -0.333 | -0.333 (H=1) | ❌ | ❌ | computation_insufficient |
+| NC2 | 25 | -0.5 | -0.5 (H=9, P_Q 仍断) | ❌ | ✅（行动发生了但不改善评价） | computation_insufficient |
+
+NC2 是关键负对照：行动确实发生了（F 使 H 从 5 上升到 9），但真实评价没有改善（因为真实缺口在 P-Q 关系）。系统**没有**因为"能改变状态"就声称成功。
+
+### 25 项不变量测试
+
+| 类别 | # | 测试 | 验证 |
+|------|---|------|------|
+| Q1 Evaluation 只评价 | 1 | test_eval_h_state_takes_only_state_dict | 评价函数签名只接收 state |
+| | 2 | test_eval_relation_state_takes_only_state_dict | 关系评价同上 |
+| | 3 | test_eval_does_not_reference_problem | 源码不引用 Problem |
+| | 4-6 | test_eval_returns_*_for_*_h | H 低/中/高对应负/正/负评价 |
+| Q2 Problem 由缺口产生 | 7 | test_problem_produced_when_persistent_negative | 持续负评价才产生 Problem |
+| | 8 | test_no_problem_when_evaluation_positive | 无缺口无 Problem |
+| | 9 | test_problem_from_gap_not_from_answer | Problem 不来自人工答案 |
+| Q3 Problem 无答案结构 | 10 | test_problem_has_no_answer_fields | 无 answer/target/goal 字段 |
+| | 11 | test_problem_only_has_gap_data | 只含缺口数据 |
+| | 12 | test_different_worlds_produce_different_problems | 三世界产生不同 Problem |
+| Q4 无变量/结构特权 | 13 | test_evaluator_does_not_check_h | 不检查 H |
+| | 14 | test_evaluator_does_not_check_implies | 不检查 implies |
+| | 15 | test_h_candidate_and_non_h_candidate_same_score | H 与非 H 候选同分 |
+| | 16 | test_implies_and_conj_same_score | implies 与 conj 同分 |
+| | 17 | test_candidate_results_have_no_privilege_fields | 结果无特权字段 |
+| Q5 行动来自已验证知识 | 18 | test_action_has_source_proposition | 行动携带来源命题 |
+| | 19 | test_no_string_matching_in_action | 源码无字符串匹配 |
+| | 20 | test_derive_permitted_actions_checks_belief_store | 行动来源于 BeliefStore |
+| | 21 | test_no_action_without_valid_implies | 无 valid implies 无行动 |
+| Q6 承认能力不足 | 22 | test_nc1_admits_insufficiency | NC1 承认 |
+| | 23 | test_nc1_eval_not_improved | NC1 评价未改善 |
+| | 24 | test_nc2_false_opportunity_detected | NC2 检测到 false opportunity |
+| | 25 | test_nc2_does_not_falsely_succeed | NC2 不假装成功 |
+
+### 六个核心问题的回答
+
+| 问题 | 回答 | 证据 |
+|------|------|------|
+| Q1 Evaluation 是否只评价状态，不偷偷包含 Problem？ | **是** | 评价函数只接收 state dict，源码不引用 Problem |
+| Q2 Problem 是否由计算缺口产生，不是人工指定？ | **是** | 持续负评价才产生 Problem；无缺口无 Problem |
+| Q3 Problem 是否没有预先包含答案结构？ | **是** | GapProblem 无 answer/target/goal 字段；三世界产生不同 Problem |
+| Q4 Candidate Value 是否没有读取实验者知道的正确方向？ | **是** | 评价器不检查 H/implies；H 候选与非 H 候选同分 |
+| Q5 Action 是否通过已验证知识发生，不是字符串匹配？ | **是** | 行动来源于 BeliefStore 中 valid implies；无字符串匹配 |
+| Q6 当不存在可解路径时，系统能否承认计算能力不足？ | **是** | NC1 停止原因为 computation_insufficient；NC2 不假装成功 |
+
+### 核心结论
+
+**理论意义**：E0-11 通过 ablation 证明，E0-10 的核心闭环（Evaluation → Problem → Candidate → Verification → Action → Re-evaluation）在移除三条人工先验（答案描述、变量特权、字符串匹配）后仍然成立。问题构造可以由评价缺口产生，候选评价可以不依赖实验者已知方向，行动可以基于系统自己验证过的知识。
+
+**negative control 的价值**：
+- NC1（无可解路径）：系统评价低 → 产生 Problem → 搜索 → 验证失败 → 继续搜索 → 用尽候选 → 承认计算能力不足。**问题存在 ≠ 问题可解**。
+- NC2（false opportunity）：行动发生且改变了状态，但真实评价没改善，系统不假装成功。这证明系统不是"能改变状态就认为有价值"。
+
+**承认的局限**：
+1. 评价函数本身（H < 3 负、[3,7] 正、> 7 负）仍是人工先验，类似婴儿的趋利避害倾向。这不是理论最终形式，只是"提供初始评价机制"。
+2. 候选生成仍使用 E0-7 的穷举构造器，没有从 Problem 结构推导候选生成的方向——但这是有意的，避免把答案塞回 Problem。
+3. 多个可能行动之间的选择（当多条 implies 都 valid 时）仍依赖构造器历史成功率，这是 E0-7.4 留下的未解决问题，本实验不声称解决。
+
+**与 E0-10 的关系**：E0-10 建立了闭环，E0-11 审计并净化了闭环。两者同时保留：E0-10 显示"评价导向可行"，E0-11 显示"评价导向在不依赖答案先验时仍可行"。
+
+### 未解决问题（留给下一阶段）
+
+- 评价变化经过什么计算，才能变成一个可计算的问题？当 Problem 真正不包含任何方向时，候选生成如何避免穷举？
+- 多个 valid 行动之间的选择问题（E0-7.4 遗留）
+- 系统如何发现"评价函数本身需要修正"（meta-evaluation）
 
 ---
 
