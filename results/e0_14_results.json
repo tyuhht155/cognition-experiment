@@ -1,0 +1,993 @@
+{
+  "experiment": "E0-14",
+  "description": "Goal as Computation Object / Goal-Evaluation Separation",
+  "results": {
+    "A": {
+      "world_id": "A",
+      "description": "Goal derivation: G1 + K1 observable + implies(K1, G2) VALID → derive G2 via MP",
+      "expected_mode": "goal_derivation",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": -0.1667,
+        "knowledge_space_size_before": 1,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 6,
+        "goals_derived": [
+          "Goal(present)"
+        ],
+        "goal_chain": [
+          "Goal(wealth)",
+          "Goal(present)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Fact(mortal)",
+            "implies": "(Fact(mortal) → Goal(present))",
+            "consequent": "Goal(present)",
+            "verification": "valid",
+            "is_goal": true
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Goal(present)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 3,
+        "direct_matches_per_step": [
+          1,
+          1,
+          1
+        ],
+        "nearest_nodes": [
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))"
+        ],
+        "nearest_scores": [
+          0.8333,
+          0.8333,
+          0.8571
+        ],
+        "action_executed": true,
+        "action_detail": "Fact(mortal) -> Goal(present)",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "search_direction_scores": {
+          "(Fact(mortal) → Goal(present))": 0.8333
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Goal(present)"
+          ],
+          "rejected": [],
+          "goals_derived": [
+            "Goal(present)"
+          ],
+          "ks_size": 2
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Fact(mortal)",
+          "effect": "Goal(present)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 5.0
+      },
+      "belief_stats": {
+        "total": 6,
+        "valid": 4,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "B1": {
+      "world_id": "B1",
+      "description": "Different goal path: goal=G1(wealth), state has low wealth → search favors F1",
+      "expected_mode": "different_path",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": 0.35,
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 4,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(wealth)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Action(wealth)",
+            "implies": "(Action(wealth) → Satisfied(wealth))",
+            "consequent": "Satisfied(wealth)",
+            "verification": "valid",
+            "is_goal": false
+          },
+          {
+            "step": 0,
+            "antecedent": "Action(present)",
+            "implies": "(Action(present) → Satisfied(present))",
+            "consequent": "Satisfied(present)",
+            "verification": "valid",
+            "is_goal": false
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Satisfied(wealth)",
+          "Satisfied(present)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 2,
+        "direct_matches_per_step": [
+          2,
+          2
+        ],
+        "nearest_nodes": [
+          "(Action(wealth) → Satisfied(wealth))",
+          "(Action(wealth) → Satisfied(wealth))"
+        ],
+        "nearest_scores": [
+          0.5,
+          0.5
+        ],
+        "action_executed": true,
+        "action_detail": "Action(wealth) -> Satisfied(wealth)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 2.0
+        },
+        "state_after": {
+          "wealth": 6.0,
+          "present": 2.0
+        },
+        "search_direction_scores": {
+          "(Action(wealth) → Satisfied(wealth))": 0.5,
+          "(Action(present) → Satisfied(present))": 0.5
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Satisfied(wealth)",
+            "Satisfied(present)"
+          ],
+          "rejected": [],
+          "goals_derived": [],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Action(wealth)",
+          "effect": "Satisfied(wealth)",
+          "new_state": {
+            "wealth": 6.0,
+            "present": 2.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 6.0,
+        "present": 2.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 4,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "B2": {
+      "world_id": "B2",
+      "description": "Different goal path: goal=G2(present), state has low present → search favors F2",
+      "expected_mode": "different_path",
+      "metrics": {
+        "initial_goal": "Goal(present)",
+        "final_goal": "Goal(present)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": 0.35,
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 4,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(present)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Action(wealth)",
+            "implies": "(Action(wealth) → Satisfied(wealth))",
+            "consequent": "Satisfied(wealth)",
+            "verification": "valid",
+            "is_goal": false
+          },
+          {
+            "step": 0,
+            "antecedent": "Action(present)",
+            "implies": "(Action(present) → Satisfied(present))",
+            "consequent": "Satisfied(present)",
+            "verification": "valid",
+            "is_goal": false
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Satisfied(wealth)",
+          "Satisfied(present)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 2,
+        "direct_matches_per_step": [
+          2,
+          2
+        ],
+        "nearest_nodes": [
+          "(Action(wealth) → Satisfied(wealth))",
+          "(Action(wealth) → Satisfied(wealth))"
+        ],
+        "nearest_scores": [
+          0.5,
+          0.5
+        ],
+        "action_executed": true,
+        "action_detail": "Action(present) -> Satisfied(present)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 2.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 6.0
+        },
+        "search_direction_scores": {
+          "(Action(wealth) → Satisfied(wealth))": 0.5,
+          "(Action(present) → Satisfied(present))": 0.5
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Satisfied(wealth)",
+            "Satisfied(present)"
+          ],
+          "rejected": [],
+          "goals_derived": [],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Action(present)",
+          "effect": "Satisfied(present)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 6.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 6.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 4,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "C": {
+      "world_id": "C",
+      "description": "Recursive goal chain: K1→G2, K2→G3; derive G2 then G3 via MP",
+      "expected_mode": "goal_chain",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": -0.1667,
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 6,
+        "total_beliefs_after": 8,
+        "goals_derived": [
+          "Goal(present)",
+          "Goal(balance)"
+        ],
+        "goal_chain": [
+          "Goal(wealth)",
+          "Goal(present)",
+          "Goal(balance)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Fact(mortal)",
+            "implies": "(Fact(mortal) → Goal(present))",
+            "consequent": "Goal(present)",
+            "verification": "valid",
+            "is_goal": true
+          },
+          {
+            "step": 0,
+            "antecedent": "Fact(decay)",
+            "implies": "(Fact(decay) → Goal(balance))",
+            "consequent": "Goal(balance)",
+            "verification": "valid",
+            "is_goal": true
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Goal(present)",
+          "Goal(balance)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 4,
+        "direct_matches_per_step": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "nearest_nodes": [
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(decay) → Goal(balance))",
+          "(Fact(mortal) → Goal(present))"
+        ],
+        "nearest_scores": [
+          0.7143,
+          0.7143,
+          0.75,
+          0.6667
+        ],
+        "action_executed": true,
+        "action_detail": "Fact(mortal) -> Goal(present)",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 3,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 5.0,
+          "balance": 2.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 5.0,
+          "balance": 2.0
+        },
+        "search_direction_scores": {
+          "(Fact(mortal) → Goal(present))": 0.7143,
+          "(Fact(decay) → Goal(balance))": 0.7143
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Goal(present)",
+            "Goal(balance)"
+          ],
+          "rejected": [],
+          "goals_derived": [
+            "Goal(present)",
+            "Goal(balance)"
+          ],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Fact(decay)",
+          "effect": "Goal(balance)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0,
+            "balance": 2.0
+          }
+        },
+        {
+          "step": 2,
+          "mode": "action",
+          "action": "Fact(mortal)",
+          "effect": "Goal(present)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0,
+            "balance": 2.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 5.0,
+        "balance": 2.0
+      },
+      "belief_stats": {
+        "total": 8,
+        "valid": 6,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "D_A": {
+      "world_id": "D_A",
+      "description": "Agent A: goal=G1(wealth) → takes F1 → KS gets W_ok",
+      "expected_mode": "divergence",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": 0.35,
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 4,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(wealth)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Action(wealth)",
+            "implies": "(Action(wealth) → Satisfied(wealth))",
+            "consequent": "Satisfied(wealth)",
+            "verification": "valid",
+            "is_goal": false
+          },
+          {
+            "step": 0,
+            "antecedent": "Action(present)",
+            "implies": "(Action(present) → Satisfied(present))",
+            "consequent": "Satisfied(present)",
+            "verification": "valid",
+            "is_goal": false
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Satisfied(wealth)",
+          "Satisfied(present)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 2,
+        "direct_matches_per_step": [
+          2,
+          2
+        ],
+        "nearest_nodes": [
+          "(Action(wealth) → Satisfied(wealth))",
+          "(Action(wealth) → Satisfied(wealth))"
+        ],
+        "nearest_scores": [
+          0.5,
+          0.5
+        ],
+        "action_executed": true,
+        "action_detail": "Action(wealth) -> Satisfied(wealth)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 2.0
+        },
+        "state_after": {
+          "wealth": 6.0,
+          "present": 2.0
+        },
+        "search_direction_scores": {
+          "(Action(wealth) → Satisfied(wealth))": 0.5,
+          "(Action(present) → Satisfied(present))": 0.5
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Satisfied(wealth)",
+            "Satisfied(present)"
+          ],
+          "rejected": [],
+          "goals_derived": [],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Action(wealth)",
+          "effect": "Satisfied(wealth)",
+          "new_state": {
+            "wealth": 6.0,
+            "present": 2.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 6.0,
+        "present": 2.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 4,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "D_B": {
+      "world_id": "D_B",
+      "description": "Agent B: goal=G2(present) → takes F2 → KS gets P_ok",
+      "expected_mode": "divergence",
+      "metrics": {
+        "initial_goal": "Goal(present)",
+        "final_goal": "Goal(present)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": 0.35,
+        "knowledge_space_size_before": 2,
+        "knowledge_space_size_after": 4,
+        "total_beliefs_after": 4,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(present)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Action(wealth)",
+            "implies": "(Action(wealth) → Satisfied(wealth))",
+            "consequent": "Satisfied(wealth)",
+            "verification": "valid",
+            "is_goal": false
+          },
+          {
+            "step": 0,
+            "antecedent": "Action(present)",
+            "implies": "(Action(present) → Satisfied(present))",
+            "consequent": "Satisfied(present)",
+            "verification": "valid",
+            "is_goal": false
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Satisfied(wealth)",
+          "Satisfied(present)"
+        ],
+        "objects_rejected_by_verification": [],
+        "search_steps": 2,
+        "direct_matches_per_step": [
+          2,
+          2
+        ],
+        "nearest_nodes": [
+          "(Action(wealth) → Satisfied(wealth))",
+          "(Action(wealth) → Satisfied(wealth))"
+        ],
+        "nearest_scores": [
+          0.5,
+          0.5
+        ],
+        "action_executed": true,
+        "action_detail": "Action(present) -> Satisfied(present)",
+        "feedback_improved": true,
+        "admitted_insufficiency": false,
+        "forced_answer": false,
+        "steps_run": 2,
+        "stop_reason": "evaluation_positive_no_gap",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 2.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 6.0
+        },
+        "search_direction_scores": {
+          "(Action(wealth) → Satisfied(wealth))": 0.5,
+          "(Action(present) → Satisfied(present))": 0.5
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Satisfied(wealth)",
+            "Satisfied(present)"
+          ],
+          "rejected": [],
+          "goals_derived": [],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Action(present)",
+          "effect": "Satisfied(present)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 6.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 6.0
+      },
+      "belief_stats": {
+        "total": 4,
+        "valid": 4,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "NC1": {
+      "world_id": "NC1",
+      "description": "No valid implications involving K1; cannot derive new goal",
+      "expected_mode": "insufficient",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": -0.1667,
+        "knowledge_space_size_before": 1,
+        "knowledge_space_size_after": 3,
+        "total_beliefs_after": 5,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(wealth)"
+        ],
+        "mp_derivations": [],
+        "objects_entered_ks_via_mp": [],
+        "objects_rejected_by_verification": [],
+        "search_steps": 1,
+        "direct_matches_per_step": [
+          0
+        ],
+        "nearest_nodes": [
+          "(P(x) → Q(x))"
+        ],
+        "nearest_scores": [
+          0.0
+        ],
+        "action_executed": false,
+        "action_detail": "",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "search_direction_scores": {
+          "(P(x) → Q(x))": 0.0
+        }
+      },
+      "trace": [],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 5.0
+      },
+      "belief_stats": {
+        "total": 5,
+        "valid": 3,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "NC2": {
+      "world_id": "NC2",
+      "description": "Similar but illegal: implies(K_other, G2) valid but K_other not observable; similarity cannot replace derivation",
+      "expected_mode": "insufficient",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": -0.1667,
+        "knowledge_space_size_before": 1,
+        "knowledge_space_size_after": 3,
+        "total_beliefs_after": 5,
+        "goals_derived": [],
+        "goal_chain": [
+          "Goal(wealth)"
+        ],
+        "mp_derivations": [],
+        "objects_entered_ks_via_mp": [],
+        "objects_rejected_by_verification": [],
+        "search_steps": 1,
+        "direct_matches_per_step": [
+          0
+        ],
+        "nearest_nodes": [
+          "(Fact(other) → Goal(present))"
+        ],
+        "nearest_scores": [
+          0.6667
+        ],
+        "action_executed": false,
+        "action_detail": "",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 0,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "search_direction_scores": {
+          "(Fact(other) → Goal(present))": 0.6667
+        }
+      },
+      "trace": [],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 5.0
+      },
+      "belief_stats": {
+        "total": 5,
+        "valid": 3,
+        "invalid": 2,
+        "unknown": 0
+      }
+    },
+    "NC3": {
+      "world_id": "NC3",
+      "description": "Multiple wrong candidates: K1→G2, K1→Gw1, K1→Gw2 all derivable via MP; only G2 passes verification",
+      "expected_mode": "goal_derivation",
+      "metrics": {
+        "initial_goal": "Goal(wealth)",
+        "final_goal": "Goal(wealth)",
+        "initial_evaluation": -0.1667,
+        "final_evaluation": -0.1667,
+        "knowledge_space_size_before": 3,
+        "knowledge_space_size_after": 6,
+        "total_beliefs_after": 10,
+        "goals_derived": [
+          "Goal(present)"
+        ],
+        "goal_chain": [
+          "Goal(wealth)",
+          "Goal(present)"
+        ],
+        "mp_derivations": [
+          {
+            "step": 0,
+            "antecedent": "Fact(mortal)",
+            "implies": "(Fact(mortal) → Goal(present))",
+            "consequent": "Goal(present)",
+            "verification": "valid",
+            "is_goal": true
+          },
+          {
+            "step": 0,
+            "antecedent": "Fact(mortal)",
+            "implies": "(Fact(mortal) → Goal(wrong1))",
+            "consequent": "Goal(wrong1)",
+            "verification": "invalid",
+            "is_goal": true
+          },
+          {
+            "step": 0,
+            "antecedent": "Fact(mortal)",
+            "implies": "(Fact(mortal) → Goal(wrong2))",
+            "consequent": "Goal(wrong2)",
+            "verification": "invalid",
+            "is_goal": true
+          }
+        ],
+        "objects_entered_ks_via_mp": [
+          "Goal(present)"
+        ],
+        "objects_rejected_by_verification": [
+          "Goal(wrong1)",
+          "Goal(wrong2)"
+        ],
+        "search_steps": 5,
+        "direct_matches_per_step": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "nearest_nodes": [
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))",
+          "(Fact(mortal) → Goal(present))"
+        ],
+        "nearest_scores": [
+          0.8333,
+          0.8333,
+          0.8571,
+          0.75,
+          0.6667
+        ],
+        "action_executed": true,
+        "action_detail": "Fact(mortal) -> Goal(wrong2)",
+        "feedback_improved": false,
+        "admitted_insufficiency": true,
+        "forced_answer": false,
+        "steps_run": 4,
+        "stop_reason": "computation_insufficient",
+        "state_before": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "state_after": {
+          "wealth": 2.0,
+          "present": 5.0
+        },
+        "search_direction_scores": {
+          "(Fact(mortal) → Goal(present))": 0.8333,
+          "(Fact(mortal) → Goal(wrong1))": 0.8333,
+          "(Fact(mortal) → Goal(wrong2))": 0.8333
+        }
+      },
+      "trace": [
+        {
+          "step": 0,
+          "mode": "modus_ponens",
+          "derived": [
+            "Goal(present)"
+          ],
+          "rejected": [
+            "Goal(wrong1)",
+            "Goal(wrong2)"
+          ],
+          "goals_derived": [
+            "Goal(present)"
+          ],
+          "ks_size": 4
+        },
+        {
+          "step": 1,
+          "mode": "action",
+          "action": "Fact(mortal)",
+          "effect": "Goal(present)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0
+          }
+        },
+        {
+          "step": 2,
+          "mode": "action",
+          "action": "Fact(mortal)",
+          "effect": "Goal(wrong1)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0
+          }
+        },
+        {
+          "step": 3,
+          "mode": "action",
+          "action": "Fact(mortal)",
+          "effect": "Goal(wrong2)",
+          "new_state": {
+            "wealth": 2.0,
+            "present": 5.0
+          }
+        }
+      ],
+      "final_state": {
+        "wealth": 2.0,
+        "present": 5.0
+      },
+      "belief_stats": {
+        "total": 10,
+        "valid": 6,
+        "invalid": 4,
+        "unknown": 0
+      }
+    }
+  },
+  "analysis": {
+    "goal_eval_separated": true,
+    "evaluation_takes_goal_param": true,
+    "goal_is_proposition": true,
+    "goal_uses_same_mp_mechanism": true,
+    "A_derived_new_goal": true,
+    "A_goals_derived": [
+      "Goal(present)"
+    ],
+    "A_g2_not_in_initial_ks": true,
+    "B1_action": "Action(wealth) -> Satisfied(wealth)",
+    "B2_action": "Action(present) -> Satisfied(present)",
+    "B_different_actions": true,
+    "B1_search_scores": {
+      "(Action(wealth) → Satisfied(wealth))": 0.5,
+      "(Action(present) → Satisfied(present))": 0.5
+    },
+    "B2_search_scores": {
+      "(Action(wealth) → Satisfied(wealth))": 0.5,
+      "(Action(present) → Satisfied(present))": 0.5
+    },
+    "D_A_knowledge": "{'Satisfied(wealth)', 'Satisfied(present)'}",
+    "D_B_knowledge": "{'Satisfied(wealth)', 'Satisfied(present)'}",
+    "D_knowledge_diverged": false,
+    "D_A_state": {
+      "wealth": 6.0,
+      "present": 2.0
+    },
+    "D_B_state": {
+      "wealth": 2.0,
+      "present": 6.0
+    },
+    "D_states_diverged": true,
+    "no_goal_generator": true,
+    "no_goal_manager": true,
+    "no_hardcoded_goal_transform": true,
+    "no_answer_leakage": true,
+    "C_goal_chain_length": 3,
+    "C_goal_chain": [
+      "Goal(wealth)",
+      "Goal(present)",
+      "Goal(balance)"
+    ],
+    "C_derived_g2": true,
+    "C_derived_g3": true,
+    "NC1_no_derived_goals": true,
+    "NC1_admitted_insufficiency": true,
+    "NC2_no_derived_goals": true,
+    "NC2_admitted_insufficiency": true,
+    "NC3_rejected_wrong_goals": true,
+    "NC3_derived_correct_goal": true
+  }
+}

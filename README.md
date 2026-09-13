@@ -79,8 +79,9 @@ ComputeEngine (编排)
 | test_e0_11 | 25 | E0-11 问题构造消融与负对照（评价只接收state / 评价不引用Problem / Problem由持续负评价产生 / Problem无answer字段 / 三世界产生不同Problem / 评价器不检查H / 评价器不检查implies / H候选与非H候选同分 / 行动携带来源命题 / 行动源码无字符串匹配 / 行动来源于BeliefStore / NC1承认计算能力不足 / NC2检测false opportunity / NC2不假装成功） |
 | test_e0_12 | 38 | E0-12 基于搜索的计算与认知空间扩展（无ProblemGenerator / GapSignal无答案字段 / 搜索相似度只用共享项谓词 / 认知空间边界 / 行动来自已验证implies / WorldA直接匹配 / WorldB多步链式 / WorldC承认不足不伪造答案） |
 | test_e0_13 | 43 | E0-13 命题级推导与新对象生成（无ProblemGenerator / MP要求known-true前件 / INVALID不推导 / 已知不重复推导 / VALID可作前件 / 无字符串匹配 / 无谓词特权 / A·B·H_MID不在初始KS / MP推导链顺序正确 / 新对象复用 / 行动基于derived object / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰错误候选） |
+| test_e0_14 | 51 | E0-14 目标作为计算对象与目标-评价分离（评价接收goal参数 / 不同goal不同评价 / goal是普通Proposition / goal使用相同MP机制 / 无GoalManager / WorldA推导新goal / G2不在初始KS / WorldC递归目标链G1→G2→G3 / B1·B2不同行动 / D_A·D_B状态分叉 / 无答案泄漏 / 无硬编码目标变换 / NC1无合法连接 / NC2相似不能代替推导 / NC3验证淘汰 / goal可被neg/conj/impl操作） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **342** | **全部通过** |
+| **合计** | **393** | **全部通过** |
 
 ---
 
@@ -2172,6 +2173,120 @@ E0-12 建立了搜索机制（直接匹配 + 最近节点），E0-13 在此基�
 - 系统如何选择"值得推导的方向"（当多条 MP 路径并存时）？
 - 推导规则如何从反馈中学习（而非只有 MP）？
 - 如何发现"认知空间中缺少某个推理规则"？
+
+---
+
+## 十三-I、E0-14 实验：Goal as Computation Object / Goal-Evaluation Separation（目标作为计算对象 / 目标-评价分离）
+
+### 理论修正
+
+E0-10/E0-11 中把评价函数作为主要计算方向来源，但仍不够准确。E0-14 明确分离三个概念：
+
+- **Goal（目标）**：希望实现/维持的状态或结果。描述"希望什么"。
+- **Evaluation（评价）**：当前状态相对于当前目标的状态判断。只回答"怎么样"。
+- **Computation（计算）**：为改善目标实现程度而进行的搜索、匹配、推导、验证、行动。
+
+**核心命题：目标本身也是计算对象。**
+
+Goal + Operation → New Goal，和 Object + Operation → New Object 本质上没有区别。
+
+### 基本循环
+
+```
+目标 → 当前状态 → 评价 → 计算方向 → 搜索匹配 / 最近节点 + 推导
+→ 行动 → 现实反馈 → 更新状态 → 重新评价 → 继续计算
+```
+
+禁止：
+- Evaluation 直接生成 Goal
+- Goal 直接指定正确计算路径
+- GoalManager / GoalSolver / GoalGenerator
+
+### 关键设计
+
+1. **Goal 是普通 Proposition**：`P.predicate("Goal", "wealth")` — 使用现有 Proposition 机制，无特权
+2. **目标依赖评价函数**：`evaluate_with_goal(state, goal)` — 不同 goal 对同一状态给出不同评价
+3. **目标感知搜索**：goal 进入搜索参考集合 — 不同 goal → 不同参考集 → 不同最近节点 → 不同推导方向
+4. **目标推导使用相同 MP**：`implies(K1, G2)` + K1 known-true → MP 推导 G2 → G2 进入 KS
+5. **行动选择基于 goal 相似度**：行动效果与 goal 的结构相似度决定优先级 — 不是硬编码
+
+### 世界设计
+
+| 世界 | 初始目标 | 初始状态 | 验证要点 |
+|------|---------|---------|---------|
+| A | Goal(wealth) | wealth=2, present=5 | K1(mortal) 可观察 + implies(K1,G2) VALID → MP 推导 G2 |
+| B1 | Goal(wealth) | wealth=2, present=2 | F1→W_ok 和 F2→P_ok 都可用；goal=wealth → 选 F1 |
+| B2 | Goal(present) | wealth=2, present=2 | 同上；goal=present → 选 F2 |
+| C | Goal(wealth) | wealth=2, present=5, balance=2 | K1→G2, K2→G3 递归目标链 |
+| D_A | Goal(wealth) | wealth=2, present=2 | Agent A 取 F1 → wealth 改善 |
+| D_B | Goal(present) | wealth=2, present=2 | Agent B 取 F2 → present 改善 |
+| NC1 | Goal(wealth) | wealth=2, present=5 | 无合法 implies → 不能凭空产生新目标 |
+| NC2 | Goal(wealth) | wealth=2, present=5 | implies(K_other,G2) VALID 但 K_other 不可观察 → 相似不能代替推导 |
+| NC3 | Goal(wealth) | wealth=2, present=5 | K1→G2, K1→Gw1, K1→Gw2 → 验证淘汰 Gw1/Gw2 |
+
+### 实验结果
+
+**Q1: Goal 与 Evaluation 如何分离**
+- `evaluate_with_goal(internal_state, goal)` 接收 goal 作为参数
+- 同一状态 {wealth:2, present:8}，goal=wealth → 评价 -0.167；goal=present → 评价 -0.300
+- 评价函数只回答"当前状态怎么样"，不生成目标或指定路径
+
+**Q2: Goal 如何进入 Proposition/Object/Operation 体系**
+- Goal = `P.predicate("Goal", "wealth")` — 普通 Proposition 对象
+- Goal 可被 neg/conj/disj/impl/iff 操作（与普通对象一致）
+- Goal 使用相同 MP 机制推导：`implies(K1, G2)` + K1 known-true → 推导 G2
+- 不存在 GoalManager/GoalSolver/GoalGenerator
+
+**Q3: 是否成功产生未预先提供的新 Goal**
+- World A：MP 推导 Goal(present)，G2 不在初始 beliefs/observable 中
+- World C：递归链 Goal(wealth) → Goal(present) → Goal(balance)，G2/G3 均不在初始 KS
+- NC3：多候选中只有 Goal(present) 通过验证，Goal(wrong1)/Goal(wrong2) 被拒绝
+
+**Q4: 不同 Goal 是否产生不同计算路径**
+- B1(goal=wealth)：选 Action(wealth) → Satisfied(wealth)，最终 wealth=6, present=2
+- B2(goal=present)：选 Action(present) → Satisfied(present)，最终 wealth=2, present=6
+- 行动选择基于 `compute_similarity(expected_effect, goal_terms)` — 非硬编码
+
+**Q5: 两个 agent 是否出现认知空间分叉**
+- D_A(goal=wealth)：取 F1 → wealth=6, present=2
+- D_B(goal=present)：取 F2 → wealth=2, present=6
+- 最终状态不同（状态级分叉确认）
+- 知识空间对象相同（因初始知识相同，MP 推导出相同对象）—— 真正的知识空间分叉需多步状态依赖的知识增长
+
+**Q6: 是否存在答案泄漏或硬编码目标变换**
+- G2/G3 不在任何世界的初始 beliefs 中
+- 无 `target == G2` 等硬编码检查
+- 无自然语言语义判断（"珍惜当下"等）
+- 无 LLM/embedding/神经网络
+- 无 GoalManager/GoalSolver/GoalGenerator
+- 目标推导必须通过合法 MP（NC1/NC2 验证）
+
+### 负对照验证
+
+- **NC1**：无合法 implies → 0 个新目标，承认计算不足
+- **NC2**：相似结构不能代替精确 MP → 0 个新目标
+- **NC3**：多错误候选 → 验证淘汰 Gw1/Gw2，仅 G2 通过
+
+### 与 E0-13 的关系
+
+E0-13 证明命题级 MP 可以产生新对象并进入 KS。E0-14 在此基础上证明：
+- **目标本身就是一种命题对象**，可以用完全相同的 MP 机制推导新目标
+- **不同目标导致不同评价**，进而导致不同搜索方向和行动选择
+- **目标可以递归变化**（G1→G2→G3），与普通对象递归计算一致
+
+### 承认的局限
+
+1. 评价函数仍是先验（goal→dimension 映射是结构先验）
+2. 知识空间级分叉尚未实现（需多步状态依赖的知识增长）
+3. 目标"切换"机制未实现（当前 goal 是初始设定的，不是系统自己选择切换）
+4. 行动选择基于结构相似度，未考虑目标的时序变化
+
+### 未解决问题
+
+- 系统如何自己"发现"当前目标需要改变（而非通过外部设定新知识 K1）？
+- 多个并存目标之间的优先级如何确定？
+- 目标改变后，旧目标的计算结果是否仍有价值？
+- 知识空间分叉如何在多步交互中自然产生？
 
 ---
 
