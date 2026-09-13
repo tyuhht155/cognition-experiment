@@ -73,8 +73,9 @@ ComputeEngine (编排)
 | test_e0_7_2 | 10 | E0-7.2 变换递归复用（新对象重入计算 / 2步链 / 3步链 / 隐藏中间步骤 / 无捷径 / 中间验证 / INVALID 阻断 / UNKNOWN op / trace 完整 / 无未来信息） |
 | test_e0_7_3 | 14 | E0-7.3 变换选择（多变换匹配 / 选择生成分离 / op_name 无关 / UNKNOWN op / 历史影响选择 / valid低价值保留 / 失败更新选择 / 探索保留 / 目标改变选择 / 无未来信息 / 无ground truth / 多步搜索 / 长路不判invalid / validity≠value） |
 | test_e0_7_4 | 18 | E0-7.4 未来价值与信用分配（信用传播 / 直接目标最高信用 / 中间步骤非零信用 / dead-end无信用 / INVALID无信用 / valid低价值保留 / 失败降低选择 / 失败不永久禁止 / 不同goal不同价值 / UNKNOWN op正常 / op改名无影响 / 无goal distance / 无ground truth / 无未来数据 / 信用来自trace / 多步中间学习 / 多成功路径获信用 / 长路不因无直接价值判invalid） |
+| test_e0_8 | 16 | E0-8 目标导向新对象生成（X不在历史 / X不在初始知识 / 基础构造器产生X / X验证后入知识 / X下轮重参与 / 通过X到达目标 / INVALID阻断 / 仅历史无捷径 / 不依赖op_name / 无ground truth指引 / trace完整 / 能构造≠有效≠有用 / 严格时间因果 / G不在round0 / INVALID不进constructible / 构造器通用） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **188** | **全部通过** |
+| **合计** | **204** | **全部通过** |
 
 ---
 
@@ -1402,6 +1403,100 @@ A, B, C 全部共现 → 所有两两蕴含 VALID。
 18. 长路径不能因为"暂时没有直接价值"被判 INVALID ✓
 
 **E0-7.4 证明：系统能够从实际计算结果反向传播信用，学会中间步骤的未来价值，实现从"直接选择"到"远见选择"的跨越。**
+
+---
+
+## 十三-C、E0-8 实验：Goal-Oriented New Object Generation（目标导向新对象生成）
+
+### 核心问题
+
+E0-7.3 已经证明"已有 transformation 历史 → 从多个已有候选中选择更有目标价值的候选"。
+
+但这没有解决真正的问题：**如果正确的中间对象根本不存在于历史中，系统能不能自己构造出来？**
+
+E0-7.x 的候选生成（`generate_candidates_from_transforms`）只能从历史中**结构匹配**出已有变换模板的输出。当历史中不存在所需模式时，系统无法产生新对象。
+
+E0-8 验证：**系统使用基础构造器（neg/conj/disj/impl/iff）对已有对象进行合法计算，产生历史中从未出现过的新对象 X，验证 X，让 X 进入知识空间，并在下一轮把 X 当作普通输入继续计算，最终到达目标 G。**
+
+### 与 E0-7.3 的本质区别
+
+| 维度 | E0-7.3 | E0-8 |
+|------|--------|------|
+| 候选来源 | `generate_candidates_from_transforms`（历史结构匹配） | `generate_candidates`（暴力枚举基础构造器） |
+| 新对象来源 | 历史中已有变换模板的实例化 | 基础构造器对已有对象的合法组合 |
+| 历史的作用 | 提供候选（无历史则无候选） | 不参与候选生成（历史存在但不提供所需模式） |
+| 核心能力 | 从历史中选择已有变换 | 自己构造历史中不存在的新对象 |
+
+### 最小人工世界
+
+- 初始知识：`A(a)`, `B(a)`
+- 目标：`G = (A(a) → B(a)) ∧ B(a)` —— 合取，需要中间对象 X
+- 中间对象：`X = A(a) → B(a)` —— 用 impl 构造器从 A、B 产生
+- 变换历史：用 P、Q 谓词构建（不含 A→B 模式，因谓词名不同导致结构签名不匹配）
+
+```
+Round 0: constructible={A(a), B(a)}
+  → 暴力构造产生 impl(A,B)=X → 验证 VALID → X 进入知识空间
+
+Round 1: constructible={A(a), B(a), X, ...}
+  → 暴力构造产生 conj(X, B)=G → 验证 VALID → 目标达成
+```
+
+**没有捷径**：`G = conj(impl(A,B), B)` 需要 `impl(A,B)` 作为 conj 的输入对象。Round 0 的 constructible 不含 impl(A,B)，所以 G 无法在 Round 0 构造。只有 X 被验证为 VALID 并进入知识空间后，Round 1 才能构造 G。
+
+### 三个场景
+
+1. **构造器路径（主）**：用基础构造器 → 2 轮达成目标，X=VALID
+2. **仅历史路径（对照）**：用 `generate_candidates_from_transforms` + P/Q 历史 → 0 候选（谓词名不匹配）→ 目标不可达
+3. **INVALID 中间对象**：世界 `[{A(a)}, {A(a), B(a)}]`（step 0 有 A 无 B）→ X=impl(A,B) 验证为 INVALID → 不进入知识空间 → 目标不可达
+
+### 16 项不变量测试
+
+| # | 测试 | 验证内容 |
+|---|------|---------|
+| 1 | test_x_not_in_history | X 不是历史已有变换结果 |
+| 2 | test_x_not_in_initial_knowledge | X 不在初始知识空间 |
+| 3 | test_system_constructs_x | 基础构造器能产生 X |
+| 4 | test_x_verified_before_knowledge | X 必须验证才能进入知识 |
+| 5 | test_x_reparticipates_next_round | X 进入知识后下轮参与计算 |
+| 6 | test_goal_reached_via_x | 最终通过 X 到达目标 |
+| 7 | test_invalid_x_blocks_path | X=INVALID 时路径不继续 |
+| 8 | test_no_history_shortcut | 仅历史无法捷径到达 |
+| 9 | test_no_operation_name_dependency | 不依赖 operation_name |
+| 10 | test_no_ground_truth_guidance | 无 ground truth 指引下一步 |
+| 11 | test_trace_complete | trace 完整显示全流程 |
+| 12 | test_constructible_vs_valid_vs_useful | 能构造 ≠ 有效 ≠ 有用 |
+| 13 | test_no_future_info | 严格时间因果 |
+| 14 | test_goal_not_in_round0 | G 在 Round 0 无法构造 |
+| 15 | test_invalid_not_in_constructible | INVALID 对象不进入 constructible |
+| 16 | test_constructor_generic | 构造器是通用的，不携带答案 |
+
+### 实验结果
+
+- 场景 1（构造器路径）：✓ 目标达成，2 轮，X=VALID，G=VALID
+- 场景 2（仅历史）：✗ 目标未达成，0 候选（P/Q 历史对 A/B 无匹配）
+- 场景 3（INVALID）：✗ 目标未达成，X=INVALID，不进入 constructible
+
+### 核心结论
+
+**系统是否已经从"从历史中选择已有变换"，推进到了"自己构造历史中不存在的新对象"？**
+
+**是的。** E0-8 证明：
+
+1. 当正确的中间对象 X 不存在于变换历史中时，系统能够使用基础构造器（impl）从已有对象 A、B 构造出 X
+2. X 经过验证（VALID）后进入知识空间
+3. X 在下一轮作为普通对象重新参与计算
+4. 通过 X 构造出目标 G，目标达成
+5. 当 X 被验证为 INVALID 时，路径正确阻断
+6. 仅靠历史匹配无法产生 X（无捷径）
+
+**E0-8 新增的计算能力**：系统不再仅限于"从历史中选择已有变换"，而是能够"用基础构造器对已有对象进行合法计算，产生自己以前没有见过的新计算对象，并让这个新对象重新进入计算过程"。
+
+这是从"选择"到"构造"的跨越。后续可研究方向（本次未实现）：
+- 如何减少组合爆炸
+- 如何从目标反推搜索方向
+- 如何评价中间对象的潜在价值
+- 如何学习构造顺序
 
 ---
 

@@ -1,0 +1,2273 @@
+{
+  "experiment": "E0-8",
+  "description": "goal-oriented new object generation",
+  "results": {
+    "constructor_main": {
+      "use_brute": true,
+      "goal": "((A(a) → B(a)) ∧ B(a))",
+      "goal_achieved": true,
+      "rounds_run": 2,
+      "trace": [
+        {
+          "round": 0,
+          "source": "brute_constructor",
+          "constructible": [
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 2,
+          "candidates_count": 10,
+          "valid": 8,
+          "invalid": 2,
+          "unknown": 0,
+          "new_valids": [
+            "(A(a) ∧ B(a))",
+            "(A(a) ∨ B(a))",
+            "(A(a) → B(a))",
+            "(A(a) ↔ B(a))",
+            "(B(a) ∧ A(a))",
+            "(B(a) ∨ A(a))",
+            "(B(a) → A(a))",
+            "(B(a) ↔ A(a))"
+          ],
+          "results": [
+            {
+              "proposition": "¬A(a)",
+              "constructor": "neg",
+              "inputs": [
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬B(a)",
+              "constructor": "neg",
+              "inputs": [
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ∧ B(a))",
+              "constructor": "conj",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ∨ B(a))",
+              "constructor": "disj",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) → B(a))",
+              "constructor": "impl",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ↔ B(a))",
+              "constructor": "iff",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ∧ A(a))",
+              "constructor": "conj",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ∨ A(a))",
+              "constructor": "disj",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) → A(a))",
+              "constructor": "impl",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ↔ A(a))",
+              "constructor": "iff",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            }
+          ],
+          "goal_achieved": false
+        },
+        {
+          "round": 1,
+          "source": "brute_constructor",
+          "constructible": [
+            "(A(a) → B(a))",
+            "(A(a) ↔ B(a))",
+            "(A(a) ∧ B(a))",
+            "(A(a) ∨ B(a))",
+            "(B(a) → A(a))",
+            "(B(a) ↔ A(a))",
+            "(B(a) ∧ A(a))",
+            "(B(a) ∨ A(a))",
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 10,
+          "candidates_count": 60,
+          "valid": 26,
+          "invalid": 2,
+          "unknown": 32,
+          "new_valids": [
+            "((A(a) → B(a)) ∧ (A(a) ↔ B(a)))",
+            "((A(a) → B(a)) ∨ (A(a) ↔ B(a)))",
+            "((A(a) → B(a)) ∧ (A(a) ∧ B(a)))",
+            "((A(a) → B(a)) ∨ (A(a) ∧ B(a)))",
+            "((A(a) → B(a)) ∧ (A(a) ∨ B(a)))",
+            "((A(a) → B(a)) ∨ (A(a) ∨ B(a)))",
+            "((A(a) → B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) → B(a)) ∨ (B(a) → A(a)))",
+            "((A(a) → B(a)) ∧ (B(a) ↔ A(a)))",
+            "((A(a) → B(a)) ∨ (B(a) ↔ A(a)))",
+            "((A(a) → B(a)) ∧ (B(a) ∧ A(a)))",
+            "((A(a) → B(a)) ∨ (B(a) ∧ A(a)))",
+            "((A(a) → B(a)) ∧ (B(a) ∨ A(a)))",
+            "((A(a) → B(a)) ∨ (B(a) ∨ A(a)))",
+            "((A(a) → B(a)) ∧ A(a))",
+            "((A(a) → B(a)) ∨ A(a))",
+            "((A(a) → B(a)) ∧ B(a))",
+            "((A(a) → B(a)) ∨ B(a))",
+            "((A(a) ↔ B(a)) ∧ (A(a) → B(a)))",
+            "((A(a) ↔ B(a)) ∨ (A(a) → B(a)))",
+            "((A(a) ↔ B(a)) ∧ (A(a) ∧ B(a)))",
+            "((A(a) ↔ B(a)) ∨ (A(a) ∧ B(a)))",
+            "((A(a) ↔ B(a)) ∧ (A(a) ∨ B(a)))",
+            "((A(a) ↔ B(a)) ∨ (A(a) ∨ B(a)))",
+            "((A(a) ↔ B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) ↔ B(a)) ∨ (B(a) → A(a)))"
+          ],
+          "results": [
+            {
+              "proposition": "¬(A(a) → B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) → B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(A(a) ↔ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) ↔ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(A(a) ∧ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(A(a) ∨ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) → A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) ↔ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) ↔ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) ∧ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) ∨ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (A(a) ↔ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ↔ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (A(a) ↔ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ↔ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (A(a) ↔ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ↔ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (A(a) ↔ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ↔ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (A(a) ∧ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (A(a) ∧ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (A(a) ∨ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (A(a) ∨ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (B(a) → A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (B(a) → A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (B(a) ↔ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ↔ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (B(a) ↔ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ↔ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (B(a) ↔ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ↔ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (B(a) ↔ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ↔ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (B(a) ∧ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (B(a) ∧ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (B(a) ∧ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (B(a) ∧ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ (B(a) ∨ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ (B(a) ∨ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → (B(a) ∨ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ (B(a) ∨ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ A(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ A(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → A(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "A(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ A(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∧ B(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": true
+            },
+            {
+              "proposition": "((A(a) → B(a)) ∨ B(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) → B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) → B(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) → B(a))",
+                "B(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) → B(a)) ↔ B(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) → B(a))",
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∧ (A(a) → B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) → B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∨ (A(a) → B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) → B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) → (A(a) → B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) → B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ↔ (A(a) → B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) → B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) → (A(a) ∧ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ↔ (A(a) ∧ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) → (A(a) ∨ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ↔ (A(a) ∨ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) → (B(a) → A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ↔ B(a)) ↔ (B(a) → A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ↔ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            }
+          ],
+          "goal_achieved": true
+        }
+      ],
+      "final_valid_count": 36,
+      "final_invalid_count": 4,
+      "goal_in_belief": true,
+      "goal_status": "valid",
+      "x_in_belief": true,
+      "x_status": "valid",
+      "belief_stats": {
+        "total": 72,
+        "valid": 36,
+        "invalid": 4,
+        "unknown": 32
+      }
+    },
+    "history_only": {
+      "use_brute": false,
+      "goal": "((A(a) → B(a)) ∧ B(a))",
+      "goal_achieved": false,
+      "rounds_run": 1,
+      "trace": [
+        {
+          "round": 0,
+          "source": "history_only",
+          "constructible": [
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 2,
+          "candidates_count": 0,
+          "valid": 0,
+          "invalid": 0,
+          "unknown": 0,
+          "new_valids": [],
+          "results": [],
+          "goal_achieved": false
+        }
+      ],
+      "final_valid_count": 2,
+      "final_invalid_count": 0,
+      "goal_in_belief": false,
+      "goal_status": "not_in_store",
+      "x_in_belief": false,
+      "x_status": "not_in_store",
+      "belief_stats": {
+        "total": 2,
+        "valid": 2,
+        "invalid": 0,
+        "unknown": 0
+      }
+    },
+    "invalid_intermediate": {
+      "use_brute": true,
+      "goal": "((A(a) → B(a)) ∧ B(a))",
+      "goal_achieved": false,
+      "rounds_run": 3,
+      "trace": [
+        {
+          "round": 0,
+          "source": "brute_constructor",
+          "constructible": [
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 2,
+          "candidates_count": 10,
+          "valid": 5,
+          "invalid": 5,
+          "unknown": 0,
+          "new_valids": [
+            "(A(a) ∧ B(a))",
+            "(A(a) ∨ B(a))",
+            "(B(a) ∧ A(a))",
+            "(B(a) ∨ A(a))",
+            "(B(a) → A(a))"
+          ],
+          "results": [
+            {
+              "proposition": "¬A(a)",
+              "constructor": "neg",
+              "inputs": [
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬B(a)",
+              "constructor": "neg",
+              "inputs": [
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ∧ B(a))",
+              "constructor": "conj",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ∨ B(a))",
+              "constructor": "disj",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) → B(a))",
+              "constructor": "impl",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(A(a) ↔ B(a))",
+              "constructor": "iff",
+              "inputs": [
+                "A(a)",
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ∧ A(a))",
+              "constructor": "conj",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ∨ A(a))",
+              "constructor": "disj",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) → A(a))",
+              "constructor": "impl",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(B(a) ↔ A(a))",
+              "constructor": "iff",
+              "inputs": [
+                "B(a)",
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            }
+          ],
+          "goal_achieved": false
+        },
+        {
+          "round": 1,
+          "source": "brute_constructor",
+          "constructible": [
+            "(A(a) ∧ B(a))",
+            "(A(a) ∨ B(a))",
+            "(B(a) → A(a))",
+            "(B(a) ∧ A(a))",
+            "(B(a) ∨ A(a))",
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 7,
+          "candidates_count": 60,
+          "valid": 28,
+          "invalid": 4,
+          "unknown": 28,
+          "new_valids": [
+            "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+            "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) ∨ A(a)))",
+            "((A(a) ∧ B(a)) ∧ A(a))",
+            "((A(a) ∧ B(a)) ∨ A(a))",
+            "((A(a) ∧ B(a)) ∧ B(a))",
+            "((A(a) ∧ B(a)) ∨ B(a))",
+            "((A(a) ∨ B(a)) ∧ (A(a) ∧ B(a)))",
+            "((A(a) ∨ B(a)) ∨ (A(a) ∧ B(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) → A(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) ∧ A(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) ∧ A(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) ∨ A(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) ∨ A(a)))",
+            "((A(a) ∨ B(a)) ∧ A(a))",
+            "((A(a) ∨ B(a)) ∨ A(a))",
+            "((A(a) ∨ B(a)) ∧ B(a))",
+            "((A(a) ∨ B(a)) ∨ B(a))",
+            "((B(a) → A(a)) ∧ (A(a) ∧ B(a)))",
+            "((B(a) → A(a)) ∨ (A(a) ∧ B(a)))",
+            "((B(a) → A(a)) ∧ (A(a) ∨ B(a)))",
+            "((B(a) → A(a)) ∨ (A(a) ∨ B(a)))"
+          ],
+          "results": [
+            {
+              "proposition": "¬(A(a) ∧ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(A(a) ∨ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) → A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) ∧ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬(B(a) ∨ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → (A(a) ∨ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ (A(a) ∨ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → (B(a) → A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ (B(a) → A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → (B(a) ∧ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ (B(a) ∧ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ (B(a) ∨ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → (B(a) ∨ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ (B(a) ∨ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ A(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ A(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → A(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "A(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ A(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∧ B(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ∨ B(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) → B(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "B(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∧ B(a)) ↔ B(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∧ B(a))",
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → (A(a) ∧ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ (A(a) ∧ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → (B(a) → A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ (B(a) → A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) → A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ (B(a) ∧ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ (B(a) ∧ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → (B(a) ∧ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ (B(a) ∧ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ (B(a) ∨ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ (B(a) ∨ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → (B(a) ∨ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ (B(a) ∨ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "(B(a) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ A(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ A(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "A(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → A(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "A(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ A(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "A(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∧ B(a))",
+              "constructor": "conj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ∨ B(a))",
+              "constructor": "disj",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "B(a)"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) → B(a))",
+              "constructor": "impl",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "B(a)"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((A(a) ∨ B(a)) ↔ B(a))",
+              "constructor": "iff",
+              "inputs": [
+                "(A(a) ∨ B(a))",
+                "B(a)"
+              ],
+              "verdict": "invalid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) → (A(a) ∧ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) ↔ (A(a) ∧ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "((B(a) → A(a)) → (A(a) ∨ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "(B(a) → A(a))",
+                "(A(a) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            }
+          ],
+          "goal_achieved": false
+        },
+        {
+          "round": 2,
+          "source": "brute_constructor",
+          "constructible": [
+            "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))",
+            "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))",
+            "((A(a) ∧ B(a)) ∧ A(a))",
+            "((A(a) ∧ B(a)) ∧ B(a))",
+            "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))",
+            "((A(a) ∧ B(a)) ∨ (B(a) ∨ A(a)))",
+            "((A(a) ∧ B(a)) ∨ A(a))",
+            "((A(a) ∧ B(a)) ∨ B(a))",
+            "((A(a) ∨ B(a)) ∧ (A(a) ∧ B(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) → A(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) ∧ A(a)))",
+            "((A(a) ∨ B(a)) ∧ (B(a) ∨ A(a)))",
+            "((A(a) ∨ B(a)) ∧ A(a))",
+            "((A(a) ∨ B(a)) ∧ B(a))",
+            "((A(a) ∨ B(a)) ∨ (A(a) ∧ B(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) → A(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) ∧ A(a)))",
+            "((A(a) ∨ B(a)) ∨ (B(a) ∨ A(a)))",
+            "((A(a) ∨ B(a)) ∨ A(a))",
+            "((A(a) ∨ B(a)) ∨ B(a))",
+            "((B(a) → A(a)) ∧ (A(a) ∧ B(a)))",
+            "((B(a) → A(a)) ∧ (A(a) ∨ B(a)))",
+            "((B(a) → A(a)) ∨ (A(a) ∧ B(a)))",
+            "((B(a) → A(a)) ∨ (A(a) ∨ B(a)))",
+            "(A(a) ∧ B(a))",
+            "(A(a) ∨ B(a))",
+            "(B(a) → A(a))",
+            "(B(a) ∧ A(a))",
+            "(B(a) ∨ A(a))",
+            "A(a)",
+            "B(a)"
+          ],
+          "constructible_count": 35,
+          "candidates_count": 60,
+          "valid": 16,
+          "invalid": 0,
+          "unknown": 44,
+          "new_valids": [
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ A(a)))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ A(a)))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ B(a)))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ B(a)))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))",
+            "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))"
+          ],
+          "results": [
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∧ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ (B(a) ∨ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∧ B(a)) ∨ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ (A(a) ∧ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ (B(a) → A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ (B(a) ∧ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ (B(a) ∨ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∧ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ (A(a) ∧ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ (B(a) → A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ (B(a) ∧ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ (B(a) ∨ A(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ A(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((A(a) ∨ B(a)) ∨ B(a))",
+              "constructor": "neg",
+              "inputs": [
+                "((A(a) ∨ B(a)) ∨ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((B(a) → A(a)) ∧ (A(a) ∧ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((B(a) → A(a)) ∧ (A(a) ∧ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((B(a) → A(a)) ∧ (A(a) ∨ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((B(a) → A(a)) ∧ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((B(a) → A(a)) ∨ (A(a) ∧ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((B(a) → A(a)) ∨ (A(a) ∧ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "¬((B(a) → A(a)) ∨ (A(a) ∨ B(a)))",
+              "constructor": "neg",
+              "inputs": [
+                "((B(a) → A(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∧ (B(a) → A(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ (B(a) ∨ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ A(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ A(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ A(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∧ A(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∧ A(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ A(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∧ B(a)))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∧ B(a)))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ B(a))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∧ B(a)))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∧ B(a)))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∧ B(a))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (A(a) ∨ B(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∨ (B(a) → A(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) → A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∧ ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))",
+              "constructor": "conj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ∨ ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))",
+              "constructor": "disj",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "valid",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) → ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))",
+              "constructor": "impl",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            },
+            {
+              "proposition": "(((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a))) ↔ ((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a))))",
+              "constructor": "iff",
+              "inputs": [
+                "((A(a) ∧ B(a)) ∧ (A(a) ∨ B(a)))",
+                "((A(a) ∧ B(a)) ∨ (B(a) ∧ A(a)))"
+              ],
+              "verdict": "unknown",
+              "useful_for_goal": false
+            }
+          ],
+          "goal_achieved": false
+        }
+      ],
+      "final_valid_count": 51,
+      "final_invalid_count": 9,
+      "goal_in_belief": false,
+      "goal_status": "not_in_store",
+      "x_in_belief": true,
+      "x_status": "invalid",
+      "belief_stats": {
+        "total": 132,
+        "valid": 51,
+        "invalid": 9,
+        "unknown": 72
+      }
+    }
+  },
+  "analysis": {
+    "A_x_not_in_history": true,
+    "B_system_constructs_x": true,
+    "C_x_verified_before_knowledge": true,
+    "D_x_reparticipates_next_round": true,
+    "E_goal_reached_via_x": true,
+    "F_invalid_x_blocks_path": true,
+    "G_no_history_shortcut": true,
+    "H_no_operation_name_dependency": true,
+    "I_no_ground_truth_guidance": true,
+    "J_trace_complete": true,
+    "constructible_vs_valid_vs_useful": true,
+    "no_future_info": true,
+    "goal_not_in_round0": true,
+    "core_question_answered": true,
+    "all_checks_passed": true
+  }
+}
