@@ -75,8 +75,9 @@ ComputeEngine (编排)
 | test_e0_7_4 | 18 | E0-7.4 未来价值与信用分配（信用传播 / 直接目标最高信用 / 中间步骤非零信用 / dead-end无信用 / INVALID无信用 / valid低价值保留 / 失败降低选择 / 失败不永久禁止 / 不同goal不同价值 / UNKNOWN op正常 / op改名无影响 / 无goal distance / 无ground truth / 无未来数据 / 信用来自trace / 多步中间学习 / 多成功路径获信用 / 长路不因无直接价值判invalid） |
 | test_e0_8 | 16 | E0-8 目标导向新对象生成（X不在历史 / X不在初始知识 / 基础构造器产生X / X验证后入知识 / X下轮重参与 / 通过X到达目标 / INVALID阻断 / 仅历史无捷径 / 不依赖op_name / 无ground truth指引 / trace完整 / 能构造≠有效≠有用 / 严格时间因果 / G不在round0 / INVALID不进constructible / 构造器通用） |
 | test_e0_9 | 16 | E0-9 价值导向方向选择（价值函数参与 / baseline无价值 / 高价值优先 / 价值高≠valid / invalid可被选择 / valid低价值保留 / 反馈重评价 / 价值函数改变路径 / 相同value稳定tie-break / 不依赖历史 / 不依赖搜索 / 不依赖LLM / 无ground truth / 严格时间因果 / 完整trace / constructible·valid·valuable分离） |
+| test_e0_10 | 16 | E0-10 评价导向计算（评价有边界 / H低负评价 / H过高评价下降 / 合理区间正评价 / 评价缺口产生Problem / 无缺口无Problem / Problem不指定答案 / 候选评价不依赖Goal / 行动改变内部状态 / 状态变化重评价 / 进入区间停止 / reward hacking可观测 / hacking不算成功 / 严格时间因果 / 完整trace / Evaluation·Problem·Value·Goal四者分离） |
 | test_v0 | 8 | V0 实验完成标准 |
-| **合计** | **220** | **全部通过** |
+| **合计** | **236** | **全部通过** |
 
 ---
 
@@ -1640,6 +1641,144 @@ E0-9 验证：**仅靠一个初始评价函数，系统能不能产生正确的�
 - 验证负责"算出来的东西是否成立"
 
 但注意，这四者都属于计算，不是理论上独立的认知模块。
+
+---
+
+## 十三-E、E0-10 实验：Evaluation-Directed Computation（评价导向的计算）
+
+### 核心问题
+
+E0-9 证明了"给定 Goal 后 Value 影响方向选择"，但 `goal_proximity` 本质上提前告诉了系统"什么方向接近答案"——这不是真正的评价导向，而是 Goal 导向。
+
+E0-10 研究真正的问题：
+
+> 当系统没有被告诉最终 Goal 时，评价变化本身如何产生下一步计算方向？
+
+### 与 E0-9 的本质区别
+
+| 维度 | E0-9 | E0-10 |
+|------|------|-------|
+| 方向来源 | Goal（goal_proximity 提前告诉方向） | 内部状态（评价变化产生方向） |
+| 评价函数 | 检查候选与 Goal 的子结构重叠 | 检查内部状态 H（有边界） |
+| 停止条件 | Goal 达成 | 评价变正（EvaluationState 变化） |
+| 核心问题 | Value 能否影响方向 | 评价变化能否产生 Problem |
+
+### 核心机制
+
+#### EvaluationState（dataclass）
+```python
+@dataclass
+class EvaluationState:
+    internal_h: float        # 内部变量 H（如饱腹度），[0, 10]
+    evaluation: float        # 当前评价 [-1, 1]
+    eval_delta: float        # 评价变化
+    in_acceptable_range: bool  # H 是否在合理区间
+    persistent_negative: bool  # 是否持续负评价
+    energy: float            # 行动能量预算
+    history: List[dict]      # 评价历史
+```
+
+#### 有界评价函数
+`evaluate_state(state) -> float`
+
+- H < 3 → 负评价（低 → 不舒服）
+- H 在 [3, 7] → 正评价（合理区间）
+- H > 7 → 评价下降（过高 → 不能无限追求）
+
+**关键**：这个函数不告诉系统"应该做什么"，只返回当前评价。系统需要自己发现"H 低时评价差"。
+
+#### Problem 构造（从评价缺口产生）
+`construct_problem_from_gap(state) -> Optional[dict]`
+
+当存在持续性负评价时产生 Problem：
+```
+"find object that affects internal state"
+```
+
+**不指定答案结构**——答案可能是 `implies(F, H_mid)`、`conj(F, W)` 或其他任何结构。
+
+#### 不依赖 Goal 的候选评价
+`evaluate_candidate_no_goal(prop, state, cost, belief_store) -> dict`
+
+评价依据：
+1. 候选是否涉及内部状态变量 H
+2. 候选是否涉及因果关系（implies）
+3. 成本
+4. 新颖性
+
+**不检查 prop == goal，不使用 goal_proximity。**
+
+### 最小人工世界
+
+- 初始：H=1（低），energy=10
+- 环境对象：F（food）、W（water）
+- 内部状态命题：H(low)、H(mid)、H(high)
+- 世界历史包含 H 状态变化，使验证器能验证涉及 H 的命题
+
+### 两个核心场景
+
+#### E0-10-A：Bounded Evaluation（有界评价）
+- 初始：H=1 → 负评价 → 产生 computational gap
+- gap → 构造 Problem（"什么能改变 H？"）
+- Problem → 构造/搜索候选（如 `implies(F, H_mid)`）
+- 验证 → VALID → 行动（消耗 F）→ H 上升
+- H 进入合理区间 → 评价变正 → 停止追求
+
+**验证 B**：系统根据 EvaluationState 变化停止，不是 if-then 规则。
+
+#### E0-10-B：Reward Hacking Control
+- 构造有缺陷的 proxy reward：随 H 增加而增加，但当 H 停止增长时产生负评价
+- 系统使用 proxy 作为评价依据 → 持续行动增加 H
+- H > 7 后：proxy reward ↑ 但真实评价 ↓
+- **记录为 reward hacking**，不自动修复，作为 failure case 保存
+
+### 16 项不变量测试
+
+| # | 测试 | 验证内容 |
+|---|------|---------|
+| 1 | test_evaluation_has_bounds | 评价函数有边界，不能无限最大化 |
+| 2 | test_low_h_negative_eval | H 低时评价为负 |
+| 3 | test_high_h_eval_decreases | H 过高时评价下降 |
+| 4 | test_reasonable_h_positive | H 在合理区间时评价为正 |
+| 5 | test_eval_gap_produces_problem | 评价缺口产生 Problem |
+| 6 | test_no_gap_no_problem | 无缺口时不产生 Problem |
+| 7 | test_problem_not_answer | Problem 不指定答案结构 |
+| 8 | test_value_no_goal_dependency | 候选评价不依赖 Goal |
+| 9 | test_action_changes_internal_state | 行动改变内部状态 |
+| 10 | test_state_change_re_evaluates | 状态变化后重新评价 |
+| 11 | test_stops_when_in_range | H 进入合理区间后停止追求 |
+| 12 | test_reward_hacking_observed | 能观察到 reward hacking |
+| 13 | test_hacking_not_counted_success | reward hacking 不算成功 |
+| 14 | test_no_future_info | 严格时间因果 |
+| 15 | test_complete_trace | 完整 trace |
+| 16 | test_four_concepts_separated | Evaluation/Problem/Value/Goal 四者分离 |
+
+### 三个核心问题的回答
+
+**问题 1：没有显式 Goal，系统能否产生 computational gap？**
+**能。** H 低时评价为负，持续性负评价触发 Problem 构造，产生 computational gap。
+
+**问题 2：gap 能否形成 Problem（不跳到答案）？**
+**能。** Problem 描述为"find object that affects internal state"，不指定具体答案（不写 `if target == ... then construct A→B`）。答案由系统通过构造+验证发现。
+
+**问题 3：Problem 能否指导搜索，并通过真实反馈重新改变 Evaluation？**
+**能。** 系统从 Problem 出发构造候选（如 `implies(F, H_mid)`），验证后行动，H 上升，评价变化，下一轮重新评价。
+
+### 核心结论
+
+**理论意义**：人类婴儿不是出生时被写死了 symbolic goal，而是具有基因层面的初始倾向（趋利避害）。E0-10 模拟了这种结构：
+
+```
+环境输入 / 身体内部状态 → 评价变化 → 改变计算方向 → 行动
+→ 环境反馈 + 身体内部反馈 → 内部状态变化 → 再评价
+```
+
+**reward hacking 检测**：系统使用有缺陷的 proxy reward 时，会出现 proxy reward ↑ 但真实状态 ↓ 的情况。E0-10 确认架构能够观察到这个问题，而不是自动修复或把它算作成功。
+
+**与 E0-9 的定位差异**：
+- E0-9 = Goal-directed computation（给定 Goal 后 Value 影响方向）
+- E0-10 = Evaluation-directed computation（评价变化本身产生方向）
+两者同时保留，明确看到 Goal-directed 与 Evaluation-directed 的差异。
 
 ---
 

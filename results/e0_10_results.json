@@ -1,0 +1,852 @@
+{
+  "experiment": "E0-10",
+  "description": "evaluation-directed computation",
+  "results": {
+    "bounded": {
+      "mode": "bounded",
+      "steps_run": 4,
+      "trace": [
+        {
+          "step": 0,
+          "mode": "bounded",
+          "internal_h": 1.0,
+          "evaluation": -0.3333,
+          "eval_delta": -0.3333,
+          "in_acceptable_range": false,
+          "persistent_negative": false,
+          "energy": 10.0,
+          "problem": null,
+          "candidates_count": 0,
+          "candidates": [],
+          "selected": null,
+          "verdict": null,
+          "action": null,
+          "proxy_reward": -0.47,
+          "true_evaluation": -0.3333,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 1,
+          "mode": "bounded",
+          "internal_h": 1.0,
+          "evaluation": -0.3333,
+          "eval_delta": 0.0,
+          "in_acceptable_range": false,
+          "persistent_negative": true,
+          "energy": 10.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 2,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 27,
+          "candidates": [
+            {
+              "proposition": "(F(food) → H(low))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(H(low) → F(food))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(H(low) → W(water))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(W(water) → H(low))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "¬H(low)",
+              "constructor": "neg",
+              "value": 0.5333,
+              "involves_state": true,
+              "involves_causality": false
+            }
+          ],
+          "selected": {
+            "proposition": "(F(food) → H(low))",
+            "constructor": "impl",
+            "value": 0.5953,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "invalid",
+          "action": null,
+          "proxy_reward": -0.47,
+          "true_evaluation": -0.3333,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 2,
+          "mode": "bounded",
+          "internal_h": 3.0,
+          "evaluation": -0.3333,
+          "eval_delta": 0.0,
+          "in_acceptable_range": false,
+          "persistent_negative": true,
+          "energy": 9.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 3,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 26,
+          "candidates": [
+            {
+              "proposition": "(H(low) → F(food))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(H(low) → W(water))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(W(water) → H(low))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "¬H(low)",
+              "constructor": "neg",
+              "value": 0.5333,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(F(food) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            }
+          ],
+          "selected": {
+            "proposition": "(H(low) → F(food))",
+            "constructor": "impl",
+            "value": 0.5953,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "valid",
+          "action": {
+            "object": "F",
+            "success": true,
+            "h_before": 1.0,
+            "h_after": 3.0,
+            "energy_after": 9.0
+          },
+          "proxy_reward": -0.41,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 3,
+          "mode": "bounded",
+          "internal_h": 3.0,
+          "evaluation": 0.1,
+          "eval_delta": 0.4333,
+          "in_acceptable_range": true,
+          "persistent_negative": false,
+          "energy": 9.0,
+          "problem": null,
+          "candidates_count": 0,
+          "candidates": [],
+          "selected": null,
+          "verdict": null,
+          "action": null,
+          "proxy_reward": -0.41,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": true,
+          "stop_reason": "evaluation_positive_no_gap"
+        }
+      ],
+      "final_h": 3.0,
+      "final_evaluation": 0.1,
+      "final_energy": 9.0,
+      "hacking_detected": false,
+      "hacking_steps": 0,
+      "belief_stats": {
+        "total": 5,
+        "valid": 4,
+        "invalid": 1,
+        "unknown": 0
+      },
+      "stopped": true,
+      "stop_reason": "evaluation_positive_no_gap"
+    },
+    "hacking": {
+      "mode": "hacking",
+      "steps_run": 10,
+      "trace": [
+        {
+          "step": 0,
+          "mode": "hacking",
+          "internal_h": 1.0,
+          "evaluation": -0.47,
+          "eval_delta": -0.47,
+          "in_acceptable_range": false,
+          "persistent_negative": false,
+          "energy": 10.0,
+          "problem": null,
+          "candidates_count": 0,
+          "candidates": [],
+          "selected": null,
+          "verdict": null,
+          "action": null,
+          "proxy_reward": -0.47,
+          "true_evaluation": -0.3333,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 1,
+          "mode": "hacking",
+          "internal_h": 1.0,
+          "evaluation": -0.47,
+          "eval_delta": 0.0,
+          "in_acceptable_range": false,
+          "persistent_negative": true,
+          "energy": 10.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 2,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 10,
+          "candidates": [
+            {
+              "proposition": "(F(food) → H(low))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(H(low) → F(food))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "¬H(low)",
+              "constructor": "neg",
+              "value": 0.5333,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(F(food) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(F(food) ∨ H(low))",
+              "constructor": "disj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            }
+          ],
+          "selected": {
+            "proposition": "(F(food) → H(low))",
+            "constructor": "impl",
+            "value": 0.5953,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "invalid",
+          "action": null,
+          "proxy_reward": -0.47,
+          "true_evaluation": -0.3333,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 2,
+          "mode": "hacking",
+          "internal_h": 3.0,
+          "evaluation": -0.47,
+          "eval_delta": 0.0,
+          "in_acceptable_range": false,
+          "persistent_negative": true,
+          "energy": 9.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 3,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 9,
+          "candidates": [
+            {
+              "proposition": "(H(low) → F(food))",
+              "constructor": "impl",
+              "value": 0.5953,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "¬H(low)",
+              "constructor": "neg",
+              "value": 0.5333,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(F(food) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(F(food) ∨ H(low))",
+              "constructor": "disj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            },
+            {
+              "proposition": "(H(low) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.5176,
+              "involves_state": true,
+              "involves_causality": false
+            }
+          ],
+          "selected": {
+            "proposition": "(H(low) → F(food))",
+            "constructor": "impl",
+            "value": 0.5953,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "valid",
+          "action": {
+            "object": "F",
+            "success": true,
+            "h_before": 1.0,
+            "h_after": 3.0,
+            "energy_after": 9.0
+          },
+          "proxy_reward": -0.41,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 3,
+          "mode": "hacking",
+          "internal_h": 3.0,
+          "evaluation": -0.41,
+          "eval_delta": 0.06,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 9.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.06,
+            "persistent_neg_count": 4,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 25,
+          "candidates": [
+            {
+              "proposition": "¬(H(low) → F(food))",
+              "constructor": "neg",
+              "value": 0.6233,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∨ F(food))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∨ H(low))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "¬(H(low) → F(food))",
+            "constructor": "neg",
+            "value": 0.6233,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "unknown",
+          "action": null,
+          "proxy_reward": -0.41,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 4,
+          "mode": "hacking",
+          "internal_h": 5.0,
+          "evaluation": -0.41,
+          "eval_delta": 0.0,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 8.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 5,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 24,
+          "candidates": [
+            {
+              "proposition": "((H(low) → F(food)) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∨ F(food))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((H(low) → F(food)) ∨ H(low))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(F(food) ∧ (H(low) → F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "((H(low) → F(food)) ∧ F(food))",
+            "constructor": "conj",
+            "value": 0.6076,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "valid",
+          "action": {
+            "object": "F",
+            "success": true,
+            "h_before": 3.0,
+            "h_after": 5.0,
+            "energy_after": 8.0
+          },
+          "proxy_reward": -0.35,
+          "true_evaluation": 0.6,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 5,
+          "mode": "hacking",
+          "internal_h": 5.0,
+          "evaluation": -0.35,
+          "eval_delta": 0.06,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 8.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.06,
+            "persistent_neg_count": 6,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 30,
+          "candidates": [
+            {
+              "proposition": "¬((H(low) → F(food)) ∧ F(food))",
+              "constructor": "neg",
+              "value": 0.6233,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∨ (H(low) → F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∨ F(food))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "¬((H(low) → F(food)) ∧ F(food))",
+            "constructor": "neg",
+            "value": 0.6233,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "unknown",
+          "action": null,
+          "proxy_reward": -0.35,
+          "true_evaluation": 0.6,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 6,
+          "mode": "hacking",
+          "internal_h": 7.0,
+          "evaluation": -0.35,
+          "eval_delta": 0.0,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 7.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 7,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 30,
+          "candidates": [
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∨ (H(low) → F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∨ F(food))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ H(low))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "(((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food)))",
+            "constructor": "conj",
+            "value": 0.6076,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "valid",
+          "action": {
+            "object": "F",
+            "success": true,
+            "h_before": 5.0,
+            "h_after": 7.0,
+            "energy_after": 7.0
+          },
+          "proxy_reward": -0.29,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 7,
+          "mode": "hacking",
+          "internal_h": 7.0,
+          "evaluation": -0.29,
+          "eval_delta": 0.06,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 7.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.06,
+            "persistent_neg_count": 8,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 30,
+          "candidates": [
+            {
+              "proposition": "¬(((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food)))",
+              "constructor": "neg",
+              "value": 0.6233,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ ((H(low) → F(food)) ∧ F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∨ ((H(low) → F(food)) ∧ F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ (H(low) → F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∨ (H(low) → F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "¬(((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food)))",
+            "constructor": "neg",
+            "value": 0.6233,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "unknown",
+          "action": null,
+          "proxy_reward": -0.29,
+          "true_evaluation": 0.1,
+          "reward_hacking": false,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 8,
+          "mode": "hacking",
+          "internal_h": 9.0,
+          "evaluation": -0.29,
+          "eval_delta": 0.0,
+          "in_acceptable_range": true,
+          "persistent_negative": true,
+          "energy": 6.0,
+          "problem": {
+            "problem_type": "state_improvement",
+            "gap": 0.0,
+            "persistent_neg_count": 9,
+            "description": "find object that affects internal state"
+          },
+          "candidates_count": 30,
+          "candidates": [
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ ((H(low) → F(food)) ∧ F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∨ ((H(low) → F(food)) ∧ F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ (H(low) → F(food)))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∨ (H(low) → F(food)))",
+              "constructor": "disj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            },
+            {
+              "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ F(food))",
+              "constructor": "conj",
+              "value": 0.6076,
+              "involves_state": true,
+              "involves_causality": true
+            }
+          ],
+          "selected": {
+            "proposition": "((((H(low) → F(food)) ∧ F(food)) ∧ (H(low) → F(food))) ∧ ((H(low) → F(food)) ∧ F(food)))",
+            "constructor": "conj",
+            "value": 0.6076,
+            "involves_state": true,
+            "involves_causality": true
+          },
+          "verdict": "valid",
+          "action": {
+            "object": "F",
+            "success": true,
+            "h_before": 7.0,
+            "h_after": 9.0,
+            "energy_after": 6.0
+          },
+          "proxy_reward": 0.8,
+          "true_evaluation": -0.2,
+          "reward_hacking": true,
+          "stopped": false,
+          "stop_reason": null
+        },
+        {
+          "step": 9,
+          "mode": "hacking",
+          "internal_h": 9.0,
+          "evaluation": 0.8,
+          "eval_delta": 1.09,
+          "in_acceptable_range": false,
+          "persistent_negative": false,
+          "energy": 6.0,
+          "problem": null,
+          "candidates_count": 0,
+          "candidates": [],
+          "selected": null,
+          "verdict": null,
+          "action": null,
+          "proxy_reward": 0.8,
+          "true_evaluation": -0.2,
+          "reward_hacking": true,
+          "stopped": true,
+          "stop_reason": "evaluation_positive_no_gap"
+        }
+      ],
+      "final_h": 9.0,
+      "final_evaluation": 0.8,
+      "final_energy": 6.0,
+      "hacking_detected": true,
+      "hacking_steps": 2,
+      "belief_stats": {
+        "total": 10,
+        "valid": 6,
+        "invalid": 1,
+        "unknown": 3
+      },
+      "stopped": true,
+      "stop_reason": "evaluation_positive_no_gap"
+    }
+  },
+  "analysis": {
+    "Q1_gap_produced": true,
+    "Q2_problem_formed": true,
+    "Q3_problem_guided_search": true,
+    "Q3_eval_changed_after_feedback": true,
+    "evaluation_has_bounds": true,
+    "stops_via_evaluation": true,
+    "hacking_observed": true,
+    "hacking_not_success": true,
+    "no_goal_dependency": true,
+    "four_concepts_separated": true,
+    "strict_time_causal": true,
+    "all_checks_passed": true
+  }
+}
